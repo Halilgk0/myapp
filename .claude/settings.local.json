@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -r ' *)",
+      "Bash(php artisan *)",
+      "Bash(Get-ChildItem -Path . -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(curl -s -o /dev/null -w \"login: %{http_code}\\\\n\" http://127.0.0.1:8765/login)",
+      "Bash(curl -s -c /tmp/c.txt -o /dev/null http://127.0.0.1:8765/login)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"customer/login: %{http_code}\\\\n\" http://127.0.0.1:8766/customer/login)",
+      "Bash(curl -s http://127.0.0.1:8766/customer/login)",
+      "Bash(curl -s \"http://127.0.0.1:8766/admin/tickets/check-voucher?voucher_no=24UF50NC\")",
+      "Bash(curl -s \"http://127.0.0.1:8766/admin/tickets/check-voucher?voucher_no=TEST-YENI-12345\")",
+      "Bash(curl -s \"http://127.0.0.1:8766/admin/tickets/check-voucher?voucher_no=\")",
+      "Bash(pkill -f \"artisan serve\")",
+      "Bash(php -l resources/views/customer/login.blade.php)",
+      "Bash(curl -s http://127.0.0.1:8767/customer/login)",
+      "Bash(php -l app/Support/CustomerTranslator.php)",
+      "Bash(php -l app/Http/Controllers/Customer/DashboardController.php)",
+      "Bash(php -l resources/views/customer/dashboard.blade.php)"
+    ]
+  }
+}

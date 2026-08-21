@@ -1,0 +1,51 @@
+[90m= [39m[34;4mIlluminate\Http\JsonResponse[39;24m {#5211
+    +[1mheaders[22m: [34;4mSymfony\Component\HttpFoundation\ResponseHeaderBag[39;24m {#5212},
+    +[1moriginal[22m: [
+      "[34mexists[39m" => [36mtrue[39m,
+      "[34mreadable[39m" => [36mtrue[39m,
+      "[34mcontents[39m" => [
+        "[34mtype[39m" => "[32mservice_account[39m",
+        "[34mproject_id[39m" => "[32mtoursoflocals[39m",
+        "[34mprivate_key_id[39m" => "[32ma7f3eb9ba7bfa04f832dd6314f5fdfe5180a578b[39m",
+        "[34mprivate_key[39m" => """
+          [32m-----BEGIN PRIVATE KEY-----[39m\n
+          [32mMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCQ6fgq2sKWvL6o[39m\n
+          [32m2H826+rSrHMwFLWOBAJnGxwZLDpu+B7WKNIHAuKxHQSAMEAlxFN9yQ+tFlWnmnLB[39m\n
+          [32mSVynhpekIsY+sdl3N7CBGdzZp5ebW6gvnI1w6X+D0YCy8oPB/246Pcc3+rg1FGv5[39m\n
+          [32mOs9MGnwQ3r1IxLAfsnMLCunnbN5FowN5WDvuLklErOwpXoHreDRKUQ7otA1hw0PE[39m\n
+          [32mYpYKG5Fp5awvH9/v0MGi+EFn7qor6YjoGSR7VT/N5pdJstnpBA2o+lUY3GnFBcrb[39m\n
+          [32mLOtGljeA8frFwv97xp3zWThidevzk/jZA1mcjkUebeg5iUmYWsj+AB+bFJ+JrK0W[39m\n
+          [32mqA2Ei5hdAgMBAAECggEAJwOWmJMEyGhQPEztEvA47DcZW9x3dKCHtRKLYguSP8X1[39m\n
+          [32mJ1seEF0qgtx5Fbnny0Mr5zV2TvcwYEsokfkaRM/ri3kBPmfLUFlh36AC4WZJXr4y[39m\n
+          [32mbX8MZVW3ytlgeMzpxBTsrClttRh+92tkFllK7gZDWJdfBnRNpnr4lgR+LJwWy1BM[39m\n
+          [32mE85vxRH/3r5/aPV9SCYJRdSzk8/pkhabbqVhXKwAng3OVU2oXGOCJSu0FziJa/1W[39m\n
+          [32mI7NjlALFty5YeFHUfx0TDDwUvCWSr2Gp5VrIP97BKSeh3yV3hbIDkMipfpe0KQpc[39m\n
+          [32mUVf/AEeQxkBk2ECt1kPsckPvQHWU3hNTYgRmyTlO0QKBgQDJO6PbNnbyi5AIgrrW[39m\n
+          [32m4h1cNfXJnZK0X6ieP08Om/CM473J/1mMI042gxwH3G0Zc45DVuKmwLvuouSyUkct[39m\n
+          [32m7pB/y9Hk6hjo7ZTMQzh2AsSz/xvMQRUqdB9ThDyr0NT8WypBoDTObpBrqEL37EEu[39m\n
+          [32mIpY1K9SdEF15XqWSwn3gc0Q4RwKBgQC4WnRPuFQyyZ50OnIhWYNy+0GKO9Djg0qQ[39m\n
+          [32mFgpNEttBqjgvrbbsZ+BLRjIZ0ICveNMHVjmxkHz4V+1L4o1SPWcpNY9/U7MYiSUQ[39m\n
+          [32mXfdlCMBgvpbvkO8zaOaXLQ/66FFxljqg0vKjM+6g6E8b0e533qw4f1iVG578j4tn[39m\n
+          [32myc7uP4hgOwKBgG97ReyEwOLf5HyCiCXRgLh8AF2gmQyqTgzVP+P1Cg/Tf2ovt5lG[39m\n
+          [32mWecjPV0xhZNrDC5MLSZ6ceLjhVUw9dQBbTYPYYmzEve/3wZGWzotkHGza9/9Uk+B[39m\n
+          [32mo3UuNjptaAEiNEfFDFwsrn+l6OvWi8mWSabNUG1vConZoFqsuvWkhe+zAoGBAK5w[39m\n
+          [32mwRBSLjHkf/AhAa+24OAjCbBAy3cM27gdct/dUOUAqavL54QpAp6XrH6qwanIXX7a[39m\n
+          [32mwzrWqrnfkWW12N2RxpTC3qavz48O7qhfEeJjdo3UqkPD0+PEhjVUaYOU4sPlUFKv[39m\n
+          [32maPKvCETvrTN44PpCFJpdPbfR7A210kaCOjFMosHTAoGBAL21EGKGVzkDUKcjWKNP[39m\n
+          [32mZS4n8ZQdqbEu4IGEIoWiymerc3I/Ehb0+7ych5NzCpr3LR2UcB8nQQkbtXbB+mqR[39m\n
+          [32mD9lAThBXdsioYnMVkYLDEVDGShI4UhqQ8QBIxPkMEIe4Rue+6bxiDCbNW1sAyFkQ[39m\n
+          [32muMSuVskjrJ8RVHAXx2XdWb9k[39m\n
+          [32m-----END PRIVATE KEY-----[39m\n
+          """,
+        "[34mclient_email[39m" => "[32mfirebase-adminsdk-fbsvc@toursoflocals.iam.gserviceaccount.com[39m",
+        "[34mclient_id[39m" => "[32m103147195011172695296[39m",
+        "[34mauth_uri[39m" => "[32mhttps://accounts.google.com/o/oauth2/auth[39m",
+        "[34mtoken_uri[39m" => "[32mhttps://oauth2.googleapis.com/token[39m",
+        "[34mauth_provider_x509_cert_url[39m" => "[32mhttps://www.googleapis.com/oauth2/v1/certs[39m",
+        "[34mclient_x509_cert_url[39m" => "[32mhttps://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40toursoflocals.iam.gserviceaccount.com[39m",
+        "[34muniverse_domain[39m" => "[32mgoogleapis.com[39m",
+      ],
+    ],
+    +[1mexception[22m: [36mnull[39m,
+  }
+

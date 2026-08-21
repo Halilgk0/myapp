@@ -1,0 +1,1083 @@
+================================================================================
+  MARMARIS TUR & TRANSFER OPERASYON PLATFORMU
+  Yatırımcı ve İş Ortağı Dokümantasyonu
+================================================================================
+
+Hazırlanma Tarihi: Ağustos 2026
+Dil: Türkçe
+Amaç: Bu doküman, platformun ne yaptığını, kimlerin kullandığını, her paneldeki
+      sayfaların işlevlerini ve temel iş akışlarını yatırımcılara ve projeyle
+      ilgilenebilecek kişilere anlatmak için hazırlanmıştır.
+
+
+================================================================================
+BÖLÜM 1 — PROJE ÖZETİ
+================================================================================
+
+1.1. Platform Nedir?
+
+Bu yazılım, Marmaris ve çevresindeki tur/transfer operatörleri için geliştirilmiş
+bir B2B/B2C operasyon yönetim sistemidir. Bir online rezervasyon sitesi (Booking
+gibi) değildir; tur sahibi firmaların kendi envanterlerini yönetmesi, sokak
+acentelerine dağıtması, filo ve şoför operasyonlarını koordine etmesi, muhasebe
+ve mutabakat işlemlerini yapması ve misafirlerin canlı takip deneyimi sunması
+için tasarlanmıştır.
+
+Temel değer önerisi:
+  → Tur envanteri oluştur ve fiyatlandır
+  → Sokak acentelerine ağ üzerinden paylaş
+  → Bilet satışlarını onayla veya otomatik onayla
+  → Şoför, araç ve rehbere ata
+  → Pickup rotalarını optimize et
+  → Misafire canlı konum ve ETA göster
+  → Çok para birimli muhasebe ve acente mutabakatı yap
+
+1.2. Hedef Kullanıcılar
+
+  • Tur sahibi / operatör (Admin)
+  • Sokak acentası (Agency)
+  • Şoför (Driver)
+  • Tur misafiri (Customer — voucher ile)
+  • Genel bilet sorgulama (Public Ticket — takip numarası ile)
+
+1.3. Teknoloji Altyapısı (Özet)
+
+  • Backend: Laravel 10 (PHP 8.1+)
+  • Veritabanı: MySQL (Eloquent ORM)
+  • Frontend: Blade şablonları, Bootstrap 5, Vite, Sass
+  • Harita/Rota: Mapbox (Optimization API, Directions API, trafik desteği)
+  • Döviz kurları: TCMB (Merkez Bankası) XML servisi — USD, EUR, GBP, RUB
+  • Kimlik doğrulama: Oturum tabanlı (session) + Laravel Sanctum (API)
+  • Otomasyon: Laravel Scheduler (cron job'lar)
+  • Dış entegrasyonlar: Firebase SDK, Guzzle HTTP
+
+1.4. Temel Varlıklar (Veri Modeli)
+
+  BİLET (Ticket)
+    Her rezervasyon bir bilettir. Voucher numarası (müşteriye verilen) ve
+    otomatik üretilen takip numarası (tracking_no) ile tanımlanır.
+    Yolcu sayısı (yetişkin/çocuk/bebek), fiyat, para birimi, tur tarihi,
+    pickup konumu, atanmış şoför/araç bilgilerini içerir.
+
+  TUR (Tour)
+    Satılan ürün. Takvim bazlı fiyatlandırma, hizmet bölgeleri (GeoJSON
+    poligonları), kapasite, otomatik onay ayarları barındırır.
+
+  BİLET TALEBİ (TicketRequest)
+    Sokak acentasının tur sahibine gönderdiği onay bekleyen satış talebi.
+    Durumlar: bekliyor (pending), onaylandı (approved), reddedildi (rejected),
+    iade edildi (returned — acente düzenlemesi için geri gönderildi).
+
+  KULLANICI (User)
+    Admin (level=1), Şoför (level=2), Sokak Acentası (level=3) rolleri.
+
+  ARAÇ (Vehicle), REHBER (Guide), ACENTE (Agency)
+    Filo yönetimi ve B2B ağ ilişkileri için.
+
+  İŞLEM (Transaction), MUTABAKAT TALEBİ (SettlementRequest)
+    Muhasebe ve acente-tur sahibi arası ödeme mutabakatı.
+
+
+================================================================================
+BÖLÜM 2 — KULLANICI ROLLERİ VE ERİŞİM
+================================================================================
+
+2.1. Admin (Tur Sahibi / Operatör)
+  Giriş: /login
+  Panel: /admin/*
+  Yetkiler: Tüm sistem yönetimi — tur, bilet, filo, operasyon, muhasebe,
+            acente yönetimi, onay süreçleri.
+
+2.2. Sokak Acentası
+  Giriş: /login
+  Panel: /agency/*
+  Yetkiler: Kendisine paylaşılan turları görme, bilet satışı yapma,
+            kendi muhasebesini görme, mutabakat onaylama/reddetme,
+            acente ağına bağlanma.
+
+2.3. Şoför
+  Giriş: /login
+  Panel: /driver/*
+  Yetkiler: Kendisine atanan biletleri görme, günlük rotayı takip etme,
+            araç bilgisi, profil güncelleme, GPS konum gönderme.
+
+2.4. Müşteri (Misafir)
+  Giriş: /customer/login (voucher numarası ile, şifre gerekmez)
+  Panel: /customer/*
+  Yetkiler: Bilet detaylarını görme, şoför/araç bilgisi, canlı harita
+            ve tahmini varış süresi (ETA).
+
+2.5. Genel Bilet Sorgulama
+  Giriş: /tickets/login (takip numarası ile)
+  Panel: /tickets/*
+  Yetkiler: Temel bilet bilgilerini görüntüleme (sınırlı misafir paneli).
+
+
+================================================================================
+BÖLÜM 3 — PANEL PANEL, SAYFA SAYFA AÇIKLAMALAR
+================================================================================
+
+--------------------------------------------------------------------------------
+3.1. ADMIN PANELİ (/admin)
+--------------------------------------------------------------------------------
+
+Sol menüdeki tüm bölümler:
+  Dashboard | Biletler | Turlar | Araçlar | Operasyonlar | Şoförler |
+  Rehberler | Acenteler | Bilet Talepleri | Muhasebe
+
+--- 3.1.1. Dashboard (/admin/dashboard) ---
+
+Ne işe yarar?
+  Operatörün günlük operasyonel durumunu tek bakışta gösteren ana sayfa.
+
+Gösterilen bilgiler:
+  • Toplam araç sayısı
+  • Toplam şoför sayısı
+  • Toplam bilet sayısı
+  • Aktif araç sayısı
+  • Hızlı erişim butonları (yeni bilet, yeni tur, operasyonlar vb.)
+  • Bugünkü ve yarınki bilet özetleri
+  • Bekleyen bilet talepleri bildirimi
+  • Acente bağlantı talepleri bildirimi
+
+Kim kullanır?
+  Tur sahibi / operasyon müdürü — sabah operasyonu planlamak için ilk bakılacak
+  ekran.
+
+--- 3.1.2. Biletler (/admin/tickets) ---
+
+Alt sayfalar:
+  • Liste (/admin/tickets) — Tüm biletlerin tablo görünümü
+  • Yeni Bilet (/admin/tickets/create) — Doğrudan bilet oluşturma
+  • Bilet Detay (/admin/tickets/{id}) — Tek bilet görüntüleme
+  • Bilet Düzenle (/admin/tickets/{id}/edit) — Bilet güncelleme
+  • Excel/PDF Export — Dışa aktarma
+
+Ne işe yarar?
+  Operatörün kendi sattığı veya onaylanmış tüm biletleri yönetmesi.
+
+Liste ekranında:
+  • Müşteri adı, telefon, tur adı, tur tarihi
+  • Voucher no, takip no
+  • Yolcu sayısı (yetişkin/çocuk/bebek)
+  • Atanmış şoför ve araç
+  • Satış acentesi bilgisi
+  • Aktif/pasif durumu
+  • Tarih, tur, acente filtreleri
+  • Arama (müşteri adı, voucher, takip no)
+
+Yeni bilet oluşturma:
+  • Tur seçimi → tarih seçimi → yolcu bilgileri
+  • Yetişkin/çocuk/bebek sayısı ve birim fiyatları
+  • Müşteri iletişim bilgileri (ad, telefon, e-posta, milliyet)
+  • Otel/oda numarası, pickup konumu
+  • Toplam fiyat, depozito, rest (kalan) tutarı
+  • Para birimi seçimi
+  • Voucher numarası (benzersiz olmalı — sistem kontrol eder)
+
+Önemli not:
+  Admin tarafından oluşturulan biletler doğrudan onaylanır; bilet talebi
+  (TicketRequest) kuyruğuna girmez. Sokak acentası satışları ise onay
+  sürecinden geçer.
+
+--- 3.1.3. Turlar (/admin/tours) ---
+
+Alt sayfalar:
+  • Liste, Oluştur, Düzenle, Detay, Excel/PDF Export
+
+Ne işe yarar?
+  Satılacak tur ürünlerinin tanımlanması ve yönetimi.
+
+Tur oluştururken/düzenlerken:
+  • Tur adı, açıklama, ülke/şehir/bölge
+  • Varsayılan pickup/dropoff saatleri ve konumları
+  • Yetişkin/çocuk/bebek birim fiyatları ve para birimi
+  • Maksimum kapasite
+  • Aktif/pasif durumu
+  • Takvim bazlı müsait tarihler (available_dates)
+  • Tarih bazlı fiyatlandırma (date_prices) — her tarih için ayrı fiyat
+  • Hizmet bölgeleri (service_areas) — GeoJSON poligonları ile otel bölgeleri
+    ve pickup saat dilimleri tanımlanabilir
+  • Kayıtlı haritalar (Saved Maps) kütüphanesinden poligon seçilebilir
+
+Otomasyon ayarları (tur bazında):
+  • auto_share_on_connect: Yeni acente bağlandığında tur otomatik paylaşılsın mı?
+  • auto_approve_tickets: Acente satışları anında onaylansın mı?
+  • street_agency_auto_approve_enabled + street_agency_auto_approve_time:
+    Belirli saatten sonra (ör. 18:00) bekleyen talepler otomatik onaylansın mı?
+
+--- 3.1.4. Araçlar (/admin/vehicles) ---
+
+Alt sayfalar:
+  • Liste, Oluştur, Düzenle, Detay
+  • Araç Konumları (/admin/vehicles/locations) — Filo GPS haritası
+  • Excel/PDF Export
+
+Ne işe yarar?
+  Transfer aracı filosunun yönetimi.
+
+Araç bilgileri:
+  • Plaka numarası, marka/model, renk
+  • Koltuk kapasitesi (yolcu taşıma limiti)
+  • Atanmış şoför
+  • Aktif/pasif durumu
+  • Son bilinen GPS konumu (vehicle_locations tablosu)
+
+Araç konumları sayfası:
+  Tüm aktif araçların harita üzerinde anlık konumlarını gösterir.
+  Müşteri canlı takip ve operasyon koordinasyonu için kullanılır.
+
+--- 3.1.5. Operasyonlar (/admin/operations) ---
+
+Bu sayfa platformun kalbidir — günlük saha operasyonlarının yönetildiği
+merkezi kontrol paneli.
+
+Ne işe yarar?
+  Biletleri turlara, şoförlere, araçlara ve rehberlere sürükle-bırak veya
+  buton ile atama yapılması.
+
+Ekranda görünen bölümler:
+  1. BİLETLER tablosu — Atanmamış veya atanmış tüm biletler
+  2. ARAÇLAR tablosu — Şoför atanmış araçlar ve üzerindeki biletler
+  3. ŞOFÖRLER listesi — Araç ve rehber atamaları
+  4. REHBERLER listesi — Şoför atamaları
+  5. TURLAR listesi — Bilet-tur eşleştirmeleri
+
+Filtreler:
+  • Biletler: tur tarihi, tur adı, milliyet, atama durumu
+  • Araçlar: plaka, şoför adı
+
+Yapılabilecek işlemler (AJAX ile anlık):
+  • Şoför → Araç atama / kaldırma
+  • Bilet → Araç atama (tek veya çoklu)
+  • Bilet → Şoför atama / kaldırma
+  • Şoför → Rehber atama / kaldırma
+  • Bilet → Tur atama / kaldırma
+
+Atama kuralları (sistem otomatik kontrol eder):
+  • Geçmiş tarihli biletler atanamaz (expire edilmiş)
+  • Şoförsüz araca bilet atanamaz
+  • Araç kapasitesi aşılamaz (aynı gün aynı araca atanan toplam yolcu ≤ koltuk)
+  • Milliyet uyumsuzluğu uyarı verir (şoför/rehber milliyeti ≠ müşteri milliyeti)
+  • Zorla atama (force) seçeneği ile uyarılar geçilebilir
+
+--- 3.1.6. Şoförler (/admin/drivers) ---
+
+Alt sayfalar:
+  • Liste, Oluştur, Düzenle, Detay
+  • Şifre Sıfırlama (POST /admin/drivers/{id}/reset-password)
+  • Excel/PDF Export
+
+Ne işe yarar?
+  Şoför hesaplarının ve operasyonel bilgilerinin yönetimi.
+
+Şoför bilgileri:
+  • Ad, e-posta, telefon
+  • Milliyet (müşteri milliyeti eşleştirmesi için)
+  • Atanmış araç
+  • Atanmış rehber
+  • Maaş bilgileri (otomatik maaş ödemesi için)
+  • Aktif/pasif durumu
+
+Şoför detay sayfasında ek özellik:
+  • Rota planlama — Belirli bir bilet "rota başlangıcı" olarak işaretlenebilir
+  • Mapbox ile pickup rotası otomatik optimize edilir
+  • Rota yeniden hesaplama ve temizleme
+
+--- 3.1.7. Rehberler (/admin/guides) ---
+
+Alt sayfalar:
+  • Liste, Oluştur, Düzenle, Detay, Excel/PDF Export
+
+Ne işe yarar?
+  Tur rehberlerinin tanımlanması ve şoförlere atanması.
+
+Rehber bilgileri:
+  • Ad, telefon, milliyet
+  • Atanmış şoför(ler)
+  • Aktif/pasif durumu
+
+--- 3.1.8. Acenteler (/admin/agencies) ---
+
+Alt sayfalar:
+  • Liste (/admin/agencies)
+  • Detay/Düzenle (/admin/agencies/{id})
+  • Tur Paylaşımı (/admin/agencies/{id}/tour-sharing)
+  • Özel Fiyatlandırma (/admin/agencies/{id}/tour-sharing/{tour}/pricing)
+  • Acente Ağı (/admin/agencies/network)
+
+Ne işe yarar?
+  Sokak acentelerinin yönetimi ve turların acentelere dağıtımı.
+
+Acente listesi:
+  • Bağlı acentelerin adı, iletişim, aktif durumu
+  • Her acente için paylaşılan tur sayısı
+
+Tur paylaşımı:
+  • Hangi turların hangi acenteye açık olduğu seçilir
+  • Acente bağlandığında otomatik paylaşım ayarı (tur bazında)
+
+Özel fiyatlandırma:
+  • Acente bazında tur fiyatlarını özelleştirme
+  • Tarih bazlı custom_date_prices
+  • Özel para birimi (custom_currency)
+  • Böylece her acente farklı toptan fiyatla satış yapabilir
+
+Acente ağı (/admin/agencies/network):
+  • Diğer acentelerden gelen bağlantı talepleri
+  • Kabul / red işlemleri
+  • Bağlı acente listesi
+
+--- 3.1.9. Bilet Talepleri (/admin/ticket-requests) ---
+
+Alt sayfalar:
+  • Liste (/admin/ticket-requests)
+  • Detay (/admin/ticket-requests/{id})
+  • Düzenle (/admin/ticket-requests/{id}/edit)
+
+Ne işe yarar?
+  Sokak acentelerinden gelen bilet satış taleplerinin onaylanması.
+
+Talep durumları:
+  • BEKLIYOR (pending) — Onay/red/iade bekliyor
+  • ONAYLANDI (approved) — Bilet oluşturuldu
+  • REDDEDİLDİ (rejected) — Talep reddedildi
+  • İADE EDİLDİ (returned) — Acente düzenlemesi için geri gönderildi
+
+Detay ekranında görünen bilgiler:
+  • Talep eden acente
+  • Tur adı ve tarihi
+  • Müşteri bilgileri
+  • Yolcu sayıları ve fiyat detayları
+  • Pickup konumu ve saati
+  • Rest (tur sahibine kalacak pay) tutarı
+
+Yapılabilecek işlemler:
+  • ONAYLA → Ticket kaydı oluşturulur, yolcu satırları eklenir
+  • REDDET → Talep kapatılır, acente bilgilendirilir
+  • İADE ET → Acente düzenleme yapıp tekrar gönderebilir
+  • DÜZENLE → Admin talep detaylarını değiştirebilir
+
+--- 3.1.10. Muhasebe (/admin/accounting) ---
+
+Alt sayfalar:
+  • Ana Sayfa (/admin/accounting) — Gelir/gider özeti, grafikler
+  • Yeni İşlem (/admin/accounting/create) — Manuel gelir/gider girişi
+  • İşlem Düzenle (/admin/accounting/{id}/edit)
+  • Döviz Kurları (/admin/accounting/rates) — TCMB kurları
+  • Filtreleme ve grafik verileri (AJAX)
+
+Ne işe yarar?
+  Operatörün tüm finansal hareketlerinin takibi ve acente mutabakatı.
+
+Gelir türleri:
+  • Kendi satış geliri (doğrudan admin biletleri)
+  • Acente satışından owner payı (rest hariç)
+  • Rest geliri (acentenin tur sahibine bıraktığı ek pay)
+
+Gider türleri:
+  • Acente ödemesi (acenteye yapılan payout)
+  • Şoför maaşları (otomatik)
+  • Manuel gider girişleri
+
+Mutabakat (Settlement):
+  • Admin, belirli biletlerin muhasebe satırlarını seçerek mutabakat talebi
+    oluşturur
+  • Acente panelinde onay/red bekler
+  • Onaylandığında ilgili işlemler "mutabık" (is_settled) olarak işaretlenir
+
+Grafikler:
+  • Aylık gelir/gider trendi
+  • Para birimi bazlı dağılım
+  • Filtre: tarih aralığı, işlem türü, para birimi
+
+--- 3.1.11. Kayıtlı Haritalar (/admin/saved-maps) ---
+
+Ne işe yarar?
+  Tur hizmet bölgeleri için tekrar kullanılabilir GeoJSON poligon kütüphanesi.
+  Operatör bir kez otel bölgesi çizer, birden fazla turda kullanabilir.
+
+
+--------------------------------------------------------------------------------
+3.2. SOKAK ACENTASI PANELİ (/agency)
+--------------------------------------------------------------------------------
+
+Sol menü:
+  Acenteler | Turlar | Biletler | Muhasebe
+
+--- 3.2.1. Acenteler (/agency/agencies) ---
+
+Ne işe yarar?
+  Bağlı olduğu diğer acenteleri ve tur sahiplerini görme.
+  Acente ağına bağlanma talebi gönderme (/agencies/network).
+
+--- 3.2.2. Turlar (/agency/tours) ---
+
+Ne işe yarar?
+  Kendisine paylaşılan turların kataloğunu görme.
+  Tur adı, açıklama, fiyatlar (özel fiyatlandırma varsa o geçerli),
+  müsait tarihler listelenir.
+  Satış yapmadan önce hangi ürünlerin elinde olduğunu kontrol eder.
+
+--- 3.2.3. Biletler (/agency/tickets) ---
+
+Alt sayfalar:
+  • Liste (/agency/tickets)
+  • Yeni Bilet Satışı (/agency/tickets/create)
+  • Bilet Detay (/agency/tickets/{id})
+  • Bilet Düzenle (/agency/tickets/{id}/edit)
+  • Talep Düzenle (/agency/ticket-requests/{id}/edit) — iade edilen talepler
+
+Ne işe yarar?
+  Acentenin tur satışı yapması ve kendi biletlerini yönetmesi.
+
+Liste ekranında:
+  • Sadece kendi oluşturduğu biletler görünür
+  • Bekleyen talepler (pending) ayrı bölümde
+  • İade edilen talepler (returned) düzenleme bekleyen bölümde
+  • Arama ve filtreler (tur, tarih, aktiflik)
+
+Yeni bilet satışı akışı:
+  1. Paylaşılan turlardan birini seç
+  2. Tur tarihini seç (geçmiş tarih engellenir)
+  3. Yetişkin/çocuk/bebek sayısını gir
+  4. Müşteri bilgilerini gir (ad, telefon, milliyet, otel/oda)
+  5. Pickup konumu seç (harita veya metin)
+  6. Satış fiyatını gir (para birimi seç)
+  7. Rest tutarını gir (tur sahibine kalacak pay — opsiyonel)
+  8. Sistem TCMB kurları ile döviz önizlemesi gösterir
+  9. Kaydet
+
+  Sonuç:
+  • Otomatik onay aktifse → Doğrudan bilet oluşur
+  • Belirlenen saat geçtiyse → Cron job otomatik onaylar
+  • Aksi halde → TicketRequest oluşur, tur sahibi onayını bekler
+
+--- 3.2.4. Muhasebe (/agency/accounting) ---
+
+Ne işe yarar?
+  Acentenin kendi gelir/gider tablosu ve tur sahibi ile mutabakat.
+
+Gösterilen bilgiler:
+  • Satış gelirleri (her bilet satışında anında kaydedilir)
+  • Tur sahibine ödenecek tutarlar (payout)
+  • Mutabakat talepleri (onay bekleyen / onaylanan / reddedilen)
+
+Acente yapabilecekleri:
+  • Mutabakat talebini ONAYLA veya REDDET
+  • Grafik ve filtre ile dönemsel analiz
+  • Döviz kurlarını görüntüleme
+
+
+--------------------------------------------------------------------------------
+3.3. ŞOFÖR PANELİ (/driver)
+--------------------------------------------------------------------------------
+
+Sol menü:
+  Dashboard | Biletlerim | Aracım | Profilim
+
+--- 3.3.1. Dashboard (/driver/dashboard) ---
+
+Ne işe yarar?
+  Şoförün günlük iş programını görmesi.
+
+Gösterilen bilgiler:
+  • Bugünkü ve yakın tarihli biletler (tarihe göre gruplu)
+  • Her bilet için: müşteri adı, otel, pickup saati, yolcu sayısı
+  • Rota sırası (route_order) — optimize edilmiş pickup sırası
+  • Harita üzerinde pickup noktaları
+  • Atanmış araç ve rehber bilgisi
+
+--- 3.3.2. Biletlerim (/driver/tickets) ---
+
+Ne işe yarar?
+  Şoföre atanan tüm biletlerin listesi.
+  Tarih, tur, müşteri filtreleri ile arama.
+
+--- 3.3.3. Aracım (/driver/vehicle) ---
+
+Ne işe yarar?
+  Şoföre atanmış aracın plaka, marka, kapasite bilgileri.
+
+--- 3.3.4. Profilim (/driver/profile) ---
+
+Ne işe yarar?
+  Şoförün kendi iletişim bilgilerini güncellemesi.
+
+Arka planda:
+  • POST /driver/location — Şoför uygulaması/tarayıcısı düzenli GPS
+    konumu gönderir; bu konum müşteri canlı takipte kullanılır.
+
+
+--------------------------------------------------------------------------------
+3.4. MÜŞTERİ PANELİ (/customer)
+--------------------------------------------------------------------------------
+
+Giriş: /customer/login — Sadece voucher numarası gerekir (şifre yok)
+
+--- 3.4.1. Giriş (/customer/login) ---
+
+Misafir, biletin üzerindeki voucher numarasını girerek oturum açar.
+Oturum voucher_no ile session'da tutulur.
+
+--- 3.4.2. Dashboard (/customer/dashboard) ---
+
+Mobil odaklı, misafir dostu arayüz.
+
+Gösterilen bilgiler:
+  • Tur adı, tarihi, pickup saati
+  • Müşteri adı ve voucher numarası
+  • Yolcu sayısı detayı
+  • Atanmış şoför adı ve telefonu
+  • Atanmış araç plakası
+  • CANLI HARİTA: Şoförün anlık konumu
+  • TAHMİNİ VARIŞ SÜRESİ (ETA): Mapbox Directions API ile
+    trafik dahil hesaplanır
+  • Pickup noktası harita üzerinde işaretli
+
+Dil desteği:
+  Müşterinin milliyetine göre arayüz otomatik çevrilir
+  (CustomerTranslator — İngilizce, Almanca, Rusça vb.)
+
+Canlı güncelleme:
+  /customer/live endpoint'i periyodik olarak çağrılır;
+  şoför konumu ve ETA JSON olarak döner, sayfa yenilenmeden güncellenir.
+
+
+--------------------------------------------------------------------------------
+3.5. GENEL BİLET SORGULAMA (/tickets)
+--------------------------------------------------------------------------------
+
+Giriş: /tickets/login — Takip numarası (tracking_no) ile
+
+--- 3.5.1. Dashboard (/tickets/dashboard) ---
+
+Sınırlı bilgi gösterir:
+  • Tur adı ve tarihi
+  • Müşteri adı
+  • Bilet durumu
+  • Temel pickup bilgisi
+
+Müşteri panelinden farkı: Canlı harita ve ETA yoktur; sadece statik bilgi.
+
+
+--------------------------------------------------------------------------------
+3.6. GİRİŞ VE ORTAK SAYFALAR
+--------------------------------------------------------------------------------
+
+--- 3.6.1. Giriş (/login) ---
+
+Tüm roller (admin, acente, şoför) aynı giriş sayfasını kullanır.
+E-posta + şifre ile giriş yapılır.
+Sistem kullanıcının level değerine göre ilgili panele yönlendirir:
+  • level=1 → /admin/dashboard
+  • level=2 → /driver/dashboard
+  • level=3 → /agency/agencies (veya agency ana sayfası)
+
+Başarısız giriş denemelerinde hesap kilitlenebilir (is_active=false).
+
+--- 3.6.2. Acente Ağı (/agencies/network) ---
+
+Admin ve acente kullanıcıları erişebilir (auth middleware).
+  • Kullanıcı arama ve bağlantı talebi gönderme
+  • Gelen talepleri kabul/red etme
+  • Bağlı acente listesi
+  • Bağlantı kurulunca tur paylaşımı devreye girer
+
+
+================================================================================
+BÖLÜM 4 — KONU KONU İŞ AKIŞLARI (DETAYLI)
+================================================================================
+
+--------------------------------------------------------------------------------
+4.1. TUR OLUŞTURMA VE ENVANTER YÖNETİMİ
+--------------------------------------------------------------------------------
+
+Kim yapar? Admin (tur sahibi)
+
+Adımlar:
+  1. Admin → Turlar → Yeni Tur
+  2. Tur bilgilerini gir (ad, bölge, açıklama)
+  3. Takvimden müsait tarihleri seç
+  4. Her tarih için yetişkin/çocuk/bebek fiyatlarını belirle
+  5. (Opsiyonel) Hizmet bölgelerini harita üzerinde çiz
+     → Otel bölgelerine göre pickup saat dilimleri tanımlanabilir
+  6. (Opsiyonel) Otomasyon ayarlarını yap:
+     - auto_approve_tickets: true → Acente satışları anında onaylanır
+     - street_agency_auto_approve_time: "18:00" → Bu saatten sonra
+       bekleyen talepler otomatik onaylanır
+  7. Kaydet
+
+Sonuç:
+  Tur envantere eklenir. Henüz acentelere paylaşılmamıştır.
+  Paylaşım ayrı adımda yapılır (bkz. 4.2).
+
+
+--------------------------------------------------------------------------------
+4.2. ACENTE AĞINA BAĞLANMA VE TUR PAYLAŞIMI
+--------------------------------------------------------------------------------
+
+Kim yapar? Admin + Sokak Acentası (karşılıklı)
+
+Adım 1 — Bağlantı kurma:
+  • Acente veya Admin → /agencies/network
+  • Kullanıcı arama (e-posta veya isim)
+  • Bağlantı talebi gönder
+  • Karşı taraf kabul eder
+
+Adım 2 — Tur paylaşımı:
+  • Admin → Acenteler → [Acente seç] → Tur Paylaşımı
+  • Paylaşılacak turları işaretle
+  • (Opsiyonel) Tur bazında özel fiyatlandırma ayarla:
+    → /admin/agencies/{id}/tour-sharing/{tour}/pricing
+    → Tarih bazlı custom_date_prices ve custom_currency
+
+Adım 3 — Otomatik paylaşım (tur ayarı):
+  • Tur'da auto_share_on_connect=true ise yeni bağlanan acenteye
+    otomatik paylaşılır
+
+Sonuç:
+  Acente /agency/tours sayfasında paylaşılan turları görür ve
+  /agency/tickets/create ile satış yapabilir.
+
+
+--------------------------------------------------------------------------------
+4.3. SOKAK ACENTASI BİLET SATIŞI VE ONAY SÜRECİ
+--------------------------------------------------------------------------------
+
+Kim yapar? Sokak Acentası (satış) + Admin (onay)
+
+Adım 1 — Satış:
+  • Acente → Biletler → Yeni Bilet
+  • Paylaşılan tur ve tarih seç
+  • Müşteri ve yolcu bilgilerini gir
+  • Fiyat ve rest tutarını belirle
+  • Kaydet
+
+Adım 2 — Sistem kararı (otomatik):
+  Durum A: Tur'da auto_approve_tickets=true
+    → Doğrudan Ticket oluşur, voucher ve tracking_no atanır
+
+  Durum B: Saat ≥ street_agency_auto_approve_time (ve enabled=true)
+    → TicketRequest oluşur ama cron job (10 dk'da bir) otomatik onaylar
+
+  Durum C: Onay gerekli
+    → TicketRequest oluşur (status=pending)
+    → Admin'in Bilet Talepleri sayfasına düşer
+
+Adım 3 — Admin onayı (Durum C):
+  • Admin → Bilet Talepleri → Talep detayı
+  • ONAYLA → Ticket + TicketPassenger kayıtları oluşur
+  • REDDET → Talep kapanır
+  • İADE ET → Acente düzenler, tekrar gönderir
+
+Adım 4 — Muhasebe (satış anında):
+  • Acente satış geliri (income) transaction kaydı oluşur
+  • Tur tarihi geçince (bkz. 4.7) owner pay ve payout hesaplanır
+
+Önemli kısıtlamalar:
+  • Geçmiş tarihe satış yapılamaz (Istanbul timezone)
+  • Voucher numarası benzersiz olmalı
+  • Sadece paylaşılan turlar satılabilir
+
+
+--------------------------------------------------------------------------------
+4.4. BİLET ATAMA — TURA, ARACA, ŞOFÖRE (OPERASYON)
+--------------------------------------------------------------------------------
+
+Kim yapar? Admin (Operasyonlar sayfası)
+
+Bu bölüm yatırımcı sunumlarında en çok sorulan konulardan biridir.
+
+--- Yöntem 1: Operasyonlar sayfası (/admin/operations) ---
+
+  a) Şoför → Araç atama:
+     • Operasyonlar → Şoförler bölümünden şoför seç
+     • Araç ata butonu → Araç seç
+     • Sistem: Eski atamaları temizler, yeni eşleştirmeyi yapar
+
+  b) Bilet → Araç atama:
+     • Biletler tablosundan bilet(ler) seç
+     • "Araca Ata" → Araç seç
+     • Sistem kontrolleri:
+       - Araçta şoför var mı?
+       - Araç kapasitesi yeterli mi? (aynı gün toplam yolcu ≤ koltuk)
+       - Bilet tarihi geçmiş mi?
+       - Milliyet uyumu (uyarı, zorla geçilebilir)
+     • Başarılı → Bilet vehicle_id ve driver_id güncellenir
+
+  c) Bilet → Şoför atama:
+     • Doğrudan şoföre atama (araç üzerinden dolaylı da olur)
+     • Şoförün aracı yoksa uyarı verilir
+
+  d) Bilet → Tur atama:
+     • Yanlış tura atanmış bileti düzeltmek için
+     • Tur değişince fiyatlandırma etkilenebilir
+
+  e) Şoför → Rehber atama:
+     • Operasyonlar → Rehberler bölümü
+     • Şoföre rehber bağla (günün turunda rehber eşliği)
+
+--- Yöntem 2: Bilet düzenleme sayfası (/admin/tickets/{id}/edit) ---
+
+  • Bilet detayından doğrudan şoför ve araç seçilebilir
+  • Tek bilet için hızlı atama
+
+--- Yöntem 3: Şoför detay sayfası (/admin/drivers/{id}) ---
+
+  • Şoförün biletleri listelenir
+  • Rota başlangıç noktası belirlenir (is_route_start=true)
+  • Mapbox Optimization ile pickup sırası hesaplanır
+
+Atama sonrası:
+  • Şoför /driver/dashboard'da biletleri görür
+  • Müşteri /customer/dashboard'da şoför/araç bilgisini görür
+  • Canlı takip aktif olur (şoför GPS gönderiyorsa)
+
+
+--------------------------------------------------------------------------------
+4.5. PICKUP ROTA OPTİMİZASYONU
+--------------------------------------------------------------------------------
+
+Kim yapar? Admin
+
+Amaç:
+  Bir şoförün aynı gün alacağı birden fazla misafiri en kısa/karlı
+  sırada ziyaret etmesini sağlamak.
+
+Adımlar:
+  1. Admin → Şoförler → [Şoför detay]
+  2. Günün biletleri listelenir
+  3. Bir bilet "Rota Başlangıcı" olarak işaretlenir
+     (POST /admin/routes/{driver}/start/{ticket})
+  4. Sistem Mapbox Optimization API'yi çağırır:
+     • Trafik verisi dahil
+     • Tüm pickup noktaları için optimal sıra hesaplanır
+     • Her bilete route_order değeri yazılır
+  5. (Opsiyonel) "Yeniden Hesapla" ile rota güncellenir
+  6. (Opsiyonel) "Temizle" ile rota sıfırlanır
+
+Otomatik yeniden optimizasyon:
+  • Bilet kaydedilirken şoför veya tarih değiştiyse
+  • Ve o şoför için rota başlangıcı tanımlıysa
+  • Sistem otomatik yeniden optimize eder
+
+Şoför tarafı:
+  • /driver/dashboard biletleri route_order sırasına göre gösterir
+  • Haritada pickup noktaları numaralı sırayla işaretlenir
+
+
+--------------------------------------------------------------------------------
+4.6. CANLI MİSAFİR TAKİBİ (ETA)
+--------------------------------------------------------------------------------
+
+Kim kullanır? Tur misafiri (Customer panel)
+
+Akış:
+  1. Misafir voucher numarası ile /customer/login'e girer
+  2. /customer/dashboard açılır
+  3. Sayfa /customer/live endpoint'ini periyodik çağırır
+  4. Backend:
+     a. Şoförün son GPS konumunu vehicle_locations'dan alır
+     b. Pickup noktasını ticket_location'dan alır
+     c. Mapbox Directions API ile rota + ETA hesaplar (trafik dahil)
+     d. JSON döner: { lat, lng, eta_minutes, route_geometry }
+  5. Frontend haritayı ve ETA sayacını günceller
+
+GPS kaynağı:
+  • Şoför tarayıcısı/uygulaması POST /driver/location ile konum gönderir
+  • Araç GPS cihazı POST /api/vehicles/{id}/location ile gönderir
+
+Dil:
+  Müşteri milliyetine göre arayüz metinleri otomatik çevrilir.
+
+
+--------------------------------------------------------------------------------
+4.7. MUHASEBE VE GELİR PAYLAŞIMI
+--------------------------------------------------------------------------------
+
+Kim yapar? Sistem (otomatik) + Admin + Acente (mutabakat)
+
+--- Satış anında (acentenin sattığı bilet) ---
+
+  Acente bilet kaydettiğinde:
+  • Acente GELİR transaction'ı oluşur (payment_method: sale-ticket)
+  • Tutar = acentenin sattığı toplam fiyat
+
+--- Tur tarihi geçince (otomatik muhasebe) ---
+
+  Cron: tickets:account-expired (saatlik)
+
+  Acente satışı için:
+  1. Tur sahibi PAYI hesaplanır:
+     owner_share = (yetişkin × birim fiyat) + (çocuk × birim fiyat) + ...
+     (rest hariç — rest ayrıca owner'a gider)
+  2. Acente GELİR transaction (yoksa oluşturulur)
+  3. Acente GİDER transaction (payout — tur sahibine ödenecek)
+  4. Tur sahibi GELİR transaction (owner pay)
+  5. Rest varsa → Tur sahibi REST GELİR transaction
+
+  Admin'in kendi sattığı bilet için:
+  • Tek GELİR transaction (toplam satış tutarı)
+
+--- Rest (Ek Pay) Mantığı ---
+
+  Sokak acentası satış yaparken "rest" alanı tur sahibine kalacak
+  ekstra payı temsil eder.
+
+  Örnek:
+  • Tur birim fiyatları toplamı (owner share): 100 EUR
+  • Acente satış fiyatı: 130 EUR
+  • Rest: 30 EUR → Tur sahibine ek gelir
+  • Acente geliri: 130 EUR (satış anında)
+  • Tur sahibi geliri: 100 EUR (owner share) + 30 EUR (rest)
+
+  Rest farklı para birimindeyse TCMB kuru ile dönüştürülür.
+
+--- Mutabakat (Settlement) ---
+
+  1. Admin → Muhasebe → Mutabakat talebi oluştur
+     • Belirli biletlerin muhasebe satırlarını seçer
+  2. Acente → Muhasebe → Onay bekleyen mutabakat görür
+  3. Acente ONAYLA veya REDDET
+  4. Onaylanırsa → İlgili transaction'lar is_settled=true olur
+  5. Satış geliri (sale-ticket) mutabakata dahil edilmez (acentenin hakkı)
+
+
+--------------------------------------------------------------------------------
+4.8. OTOMATİK SİSTEM GÖREVLERİ (CRON)
+--------------------------------------------------------------------------------
+
+Sistem arka planda şu görevleri otomatik çalıştırır:
+
+  Her 10 dakika:
+  • tickets:auto-approve-street-agency
+    → Belirlenen saati geçen bekleyen bilet taleplerini otomatik onaylar
+
+  Saatlik:
+  • tickets:account-expired
+    → Tur tarihi geçen biletlerin muhasebesini yapar
+    → Geçmiş biletleri deaktive eder, şoför/araç atamasını temizler
+
+  Günlük (03:05):
+  • drivers:pay-salaries
+    → Şoför maaşlarını otomatik gider olarak kaydeder
+
+  Periyodik:
+  • GPS konum verisi temizliği (~30 gün)
+  • Cihaz durumu kontrolü
+
+
+--------------------------------------------------------------------------------
+4.9. ADMIN DOĞRUDAN BİLET SATIŞI
+--------------------------------------------------------------------------------
+
+Kim yapar? Admin
+
+Fark:
+  Sokak acentası satışından farklı olarak onay süreci yoktur.
+
+Adımlar:
+  1. Admin → Biletler → Yeni Bilet
+  2. Tur, tarih, müşteri, yolcu bilgileri
+  3. Fiyatlandırma
+  4. Kaydet → Doğrudan Ticket oluşur
+
+Muhasebe:
+  Tur tarihi geçince tek gelir kaydı (tüm tutar operatöre).
+
+
+--------------------------------------------------------------------------------
+4.10. BİLET YAŞAM DÖNGÜSÜ (ÖZET)
+--------------------------------------------------------------------------------
+
+  [OLUŞTURMA]
+      │
+      ├─ Admin doğrudan satış ──────────────────→ Ticket (onaylı)
+      │
+      └─ Acente satışı ─→ TicketRequest (pending)
+                              │
+                    ┌─────────┼─────────┐
+                    ▼         ▼         ▼
+               Onayla    Reddet    İade Et
+                    │                   │
+                    ▼                   ▼
+                 Ticket          Acente düzenler
+                    │                   │
+                    └───────────────────┘
+                              │
+  [OPERASYON]                 ▼
+      │                  Ticket (aktif)
+      ├─ Tura ata
+      ├─ Araç/şoför ata
+      ├─ Rehber ata
+      └─ Rota optimize et
+                              │
+  [SAHA]                      ▼
+      ├─ Şoför pickup yapar
+      ├─ GPS gönderir
+      └─ Müşteri canlı takip eder
+                              │
+  [MUHASEBE]                  ▼
+      ├─ Tur tarihi geçer → Gelir/gider kayıtları
+      ├─ Mutabakat talebi
+      └─ Acente onaylar
+                              │
+  [KAPANIŞ]                   ▼
+      └─ Bilet deaktive (is_active=false)
+         Şoför/araç ataması temizlenir
+
+
+================================================================================
+BÖLÜM 5 — İŞ MODELİ VE DEĞER ÖNERİSİ (YATIRIMCI ÖZETİ)
+================================================================================
+
+5.1. Pazar Problemi
+
+Marmaris ve benzeri turizm bölgelerinde tur operatörleri:
+  • Onlarca sokak acentesiyle çalışır
+  • Excel/WhatsApp ile bilet ve atama takibi yapar
+  • Filo rotalarını manuel planlar
+  • Acente ödemelerini defterde takip eder
+  • Misafire "şoförünüz yolda" bilgisini telefonla verir
+
+5.2. Platformun Çözdüğü Problemler
+
+  ✓ Merkezi bilet ve envanter yönetimi
+  ✓ Acente ağı üzerinden otomatik tur dağıtımı
+  ✓ Onay/otomatik onay ile kontrollü satış
+  ✓ Sürükle-bırak operasyon paneli
+  ✓ Mapbox ile otomatik rota optimizasyonu
+  ✓ Canlı misafir takibi (ETA)
+  ✓ Çok para birimli otomatik muhasebe
+  ✓ Acente-tur sahibi mutabakat sistemi
+
+5.3. Gelir Modeli Potansiyeli (Platform sahibi için)
+
+  • SaaS abonelik (operatör başına aylık/yıllık)
+  • İşlem başına komisyon (bilet hacmi üzerinden)
+  • Premium modüller (canlı takip, rota optimizasyonu, API erişimi)
+  • Bölgesel lisanslama (Marmaris → Antalya → tüm Türkiye)
+
+5.4. Rekabet Avantajları
+
+  • Türkiye turizm pazarına özel (TCMB kurları, sokak acentası modeli)
+  • Operasyon + muhasebe + misafir deneyimi tek platformda
+  • Mapbox entegrasyonu (trafik dahil ETA)
+  • Çok rollü mimari (admin, acente, şoför, misafir)
+  • Otomasyon (onay, muhasebe, maaş, rota)
+
+5.5. Ölçeklenebilirlik
+
+  • Laravel tabanlı — yatay ölçeklenebilir
+  • Multi-tenant yapıya genişletilebilir (her operatör izole)
+  • API katmanı mevcut (mobil uygulama entegrasyonu hazır)
+  • Firebase entegrasyonu (push notification potansiyeli)
+
+
+================================================================================
+BÖLÜM 6 — TEKNİK MİMARİ ÖZET
+================================================================================
+
+6.1. Katmanlar
+
+  [Tarayıcı / Mobil]
+        │
+        ▼
+  [Laravel Routes (web.php / api.php)]
+        │
+        ▼
+  [Middleware: auth, admin, driver, agency, customer]
+        │
+        ▼
+  [Controllers]
+        │
+        ├──→ [Models (Eloquent ORM)]
+        │         │
+        │         ▼
+        │    [MySQL Database]
+        │
+        ├──→ [Services: RouteOptimizer, DeviceLocationService]
+        │
+        └──→ [External: Mapbox API, TCMB XML, Firebase]
+
+6.2. Veritabanı Tabloları (Ana)
+
+  users, tours, tickets, ticket_passengers, ticket_requests,
+  ticket_locations, vehicles, vehicle_locations, guides,
+  agencies, agency_connection_requests, tour_shared_users,
+  transactions, settlement_requests, saved_maps, driver_activities
+
+6.3. API Endpoints (Mobil/Entegrasyon)
+
+  POST /api/drivers/location/update     — Şoför GPS
+  POST /api/vehicles/{id}/location      — Araç GPS
+  POST /api/tickets/location/update     — Pickup konumu
+  GET  /api/tickets/locations           — Tüm pickup noktaları
+
+
+================================================================================
+BÖLÜM 7 — SSS (SIK SORULAN SORULAR)
+================================================================================
+
+S: Bir acente hangi turları satabilir?
+C: Sadece tur sahibinin kendisiyle paylaştığı turları. Paylaşım Admin panelinden
+   veya otomatik (auto_share_on_connect) yapılır.
+
+S: Bilet onayı ne kadar sürer?
+C: Tur'da auto_approve aktifse anında. Saat bazlı otomatik onay varsa belirlenen
+   saatte (cron 10 dk'da bir kontrol eder). Manuel onayda admin'in işlem hızına
+   bağlı.
+
+S: Şoför biletleri nasıl görür?
+C: Admin operasyon panelinden şoföre/ araca atanan biletler otomatik olarak
+   şoför dashboard'unda görünür.
+
+S: Misafir canlı takibi nasıl çalışır?
+C: Voucher ile giriş yapar. Şoför GPS gönderiyorsa haritada anlık konum ve
+   Mapbox ile hesaplanan ETA görünür.
+
+S: Rest nedir?
+C: Sokak acentasının tur sahibine bıraktığı ekstra pay. Satış fiyatından
+   owner share düşülünce kalan kısım rest olarak tur sahibine gelir olarak yazılır.
+
+S: Mutabakat nasıl işler?
+C: Admin belirli dönem/biletlerin muhasebe satırlarını seçerek talep oluşturur.
+   Acente onaylarsa işlemler "mutabık" olarak işaretlenir.
+
+S: Geçmiş tarihli biletler ne olur?
+C: Otomatik deaktive edilir (is_active=false), şoför/araç ataması temizlenir,
+   muhasebe kayıtları oluşturulur.
+
+S: Platform hangi para birimlerini destekler?
+C: TRY, USD, EUR, GBP, RUB. TCMB kurları otomatik çekilir.
+
+
+================================================================================
+BÖLÜM 8 — SONUÇ
+================================================================================
+
+Bu platform, Marmaris ve benzeri turizm bölgelerindeki tur/transfer
+operatörlerinin uçtan uca operasyonel ihtiyaçlarını karşılayan entegre bir
+yönetim sistemidir.
+
+Temel kullanım döngüsü:
+  1. Operatör tur envanteri oluşturur
+  2. Sokak acentelerine ağ üzerinden dağıtır
+  3. Acenteler bilet satar (onaylı veya otomatik)
+  4. Operasyon ekibi biletleri filoya atar
+  5. Rota optimize edilir
+  6. Şoför sahadaki işi yapar, GPS gönderir
+  7. Misafir canlı takip eder
+  8. Tur sonrası muhasebe otomatik işler
+  9. Acente-operatör mutabakatı tamamlanır
+
+Platform şu an aktif geliştirme aşamasındadır ve Laravel 10 tabanlı modern
+bir mimari üzerine inşa edilmiştir.
+
+
+================================================================================
+  Doküman Sonu
+  Dosya: PROJE-DOKUMANTASYONU.txt
+  Konum: Proje kök dizini
+================================================================================
