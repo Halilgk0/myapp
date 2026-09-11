@@ -423,17 +423,17 @@
         ];
     @endphp
     <script>
-        window.CUSTOMER_I18N = @json($jsI18n);
+        window.CUSTOMER_I18N = {!! json_encode($jsI18n, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     </script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
     <script>
     (function(){
         var T = window.CUSTOMER_I18N || {};
-        mapboxgl.accessToken = @json($mapboxToken);
-        var pickupLat = @json($ticket->location?->latitude ?? null);
-        var pickupLng = @json($ticket->location?->longitude ?? null);
-        var pickupName = @json($ticket->pickup_location ?? '');
-        var liveUrl = @json(route('customer.live'));
+        mapboxgl.accessToken = {!! json_encode($mapboxToken, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+        var pickupLat = {!! json_encode($ticket->location?->latitude ?? null, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+        var pickupLng = {!! json_encode($ticket->location?->longitude ?? null, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+        var pickupName = {!! json_encode($ticket->pickup_location ?? '', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+        var liveUrl = {!! json_encode(route('customer.live'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
         var defaultCenter = [28.2722, 36.8500]; // Marmaris
         if (pickupLat && pickupLng) defaultCenter = [parseFloat(pickupLng), parseFloat(pickupLat)];
@@ -443,7 +443,7 @@
             style: 'mapbox://styles/mapbox/streets-v12',
             center: defaultCenter,
             zoom: 13,
-            language: @json($locale ?? 'en'),
+            language: {!! json_encode($locale ?? 'en', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!},
         });
         map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
 

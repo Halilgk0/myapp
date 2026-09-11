@@ -587,15 +587,15 @@ class AccountingController extends Controller
             $isAuto = in_array($t->payment_method, ['auto-expired-ticket', 'salary-auto', 'sale-ticket', 'payout-owner', 'owner-share', 'rest-adjustment']);
 
             $displayTitle = $t->title;
-            $ownerShareLabel = 'Acenta Satışı';
-            
+            $ownerShareLabel = __('Acenta Satışı');
+
             $statusMap = ['paid' => 'success', 'pending' => 'warning', 'cancelled' => 'secondary'];
             $methodLabels = [
-                'auto-expired-ticket' => 'Otomatik (Bilet)',
-                'sale-ticket' => 'Bilet Satışı',
-                'payout-owner' => 'Tur Sahibi Payı',
+                'auto-expired-ticket' => __('Otomatik (Bilet)'),
+                'sale-ticket' => __('Bilet Satışı'),
+                'payout-owner' => __('Tur Sahibi Payı'),
                 'owner-share' => $ownerShareLabel,
-                'salary-auto' => 'Maaş Ödemesi',
+                'salary-auto' => __('Maaş Ödemesi'),
             ];
 
             return [
@@ -604,7 +604,7 @@ class AccountingController extends Controller
                 'date_iso' => $t->transaction_date->format('Y-m-d'),
                 'title' => $displayTitle,
                 'type' => $t->type,
-                'type_label' => $t->type === 'income' ? 'Gelir' : 'Gider',
+                'type_label' => $t->type === 'income' ? __('Gelir') : __('Gider'),
                 'type_badge' => $t->type === 'income' ? 'success' : 'danger',
                 'amount' => number_format($t->amount, 2, ',', '.'),
                 'amount_raw' => $t->amount,
@@ -656,7 +656,7 @@ class AccountingController extends Controller
 
         $ticketIds = collect($data['ticket_ids'])->map(fn ($id) => (int) $id)->unique()->values()->all();
         if (empty($ticketIds)) {
-            return response()->json(['message' => 'Geçerli bilet seçimi bulunamadı.'], 422);
+            return response()->json(['message' => __('Geçerli bilet seçimi bulunamadı.')], 422);
         }
 
         $tickets = Ticket::whereIn('id', $ticketIds)
@@ -671,7 +671,7 @@ class AccountingController extends Controller
             ]);
 
         if ($tickets->isEmpty()) {
-            return response()->json(['message' => 'Seçili biletler bulunamadı.'], 422);
+            return response()->json(['message' => __('Seçili biletler bulunamadı.')], 422);
         }
 
         $agencyUsers = User::whereIn('id', $tickets->pluck('created_by_user_id')->filter()->unique()->values()->all())
@@ -731,20 +731,20 @@ class AccountingController extends Controller
         }
 
         if ($immediateDeletedCount === 0 && $createdRequests->isEmpty()) {
-            return response()->json(['message' => 'Seçili biletler kapsamında işlenecek muhasebe kalemi bulunamadı.'], 422);
+            return response()->json(['message' => __('Seçili biletler kapsamında işlenecek muhasebe kalemi bulunamadı.')], 422);
         }
 
         $immediateApplied = $immediateDeletedCount > 0;
         $messages = [];
 
         if ($immediateApplied) {
-            $messages[] = 'Kendi satış biletler için mutabakat tamamlandı (kasadan düşüldü).';
+            $messages[] = __('Kendi satış biletler için mutabakat tamamlandı (kasadan düşüldü).');
         }
 
         if ($createdRequests->isNotEmpty()) {
             $messages[] = $createdRequests->count() > 1
-                ? 'Mutabakat talepleri acentalara göre ayrı ayrı gönderildi.'
-                : 'Mutabakat acentanın onayına gönderildi.';
+                ? __('Mutabakat talepleri acentalara göre ayrı ayrı gönderildi.')
+                : __('Mutabakat acentanın onayına gönderildi.');
         }
 
         return response()->json([
@@ -781,7 +781,7 @@ class AccountingController extends Controller
             $redirectParams['locked_agency_id'] = (int) $request->input('locked_agency_id');
         }
 
-        return redirect()->route('admin.accounting.index', $redirectParams)->with('success', 'Kayıt eklendi.');
+        return redirect()->route('admin.accounting.index', $redirectParams)->with('success', __('Kayıt eklendi.'));
     }
 
     protected function isLocked(Transaction $transaction): bool
@@ -805,7 +805,7 @@ class AccountingController extends Controller
             }
             return redirect()
                 ->route('admin.accounting.index', $redirectParams)
-                ->with('error', 'Bu kayıt otomatik oluşturuldu ve düzenlenemez.');
+                ->with('error', __('Bu kayıt otomatik oluşturuldu ve düzenlenemez.'));
         }
         return view('admin.accounting.edit', compact('transaction'));
     }
@@ -820,7 +820,7 @@ class AccountingController extends Controller
         if ($this->isLocked($transaction)) {
             return redirect()
                 ->route('admin.accounting.index', $redirectParams)
-                ->with('error', 'Bu kayıt otomatik oluşturuldu ve düzenlenemez.');
+                ->with('error', __('Bu kayıt otomatik oluşturuldu ve düzenlenemez.'));
         }
         $data = $request->validate([
             'type' => 'required|in:income,expense',
@@ -833,7 +833,7 @@ class AccountingController extends Controller
             'notes' => 'nullable|string',
         ]);
         $transaction->update($data);
-        return redirect()->route('admin.accounting.index', $redirectParams)->with('success', 'Kayıt güncellendi.');
+        return redirect()->route('admin.accounting.index', $redirectParams)->with('success', __('Kayıt güncellendi.'));
     }
 
     public function destroy(Transaction $transaction)
@@ -841,10 +841,10 @@ class AccountingController extends Controller
         if ($this->isLocked($transaction)) {
             return redirect()
                 ->route('admin.accounting.index')
-                ->with('error', 'Bu kayıt otomatik oluşturuldu ve silinemez.');
+                ->with('error', __('Bu kayıt otomatik oluşturuldu ve silinemez.'));
         }
         $transaction->delete();
-        return back()->with('success', 'Kayıt silindi.');
+        return back()->with('success', __('Kayıt silindi.'));
     }
 
     /**

@@ -1,22 +1,22 @@
 @extends('layouts.admin')
 
-@section('title', 'Tur Yönetimi')
+@section('title', __('Tur Yönetimi'))
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid tour-page">
         <div class="row">
             <div class="col-12">
                 <!-- Modern Kontrol Paneli -->
-                <div class="tours-control-panel mb-2">
+                <div class="tours-control-panel ad-page-header admin-list-toolbar mb-3">
                     <div class="control-left">
-                        <h4 class="control-title"><i class="fas fa-route"></i> Tur Yönetimi</h4>
-                        <p class="control-subtitle">Toplam {{ $tours->total() }} tur</p>
+                        <h4 class="control-title"><i class="fas fa-route"></i> {{ __('Tur Yönetimi') }}</h4>
+                        <p class="control-subtitle">{{ __('Toplam :count tur', ['count' => $tours->total()]) }}</p>
                     </div>
                     <div class="control-right">
                         <div class="control-item">
                             <form method="GET" action="{{ route('admin.tours.index') }}">
                                 <input type="hidden" name="per_page" value="{{ request('per_page', $perPage ?? 10) }}">
-                                <input type="text" class="form-control form-control-sm" name="q" value="{{ request('q') }}" placeholder="Ara..." style="width:140px;">
+                                <input type="text" class="form-control form-control-sm" name="q" value="{{ request('q') }}" placeholder="{{ __('Ara...') }}" style="width:140px;">
                             </form>
                         </div>
                         <div class="control-item">
@@ -37,29 +37,29 @@
                             </div>
                         </div>
                         <div class="control-item">
-                            <a href="{{ route('admin.tours.create') }}" class="btn btn-sm btn-light">
-                                <i class="fas fa-plus"></i> Yeni Tur
+                                    <a href="{{ route('admin.tours.create') }}" class="btn btn-sm btn-light">
+                                <i class="fas fa-plus"></i> {{ __('Yeni Tur') }}
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="ad-card">
                     <div class="card-body">
                         @if($tours->count() > 0)
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="tours-table">
+                                <table class="ad-table table table-bordered table-striped" id="tours-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tur Adı</th>
-                                            <th>Ülke/Şehir</th>
-                                            <th>Saat</th>
-                                            <th>Fiyat</th>
-                                            <th>Kapasite</th>
-                                            <th>Bilet Sayısı</th>
-                                            <th>Durum</th>
-                                            <th>İşlemler</th>
+                                            <th>{{ __('Tur Adı') }}</th>
+                                            <th>{{ __('Ülke/Şehir') }}</th>
+                                            <th>{{ __('Saat') }}</th>
+                                            <th>{{ __('Fiyat') }}</th>
+                                            <th>{{ __('Kapasite') }}</th>
+                                            <th>{{ __('Bilet Sayısı') }}</th>
+                                            <th>{{ __('Durum') }}</th>
+                                            <th>{{ __('İşlemler') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,38 +95,38 @@
                                                 </td>
                                                 <td>
                                                     @if($tour->max_capacity)
-                                                        <span class="badge badge-secondary">{{ $tour->max_capacity }} kişi</span>
+                                                        <span class="badge badge-secondary">{{ __(':count kişi', ['count' => $tour->max_capacity]) }}</span>
                                                     @else
-                                                        <span class="text-muted">Sınırsız</span>
+                                                        <span class="text-muted">{{ __('Sınırsız') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     <span class="badge badge-primary">{{ $tour->total_tickets }}</span>
                                                     @if($tour->active_tickets > 0)
-                                                        <span class="badge badge-success">{{ $tour->active_tickets }} aktif</span>
+                                                        <span class="badge badge-success">{{ __(':count aktif', ['count' => $tour->active_tickets]) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span class="badge {{ $tour->status_badge }}">{{ $tour->status }}</span>
+                                                    <span class="badge {{ $tour->status_badge }}">{{ __($tour->status) }}</span>
                                                 </td>
                                                 <td>
-                                                    <div class="btn-group" role="group">
-                                                        <a href="{{ route('admin.tours.show', $tour) }}" 
-                                                           class="btn btn-sm btn-info" title="Görüntüle">
-                                                            <i class="fas fa-eye"></i>
+                                                    <div class="btn-group justify-content-end" role="group" style="width:100%;">
+                                                        <a href="{{ route('admin.tours.show', $tour) }}"
+                                                           class="ad-btn ad-btn-info ad-btn-sm" title="{{ __('Görüntüle') }}">
+                                                            <i data-lucide="eye"></i>
                                                         </a>
-                                                        <a href="{{ route('admin.tours.edit', $tour) }}" 
-                                                           class="btn btn-sm btn-warning" title="Düzenle">
-                                                            <i class="fas fa-edit"></i>
+                                                        <a href="{{ route('admin.tours.edit', $tour) }}"
+                                                           class="ad-btn ad-btn-warning ad-btn-sm" title="{{ __('Düzenle') }}">
+                                                            <i data-lucide="edit-2"></i>
                                                         </a>
-                                                        <form action="{{ route('admin.tours.destroy', $tour) }}" 
+                                                        <form action="{{ route('admin.tours.destroy', $tour) }}"
                                                               method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger" 
-                                                                    title="Sil" 
-                                                                    onclick="return confirm('Bu turu silmek istediğinizden emin misiniz?')">
-                                                                <i class="fas fa-trash"></i>
+                                                            <button type="submit" class="ad-btn ad-btn-danger ad-btn-sm"
+                                                                    title="{{ __('Sil') }}"
+                                                                    onclick="return confirm('{{ __('Bu turu silmek istediğinizden emin misiniz?') }}')">
+                                                                <i data-lucide="trash-2"></i>
                                                             </button>
                                                         </form>
                                                     </div>
@@ -134,7 +134,7 @@
                                             </tr>
                                         @endforeach
                                         <tr id="no-results-row" style="display:none;">
-                                            <td colspan="9" class="text-center">Bu isimde tur yok</td>
+                                            <td colspan="9" class="text-center">{{ __('Bu isimde tur yok') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -142,7 +142,7 @@
                             <div class="bottom-pagination-wrapper">
                                 <div class="pagination-info">
                                     <i class="fas fa-info-circle mr-2"></i>
-                                    <span>Toplam <strong>{{ $tours->total() }}</strong> kayıt bulundu</span>
+                                    <span>{!! __('Toplam :count kayıt bulundu', ['count' => '<strong>' . $tours->total() . '</strong>']) !!}</span>
                                 </div>
                                 <div class="custom-pagination">
                                     @if ($tours->hasPages())
@@ -178,10 +178,10 @@
                         @else
                             <div class="text-center py-4">
                                 <i class="fas fa-plane fa-3x text-muted mb-3"></i>
-                                <h5 class="text-muted">Henüz tur bulunmuyor</h5>
-                                <p class="text-muted">İlk turu oluşturmak için yukarıdaki "Yeni Tur" butonuna tıklayın.</p>
+                                <h5 class="text-muted">{{ __('Henüz tur bulunmuyor') }}</h5>
+                                <p class="text-muted">{{ __('İlk turu oluşturmak için yukarıdaki "Yeni Tur" butonuna tıklayın.') }}</p>
                                 <a href="{{ route('admin.tours.create') }}" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i> İlk Turu Oluştur
+                                    <i class="fas fa-plus"></i> {{ __('İlk Turu Oluştur') }}
                                 </a>
                             </div>
                         @endif

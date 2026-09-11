@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Yeni Araç Ekle')
+@section('title', __('Yeni Araç Ekle'))
 
 @section('content')
     <div class="container-fluid">
@@ -10,29 +10,29 @@
                 <!-- Sol: Form Bölümü -->
                 <div class="col-lg-8">
                     <!-- Araç Türü Card -->
-                    <div class="card card-primary card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-car-side"></i> Araç Türü
+                                <i class="fas fa-car-side"></i> {{ __('Araç Türü') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-0">
-                                <label><i class="fas fa-list text-primary"></i> Araç Türü Seçiniz *</label>
+                                <label><i class="fas fa-list text-primary"></i> {{ __('Araç Türü Seçiniz') }} *</label>
                                 <div class="row mt-2">
                                     <div class="col-md-3 col-6 mb-2">
                                         <div class="custom-control custom-radio vehicle-type-card">
-                                            <input type="radio" id="type_car" name="vehicle_type" value="car" 
+                                            <input type="radio" id="type_car" name="vehicle_type" value="car"
                                                    class="custom-control-input" {{ old('vehicle_type') == 'car' ? 'checked' : '' }}>
                                             <label class="custom-control-label vehicle-type-label" for="type_car">
                                                 <i class="fas fa-car fa-2x mb-2"></i>
-                                                <span>Araba</span>
+                                                <span>{{ __('Araba') }}</span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-6 mb-2">
                                         <div class="custom-control custom-radio vehicle-type-card">
-                                            <input type="radio" id="type_van" name="vehicle_type" value="van" 
+                                            <input type="radio" id="type_van" name="vehicle_type" value="van"
                                                    class="custom-control-input" {{ old('vehicle_type') == 'van' ? 'checked' : '' }}>
                                             <label class="custom-control-label vehicle-type-label" for="type_van">
                                                 <i class="fas fa-shuttle-van fa-2x mb-2"></i>
@@ -42,21 +42,21 @@
                                     </div>
                                     <div class="col-md-3 col-6 mb-2">
                                         <div class="custom-control custom-radio vehicle-type-card">
-                                            <input type="radio" id="type_minibus" name="vehicle_type" value="minibus" 
+                                            <input type="radio" id="type_minibus" name="vehicle_type" value="minibus"
                                                    class="custom-control-input" {{ old('vehicle_type') == 'minibus' ? 'checked' : '' }}>
                                             <label class="custom-control-label vehicle-type-label" for="type_minibus">
                                                 <i class="fas fa-bus-alt fa-2x mb-2"></i>
-                                                <span>Minibüs</span>
+                                                <span>{{ __('Minibüs') }}</span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-6 mb-2">
                                         <div class="custom-control custom-radio vehicle-type-card">
-                                            <input type="radio" id="type_bus" name="vehicle_type" value="bus" 
+                                            <input type="radio" id="type_bus" name="vehicle_type" value="bus"
                                                    class="custom-control-input" {{ old('vehicle_type') == 'bus' ? 'checked' : '' }}>
                                             <label class="custom-control-label vehicle-type-label" for="type_bus">
                                                 <i class="fas fa-bus fa-2x mb-2"></i>
-                                                <span>Otobüs</span>
+                                                <span>{{ __('Otobüs') }}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -69,19 +69,19 @@
                     </div>
 
                     <!-- Temel Bilgiler Card -->
-                    <div class="card card-success card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-info-circle"></i> Temel Bilgiler
+                                <i class="fas fa-info-circle"></i> {{ __('Temel Bilgiler') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="plate_number"><i class="fas fa-id-card text-primary"></i> Plaka Numarası *</label>
-                                        <input type="text" class="form-control @error('plate_number') is-invalid @enderror" 
-                                               id="plate_number" name="plate_number" value="{{ old('plate_number') }}" 
+                                        <label for="plate_number"><i class="fas fa-id-card text-primary"></i> {{ __('Plaka Numarası') }} *</label>
+                                        <input type="text" class="form-control @error('plate_number') is-invalid @enderror"
+                                               id="plate_number" name="plate_number" value="{{ old('plate_number') }}"
                                                placeholder="34 ABC 123" required>
                                         @error('plate_number')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -90,9 +90,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="brand"><i class="fas fa-industry text-info"></i> Marka *</label>
-                                        <input type="text" class="form-control @error('brand') is-invalid @enderror" 
-                                               id="brand" name="brand" value="{{ old('brand') }}" 
+                                        <label for="brand"><i class="fas fa-industry text-info"></i> {{ __('Marka') }} *</label>
+                                        <input type="text" class="form-control @error('brand') is-invalid @enderror"
+                                               id="brand" name="brand" value="{{ old('brand') }}"
                                                placeholder="Mercedes, Ford, VW..." required>
                                         @error('brand')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -103,9 +103,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="model"><i class="fas fa-tag text-success"></i> Model *</label>
-                                        <input type="text" class="form-control @error('model') is-invalid @enderror" 
-                                               id="model" name="model" value="{{ old('model') }}" 
+                                        <label for="model"><i class="fas fa-tag text-success"></i> {{ __('Model') }} *</label>
+                                        <input type="text" class="form-control @error('model') is-invalid @enderror"
+                                               id="model" name="model" value="{{ old('model') }}"
                                                placeholder="Sprinter, Transit..." required>
                                         @error('model')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -114,20 +114,20 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="color"><i class="fas fa-palette text-warning"></i> Renk *</label>
-                                        <select class="form-control @error('color') is-invalid @enderror" 
+                                        <label for="color"><i class="fas fa-palette text-warning"></i> {{ __('Renk') }} *</label>
+                                        <select class="form-control @error('color') is-invalid @enderror"
                                                 id="color" name="color" required>
-                                            <option value="">Renk Seçiniz</option>
-                                            <option value="Beyaz" {{ old('color') == 'Beyaz' ? 'selected' : '' }}>Beyaz</option>
-                                            <option value="Siyah" {{ old('color') == 'Siyah' ? 'selected' : '' }}>Siyah</option>
-                                            <option value="Gümüş" {{ old('color') == 'Gümüş' ? 'selected' : '' }}>Gümüş</option>
-                                            <option value="Gri" {{ old('color') == 'Gri' ? 'selected' : '' }}>Gri</option>
-                                            <option value="Kırmızı" {{ old('color') == 'Kırmızı' ? 'selected' : '' }}>Kırmızı</option>
-                                            <option value="Mavi" {{ old('color') == 'Mavi' ? 'selected' : '' }}>Mavi</option>
-                                            <option value="Yeşil" {{ old('color') == 'Yeşil' ? 'selected' : '' }}>Yeşil</option>
-                                            <option value="Sarı" {{ old('color') == 'Sarı' ? 'selected' : '' }}>Sarı</option>
-                                            <option value="Lacivert" {{ old('color') == 'Lacivert' ? 'selected' : '' }}>Lacivert</option>
-                                            <option value="Bordo" {{ old('color') == 'Bordo' ? 'selected' : '' }}>Bordo</option>
+                                            <option value="">{{ __('Renk Seçiniz') }}</option>
+                                            <option value="Beyaz" {{ old('color') == 'Beyaz' ? 'selected' : '' }}>{{ __('Beyaz') }}</option>
+                                            <option value="Siyah" {{ old('color') == 'Siyah' ? 'selected' : '' }}>{{ __('Siyah') }}</option>
+                                            <option value="Gümüş" {{ old('color') == 'Gümüş' ? 'selected' : '' }}>{{ __('Gümüş') }}</option>
+                                            <option value="Gri" {{ old('color') == 'Gri' ? 'selected' : '' }}>{{ __('Gri') }}</option>
+                                            <option value="Kırmızı" {{ old('color') == 'Kırmızı' ? 'selected' : '' }}>{{ __('Kırmızı') }}</option>
+                                            <option value="Mavi" {{ old('color') == 'Mavi' ? 'selected' : '' }}>{{ __('Mavi') }}</option>
+                                            <option value="Yeşil" {{ old('color') == 'Yeşil' ? 'selected' : '' }}>{{ __('Yeşil') }}</option>
+                                            <option value="Sarı" {{ old('color') == 'Sarı' ? 'selected' : '' }}>{{ __('Sarı') }}</option>
+                                            <option value="Lacivert" {{ old('color') == 'Lacivert' ? 'selected' : '' }}>{{ __('Lacivert') }}</option>
+                                            <option value="Bordo" {{ old('color') == 'Bordo' ? 'selected' : '' }}>{{ __('Bordo') }}</option>
                                         </select>
                                         @error('color')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -139,32 +139,32 @@
                     </div>
 
                     <!-- Kapasite & Şoför Card -->
-                    <div class="card card-info card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-users"></i> Kapasite & Şoför
+                                <i class="fas fa-users"></i> {{ __('Kapasite & Şoför') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="capacity"><i class="fas fa-users text-primary"></i> Yolcu Kapasitesi *</label>
-                                        <input type="number" class="form-control @error('capacity') is-invalid @enderror" 
-                                               id="capacity" name="capacity" value="{{ old('capacity', 16) }}" 
+                                        <label for="capacity"><i class="fas fa-users text-primary"></i> {{ __('Yolcu Kapasitesi') }} *</label>
+                                        <input type="number" class="form-control @error('capacity') is-invalid @enderror"
+                                               id="capacity" name="capacity" value="{{ old('capacity', 16) }}"
                                                min="1" max="100" required>
                                         @error('capacity')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
-                                        <small class="form-text text-muted">Araçta kaç yolcu taşınabileceğini belirtin</small>
+                                        <small class="form-text text-muted">{{ __('Araçta kaç yolcu taşınabileceğini belirtin') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="driver_id"><i class="fas fa-user-tie text-success"></i> Şoför Ataması</label>
-                                        <select class="form-control @error('driver_id') is-invalid @enderror" 
+                                        <label for="driver_id"><i class="fas fa-user-tie text-success"></i> {{ __('Şoför Ataması') }}</label>
+                                        <select class="form-control @error('driver_id') is-invalid @enderror"
                                                 id="driver_id" name="driver_id">
-                                            <option value="">Şoför Seçiniz (Opsiyonel)</option>
+                                            <option value="">{{ __('Şoför Seçiniz (Opsiyonel)') }}</option>
                                             @foreach($drivers as $driver)
                                                 <option value="{{ $driver->id }}" {{ old('driver_id') == $driver->id ? 'selected' : '' }}>
                                                     {{ $driver->name }} ({{ $driver->phone_number }})
@@ -181,28 +181,28 @@
                     </div>
 
                     <!-- Araç Resmi Card -->
-                    <div class="card card-warning card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-camera"></i> Araç Fotoğrafı
+                                <i class="fas fa-camera"></i> {{ __('Araç Fotoğrafı') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-0">
-                                <label for="image"><i class="fas fa-image text-info"></i> Araç Resmi</label>
+                                <label for="image"><i class="fas fa-image text-info"></i> {{ __('Araç Resmi') }}</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror" 
+                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
                                            id="image" name="image" accept="image/*">
-                                    <label class="custom-file-label" for="image" id="image-label">Dosya seçin...</label>
+                                    <label class="custom-file-label" for="image" id="image-label">{{ __('Dosya seçin...') }}</label>
                                 </div>
                                 @error('image')
                                     <span class="text-danger small">{{ $message }}</span>
                                 @enderror
-                                <small class="form-text text-muted">Maksimum 2MB, JPG, PNG, GIF formatları kabul edilir</small>
+                                <small class="form-text text-muted">{{ __('Maksimum 2MB, JPG, PNG, GIF formatları kabul edilir') }}</small>
                                 <div id="image-preview" class="mt-3" style="display: none;">
-                                    <img src="" alt="Önizleme" class="img-thumbnail" style="max-height: 200px;">
+                                    <img src="" alt="{{ __('Önizleme') }}" class="img-thumbnail" style="max-height: 200px;">
                                     <button type="button" class="btn btn-sm btn-danger ml-2" id="remove-image">
-                                        <i class="fas fa-times"></i> Kaldır
+                                        <i class="fas fa-times"></i> {{ __('Kaldır') }}
                                     </button>
                                 </div>
                             </div>
@@ -210,18 +210,18 @@
                     </div>
 
                     <!-- Notlar Card -->
-                    <div class="card card-secondary card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-sticky-note"></i> Notlar
+                                <i class="fas fa-sticky-note"></i> {{ __('Notlar') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-0">
-                                <label for="notes"><i class="fas fa-comment text-muted"></i> Ek Bilgiler</label>
-                                <textarea class="form-control @error('notes') is-invalid @enderror" 
-                                          id="notes" name="notes" rows="3" 
-                                          placeholder="Araç hakkında ek bilgiler, özel durumlar...">{{ old('notes') }}</textarea>
+                                <label for="notes"><i class="fas fa-comment text-muted"></i> {{ __('Ek Bilgiler') }}</label>
+                                <textarea class="form-control @error('notes') is-invalid @enderror"
+                                          id="notes" name="notes" rows="3"
+                                          placeholder="{{ __('Araç hakkında ek bilgiler, özel durumlar...') }}">{{ old('notes') }}</textarea>
                                 @error('notes')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -233,29 +233,29 @@
                 <!-- Sağ: Durum ve İşlemler -->
                 <div class="col-lg-4">
                     <!-- Durum Card -->
-                    <div class="card card-success card-outline sticky-top" style="top: 20px;">
+                    <div class="ad-card mb-3 sticky-top" style="top: 20px;">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-cog"></i> Durum
+                                <i class="fas fa-cog"></i> {{ __('Durum') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-0">
-                                <label><i class="fas fa-toggle-on text-success"></i> Araç Durumu</label>
+                                <label><i class="fas fa-toggle-on text-success"></i> {{ __('Araç Durumu') }}</label>
                                 <div class="custom-control custom-switch mt-2">
-                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" 
+                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1"
                                            {{ old('is_active', true) ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="is_active">Aracı Aktif Et</label>
+                                    <label class="custom-control-label" for="is_active">{{ __('Aracı Aktif Et') }}</label>
                                 </div>
-                                <small class="form-text text-muted">Aktif araçlar operasyonlarda kullanılabilir</small>
+                                <small class="form-text text-muted">{{ __('Aktif araçlar operasyonlarda kullanılabilir') }}</small>
                             </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success w-100">
-                                <i class="fas fa-save"></i> Aracı Kaydet
+                                <i class="fas fa-save"></i> {{ __('Aracı Kaydet') }}
                             </button>
                             <a href="{{ route('admin.vehicles.index') }}" class="btn btn-secondary w-100">
-                                <i class="fas fa-times"></i> İptal
+                                <i class="fas fa-times"></i> {{ __('İptal') }}
                             </a>
                         </div>
                     </div>
@@ -264,15 +264,15 @@
                     <div class="card card-light mt-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-lightbulb text-warning"></i> Bilgi
+                                <i class="fas fa-lightbulb text-warning"></i> {{ __('Bilgi') }}
                             </h3>
                         </div>
                         <div class="card-body p-2">
                             <ul class="list-unstyled mb-0" style="font-size: 13px;">
-                                <li class="mb-2"><i class="fas fa-check text-success"></i> Plaka Türkiye formatında girilmeli</li>
-                                <li class="mb-2"><i class="fas fa-check text-success"></i> Kapasite bilet atamalarında kullanılır</li>
-                                <li class="mb-2"><i class="fas fa-check text-success"></i> Şoför sonradan da atanabilir</li>
-                                <li class="mb-0"><i class="fas fa-check text-success"></i> Fotoğraf zorunlu değildir</li>
+                                <li class="mb-2"><i class="fas fa-check text-success"></i> {{ __('Plaka Türkiye formatında girilmeli') }}</li>
+                                <li class="mb-2"><i class="fas fa-check text-success"></i> {{ __('Kapasite bilet atamalarında kullanılır') }}</li>
+                                <li class="mb-2"><i class="fas fa-check text-success"></i> {{ __('Şoför sonradan da atanabilir') }}</li>
+                                <li class="mb-0"><i class="fas fa-check text-success"></i> {{ __('Fotoğraf zorunlu değildir') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -357,11 +357,15 @@
 @push('js')
 <script>
 $(document).ready(function() {
+    var vehicleFormI18n = {!! json_encode([
+        'selectFile' => __('Dosya seçin...'),
+        'selectVehicleType' => __('Lütfen araç türü seçiniz.'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     // Custom file input label
     $('#image').on('change', function() {
         var fileName = $(this).val().split('\\').pop();
-        $('#image-label').text(fileName || 'Dosya seçin...');
-        
+        $('#image-label').text(fileName || vehicleFormI18n.selectFile);
+
         // Preview image
         if (this.files && this.files[0]) {
             var reader = new FileReader();
@@ -372,21 +376,21 @@ $(document).ready(function() {
             reader.readAsDataURL(this.files[0]);
         }
     });
-    
+
     // Remove image
     $('#remove-image').on('click', function() {
         $('#image').val('');
-        $('#image-label').text('Dosya seçin...');
+        $('#image-label').text(vehicleFormI18n.selectFile);
         $('#image-preview').hide();
     });
-    
+
     // Form validation
     $('form').on('submit', function() {
         var isValid = true;
-        
+
         // Check vehicle type
         if (!$('input[name="vehicle_type"]:checked').length) {
-            alert('Lütfen araç türü seçiniz.');
+            alert(vehicleFormI18n.selectVehicleType);
             isValid = false;
         }
         

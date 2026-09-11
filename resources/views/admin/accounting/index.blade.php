@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 
-@section('title', 'Muhasebe Yönetimi')
+@section('title', __('Muhasebe Yönetimi'))
 
 @section('content')
 <!-- Modern Kontrol Paneli -->
-<div class="guides-control-panel mb-2">
+<div class="guides-control-panel ad-page-header admin-list-toolbar mb-3">
     <div class="control-left">
-        <h4 class="control-title"><i class="fas fa-wallet"></i> Muhasebe Yönetimi</h4>
+        <h4 class="control-title"><i class="fas fa-wallet"></i> {{ __('Muhasebe Yönetimi') }}</h4>
         <p class="control-subtitle">
             @if(!empty($selectedAgency))
-                {{ $selectedAgency->name }} acentasına ait finansal kayıtlar
+                {{ __(':agency acentasına ait finansal kayıtlar', ['agency' => $selectedAgency->name]) }}
             @else
-                Finansal kayıtlar
+                {{ __('Finansal kayıtlar') }}
             @endif
         </p>
     </div>
@@ -19,13 +19,13 @@
         @if(!empty($selectedAgency))
         <div class="control-item">
             <a href="{{ route('admin.accounting.index') }}" class="btn btn-sm btn-outline-light">
-                <i class="fas fa-list"></i> Genel Muhasebeye Dön
+                <i class="fas fa-list"></i> {{ __('Genel Muhasebeye Dön') }}
             </a>
         </div>
         @endif
         <div class="control-item">
             <a href="{{ route('admin.accounting.create', request('locked_agency_id') ? ['locked_agency_id' => request('locked_agency_id')] : []) }}" class="btn btn-sm btn-light">
-                <i class="fas fa-plus"></i> Yeni Kayıt
+                <i class="fas fa-plus"></i> {{ __('Yeni Kayıt') }}
             </a>
         </div>
     </div>
@@ -33,11 +33,11 @@
 <div class="row">
     @php
         $codes = [
-            'USD' => 'ABD Doları',
-            'EUR' => 'Euro',
-            'GBP' => 'İngiliz Sterlini',
-            'RUB' => 'Rus Rublesi',
-            'TRY' => 'Türk Lirası',
+            'USD' => __('ABD Doları'),
+            'EUR' => __('Euro'),
+            'GBP' => __('İngiliz Sterlini'),
+            'RUB' => __('Rus Rublesi'),
+            'TRY' => __('Türk Lirası'),
         ];
     @endphp
     <div class="col-12 mb-3">
@@ -49,7 +49,7 @@
                     $expense = $summary['expense'] ?? 0;
                     $net = $summary['net'] ?? 0;
                 @endphp
-                <div class="currency-card mr-3 mb-3" data-currency="{{ $code }}" data-name="{{ $name }}" style="cursor: pointer;" title="Grafik için tıklayın">
+                <div class="currency-card mr-3 mb-3" data-currency="{{ $code }}" data-name="{{ $name }}" style="cursor: pointer;" title="{{ __('Grafik için tıklayın') }}">
                     <div class="currency-header">
                         <span class="currency-code">{{ $code }}</span>
                         <small class="currency-name">{{ $name }}</small>
@@ -57,11 +57,11 @@
                     </div>
                     <div class="currency-body">
                         <div class="currency-row">
-                            <span class="currency-label">Gelir</span>
+                            <span class="currency-label">{{ __('Gelir') }}</span>
                             <span class="currency-value text-success" data-role="income-value">{{ number_format($income, 2, ',', '.') }}</span>
                         </div>
                         <div class="currency-row">
-                            <span class="currency-label">Gider</span>
+                            <span class="currency-label">{{ __('Gider') }}</span>
                             <span class="currency-value text-danger" data-role="expense-value">{{ number_format($expense, 2, ',', '.') }}</span>
                         </div>
                         <div class="currency-row currency-net">
@@ -79,17 +79,17 @@
     @endphp
     <div class="col-12">
         <!-- Liste: filtreler listenin hemen üstünde, varsayılan kapalı -->
-        <div class="card mb-3">
+        <div class="ad-card mb-3">
             <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <h3 class="card-title mb-0"><i class="fas fa-list"></i> İşlem Listesi</h3>
+                <h3 class="card-title mb-0"><i class="fas fa-list"></i> {{ __('İşlem Listesi') }}</h3>
                 <div class="d-flex align-items-center flex-wrap">
                     <button type="button" class="btn btn-sm btn-outline-secondary mr-2 mb-1" data-bs-toggle="collapse" data-bs-target="#adminAccountingFilters" aria-expanded="{{ $adminFilterPanelOpen ? 'true' : 'false' }}" aria-controls="adminAccountingFilters">
-                        <i class="fas fa-filter"></i> Filtreler
+                        <i class="fas fa-filter"></i> {{ __('Filtreler') }}
                     </button>
                     <button type="button" class="btn btn-sm btn-primary mr-2 mb-1 d-none" id="open-settlement-preview">
-                        <i class="fas fa-calculator"></i> Hesap Gör (<span id="selected-count">0</span>)
+                        <i class="fas fa-calculator"></i> {{ __('Hesap Gör') }} (<span id="selected-count">0</span>)
                     </button>
-                    <span class="badge badge-secondary mb-1" id="total-count-badge">{{ $transactions->total() }} kayıt</span>
+                    <span class="badge badge-secondary mb-1" id="total-count-badge">{{ __(':count kayıt', ['count' => $transactions->total()]) }}</span>
                 </div>
             </div>
             <div id="adminAccountingFilters" class="collapse {{ $adminFilterPanelOpen ? 'show' : '' }} border-bottom">
@@ -97,68 +97,68 @@
                 <div class="row">
                     <!-- Arama -->
                     <div class="col-md-4 col-sm-12 mb-3">
-                        <label class="small text-muted mb-1"><i class="fas fa-search"></i> Arama (başlık / takip no)</label>
+                        <label class="small text-muted mb-1"><i class="fas fa-search"></i> {{ __('Arama (başlık / takip no)') }}</label>
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="live-search"
-                                   value="{{ request('search') }}" placeholder="Başlık veya bilet takip numarası...">
+                                   value="{{ request('search') }}" placeholder="{{ __('Başlık veya bilet takip numarası...') }}">
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary" id="clear-search" style="display: none;">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>
-                        <small class="text-muted"><i class="fas fa-info-circle"></i> Sayfa yenilenmeden arar</small>
+                        <small class="text-muted"><i class="fas fa-info-circle"></i> {{ __('Sayfa yenilenmeden arar') }}</small>
                     </div>
-                    
+
                     <!-- Tür -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Tür</label>
+                        <label class="small text-muted mb-1">{{ __('Tür') }}</label>
                         <select class="form-control form-control-sm filter-select" id="filter-type">
-                            <option value="">Tümü</option>
-                            <option value="income" {{ request('type')=='income'?'selected':'' }}>Gelir</option>
-                            <option value="expense" {{ request('type')=='expense'?'selected':'' }}>Gider</option>
+                            <option value="">{{ __('Tümü') }}</option>
+                            <option value="income" {{ request('type')=='income'?'selected':'' }}>{{ __('Gelir') }}</option>
+                            <option value="expense" {{ request('type')=='expense'?'selected':'' }}>{{ __('Gider') }}</option>
                         </select>
                     </div>
-                    
+
                     <!-- Durum -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Durum</label>
+                        <label class="small text-muted mb-1">{{ __('Durum') }}</label>
                         <select class="form-control form-control-sm filter-select" id="filter-status">
-                            <option value="">Tümü</option>
-                            <option value="paid" {{ request('status')=='paid'?'selected':'' }}>Ödendi</option>
-                            <option value="pending" {{ request('status')=='pending'?'selected':'' }}>Beklemede</option>
-                            <option value="cancelled" {{ request('status')=='cancelled'?'selected':'' }}>İptal</option>
-                            <option value="settled" {{ request('status')=='settled'?'selected':'' }}>Mutabakat Yapıldı</option>
+                            <option value="">{{ __('Tümü') }}</option>
+                            <option value="paid" {{ request('status')=='paid'?'selected':'' }}>{{ __('Ödendi') }}</option>
+                            <option value="pending" {{ request('status')=='pending'?'selected':'' }}>{{ __('Beklemede') }}</option>
+                            <option value="cancelled" {{ request('status')=='cancelled'?'selected':'' }}>{{ __('İptal') }}</option>
+                            <option value="settled" {{ request('status')=='settled'?'selected':'' }}>{{ __('Mutabakat Yapıldı') }}</option>
                         </select>
                     </div>
-                    
+
                     <!-- Para Birimi -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Para Birimi</label>
+                        <label class="small text-muted mb-1">{{ __('Para Birimi') }}</label>
                         <select class="form-control form-control-sm filter-select" id="filter-currency">
-                            <option value="">Tümü</option>
+                            <option value="">{{ __('Tümü') }}</option>
                             @foreach($currencies ?? [] as $cur)
                                 <option value="{{ $cur }}" {{ request('currency')==$cur?'selected':'' }}>{{ $cur }}</option>
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <!-- Ödeme Yöntemi -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Ödeme Yöntemi</label>
+                        <label class="small text-muted mb-1">{{ __('Ödeme Yöntemi') }}</label>
                         <select class="form-control form-control-sm filter-select" id="filter-payment">
-                            <option value="">Tümü</option>
+                            <option value="">{{ __('Tümü') }}</option>
                             @php
                                 $methodLabels = [
-                                    'auto-expired-ticket' => 'Otomatik (Bilet)',
-                                    'sale-ticket' => 'Bilet Satışı',
-                                    'payout-owner' => 'Tur Sahibi Payı',
-                                    'owner-share' => 'Acenta Satışı',
-                                    'salary-auto' => 'Maaş Ödemesi',
-                                    'rest-adjustment' => 'Rest Geliri',
-                                    'cash' => 'Nakit',
-                                    'bank' => 'Banka',
-                                    'credit_card' => 'Kredi Kartı',
+                                    'auto-expired-ticket' => __('Otomatik (Bilet)'),
+                                    'sale-ticket' => __('Bilet Satışı'),
+                                    'payout-owner' => __('Tur Sahibi Payı'),
+                                    'owner-share' => __('Acenta Satışı'),
+                                    'salary-auto' => __('Maaş Ödemesi'),
+                                    'rest-adjustment' => __('Rest Geliri'),
+                                    'cash' => __('Nakit'),
+                                    'bank' => __('Banka'),
+                                    'credit_card' => __('Kredi Kartı'),
                                 ];
                             @endphp
                             @foreach($paymentMethods ?? [] as $method)
@@ -168,13 +168,13 @@
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <!-- Acenta Filtresi -->
                     @if(count($agencies ?? []) > 0)
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1"><i class="fas fa-store"></i> Acenta</label>
+                        <label class="small text-muted mb-1"><i class="fas fa-store"></i> {{ __('Acenta') }}</label>
                         <select class="form-control form-control-sm filter-select" id="filter-agency" {{ !empty(request('locked_agency_id')) ? 'disabled' : '' }}>
-                            <option value="">Tüm Acentalar</option>
+                            <option value="">{{ __('Tüm Acentalar') }}</option>
                             @foreach($agencies as $agency)
                                 <option value="{{ $agency->id }}" {{ ((string) request('agency_id') === (string) $agency->id || (string) request('locked_agency_id') === (string) $agency->id) ? 'selected' : '' }}>
                                     {{ $agency->name }}
@@ -184,37 +184,37 @@
                     </div>
                     @endif
                 </div>
-                
+
                 <div class="row">
                     <!-- Başlangıç Tarihi -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Başlangıç</label>
+                        <label class="small text-muted mb-1">{{ __('Başlangıç') }}</label>
                         <input type="date" class="form-control form-control-sm filter-input" id="filter-from" value="{{ request('from') }}">
                     </div>
-                    
+
                     <!-- Bitiş Tarihi -->
                     <div class="col-md-2 col-sm-6 mb-2">
-                        <label class="small text-muted mb-1">Bitiş</label>
+                        <label class="small text-muted mb-1">{{ __('Bitiş') }}</label>
                         <input type="date" class="form-control form-control-sm filter-input" id="filter-to" value="{{ request('to') }}">
                     </div>
-                    
+
                     <!-- Hızlı Tarih Butonları -->
                     <div class="col-md-4 col-sm-12 mb-2">
-                        <label class="small text-muted mb-1">Hızlı Seçim</label>
+                        <label class="small text-muted mb-1">{{ __('Hızlı Seçim') }}</label>
                         <div class="btn-group btn-group-sm d-flex" role="group">
-                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="today">Bugün</button>
-                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="week">Bu Hafta</button>
-                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="month">Bu Ay</button>
-                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="year">Bu Yıl</button>
+                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="today">{{ __('Bugün') }}</button>
+                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="week">{{ __('Bu Hafta') }}</button>
+                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="month">{{ __('Bu Ay') }}</button>
+                            <button type="button" class="btn btn-outline-secondary quick-date" data-range="year">{{ __('Bu Yıl') }}</button>
                         </div>
                     </div>
-                    
+
                     <!-- Temizle Butonu -->
                     <div class="col-md-4 col-sm-12 mb-2">
                         <label class="small text-muted mb-1">&nbsp;</label>
                         <div class="d-flex">
                             <button type="button" class="btn btn-outline-danger btn-sm" id="clear-all-filters">
-                                <i class="fas fa-times"></i> Tüm Filtreleri Temizle
+                                <i class="fas fa-times"></i> {{ __('Tüm Filtreleri Temizle') }}
                             </button>
                             <span class="ml-2 align-self-center text-muted small" id="filter-status-text"></span>
                         </div>
@@ -227,23 +227,23 @@
                 <div id="loading-overlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 10; justify-content: center; align-items: center;">
                     <div class="text-center">
                         <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                        <p class="mt-2 mb-0">Aranıyor...</p>
+                        <p class="mt-2 mb-0">{{ __('Aranıyor...') }}</p>
                     </div>
                 </div>
                 <table class="table table-hover text-nowrap mb-0">
                     <thead>
                         <tr>
                             <th style="width:36px;">
-                                <input type="checkbox" id="select-all-transactions" title="Tümünü seç">
+                                <input type="checkbox" id="select-all-transactions" title="{{ __('Tümünü seç') }}">
                             </th>
-                            <th>Tarih</th>
-                            <th>Başlık</th>
-                            <th>Tür</th>
-                            <th>Tutar</th>
-                            <th>Para Birimi</th>
-                            <th>Durum</th>
-                            <th>Ödeme Yöntemi</th>
-                            <th>İşlemler</th>
+                            <th>{{ __('Tarih') }}</th>
+                            <th>{{ __('Başlık') }}</th>
+                            <th>{{ __('Tür') }}</th>
+                            <th>{{ __('Tutar') }}</th>
+                            <th>{{ __('Para Birimi') }}</th>
+                            <th>{{ __('Durum') }}</th>
+                            <th>{{ __('Ödeme Yöntemi') }}</th>
+                            <th>{{ __('İşlemler') }}</th>
                         </tr>
                     </thead>
                     <tbody id="transactions-table-body">
@@ -277,19 +277,19 @@
                             <td>
                                 {{ $t->title }}
                                 @if($t->ticket && $t->ticket->tracking_no)
-                                    <br><small class="text-muted">Takip: {{ $t->ticket->tracking_no }}</small>
+                                    <br><small class="text-muted">{{ __('Takip') }}: {{ $t->ticket->tracking_no }}</small>
                                 @endif
                             </td>
                             <td>
                                 <span class="badge badge-{{ $t->type=='income'?'success':'danger' }}">
-                                    {{ $t->type=='income'?'Gelir':'Gider' }}
+                                    {{ $t->type=='income'? __('Gelir') : __('Gider') }}
                                 </span>
                             </td>
                             <td>{{ number_format($t->amount,2,',','.') }}</td>
                             <td>{{ $t->currency }}</td>
                             <td>
                                 @if($t->is_settled)
-                                    <span class="badge badge-info" title="Mutabakat: {{ optional($t->settled_at)->format('d.m.Y H:i') }}">Mutabakat Yapıldı</span>
+                                    <span class="badge badge-info" title="{{ __('Mutabakat') }}: {{ optional($t->settled_at)->format('d.m.Y H:i') }}">{{ __('Mutabakat Yapıldı') }}</span>
                                 @else
                                     @php $map=['paid'=>'success','pending'=>'warning','cancelled'=>'secondary']; @endphp
                                     <span class="badge badge-{{ $map[$t->status] ?? 'secondary' }}">{{ ucfirst($t->status) }}</span>
@@ -298,25 +298,25 @@
                             <td>
                                 {{ $t->payment_method ?? '-' }}
                                 @if($t->payment_method === 'salary-auto')
-                                    <br><small class="text-muted">Maaş ödemesi</small>
+                                    <br><small class="text-muted">{{ __('Maaş ödemesi') }}</small>
                                 @endif
                             </td>
                             <td>
                                 @php $isAuto = in_array($t->payment_method, ['auto-expired-ticket','salary-auto','sale-ticket','payout-owner','owner-share','rest-adjustment']); @endphp
                                 <div class="btn-group">
                                     @if($isAuto && $t->ticket)
-                                        <a href="{{ route('admin.tickets.show', $t->ticket) }}" class="btn btn-sm btn-info" title="Bileti Görüntüle">
+                                        <a href="{{ route('admin.tickets.show', $t->ticket) }}" class="btn btn-sm btn-info" title="{{ __('Bileti Görüntüle') }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     @elseif($t->payment_method === 'salary-auto')
-                                        <button class="btn btn-sm btn-secondary" disabled title="Maaş ödemesi">
+                                        <button class="btn btn-sm btn-secondary" disabled title="{{ __('Maaş ödemesi') }}">
                                             <i class="fas fa-money-check-alt"></i>
                                         </button>
                                     @elseif(!$isAuto)
                                         <a href="{{ route('admin.accounting.edit', ['transaction' => $t, 'locked_agency_id' => request('locked_agency_id')]) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.accounting.destroy', $t) }}" method="POST" class="d-inline" onsubmit="return confirm('Silinsin mi?')">
+                                        <form action="{{ route('admin.accounting.destroy', $t) }}" method="POST" class="d-inline" onsubmit="return confirm({!! json_encode(__('Silinsin mi?'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!})">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger">
@@ -328,16 +328,16 @@
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="9" class="text-center py-4">Kayıt yok</td></tr>
+                        <tr><td colspan="9" class="text-center py-4">{{ __('Kayıt yok') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center">
                 <div id="totals-display">
-                    <span class="mr-3">Görünen: <strong id="visible-count">{{ $transactions->total() }}</strong> kayıt</span>
-                    <span class="mr-3">Gelir: <strong class="text-success" id="visible-income">{{ number_format($totals['income'],2,',','.') }}</strong></span>
-                    <span>Gider: <strong class="text-danger" id="visible-expense">{{ number_format($totals['expense'],2,',','.') }}</strong></span>
+                    <span class="mr-3">{{ __('Görünen') }}: <strong id="visible-count">{{ $transactions->total() }}</strong> {{ __('kayıt') }}</span>
+                    <span class="mr-3">{{ __('Gelir') }}: <strong class="text-success" id="visible-income">{{ number_format($totals['income'],2,',','.') }}</strong></span>
+                    <span>{{ __('Gider') }}: <strong class="text-danger" id="visible-expense">{{ number_format($totals['expense'],2,',','.') }}</strong></span>
                 </div>
                 <div id="pagination-container">{{ $transactions->links() }}</div>
             </div>
@@ -351,56 +351,56 @@
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="settlementPreviewModalLabel">
-                    <i class="fas fa-calculator"></i> Hesap Gör
+                    <i class="fas fa-calculator"></i> {{ __('Hesap Gör') }}
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Kapat') }}"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-info py-2 mb-3">
-                    Seçili kayıtların para birimi bazlı net toplamı ve TRY karşılığı ön izleme olarak gösterilir.
+                    {{ __('Seçili kayıtların para birimi bazlı net toplamı ve TRY karşılığı ön izleme olarak gösterilir.') }}
                 </div>
 
-                <h6 class="mb-2">Para Birimi Özeti</h6>
+                <h6 class="mb-2">{{ __('Para Birimi Özeti') }}</h6>
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered mb-3">
                         <thead>
                             <tr>
-                                <th>Para Birimi</th>
+                                <th>{{ __('Para Birimi') }}</th>
                                 <th class="text-right">Net (+/-)</th>
                             </tr>
                         </thead>
                         <tbody id="settlement-currency-summary-body">
-                            <tr><td colspan="2" class="text-center text-muted">Seçim bekleniyor</td></tr>
+                            <tr><td colspan="2" class="text-center text-muted">{{ __('Seçim bekleniyor') }}</td></tr>
                         </tbody>
                     </table>
                 </div>
 
-                <h6 class="mb-2">Gün Bazlı TRY Karşılığı</h6>
+                <h6 class="mb-2">{{ __('Gün Bazlı TRY Karşılığı') }}</h6>
                 <div class="table-responsive">
                     <table class="table table-sm table-striped mb-2">
                         <thead>
                             <tr>
-                                <th>Tarih</th>
-                                <th>Para Birimi</th>
+                                <th>{{ __('Tarih') }}</th>
+                                <th>{{ __('Para Birimi') }}</th>
                                 <th class="text-right">Net (+/-)</th>
-                                <th class="text-right">TRY Karşılığı</th>
+                                <th class="text-right">{{ __('TRY Karşılığı') }}</th>
                             </tr>
                         </thead>
                         <tbody id="settlement-daily-summary-body">
-                            <tr><td colspan="4" class="text-center text-muted">Seçim bekleniyor</td></tr>
+                            <tr><td colspan="4" class="text-center text-muted">{{ __('Seçim bekleniyor') }}</td></tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <span class="badge badge-success p-2" id="settlement-total-try">Toplam TRY: 0,00</span>
+                    <span class="badge badge-success p-2" id="settlement-total-try">{{ __('Toplam TRY') }}: 0,00</span>
                 </div>
             </div>
             <div class="modal-footer">
-                <small class="text-muted mr-auto">Onay sonrası karşı taraf onayı beklenir.</small>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <small class="text-muted mr-auto">{{ __('Onay sonrası karşı taraf onayı beklenir.') }}</small>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Kapat') }}</button>
                 <button type="button" class="btn btn-success" id="settlement-confirm-btn" style="position:relative; z-index:1065; pointer-events:auto;">
-                    <i class="fas fa-check"></i> Onayla
+                    <i class="fas fa-check"></i> {{ __('Onayla') }}
                 </button>
             </div>
         </div>
@@ -413,57 +413,57 @@
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="currencyChartModalLabel">
-                    <i class="fas fa-chart-line"></i> <span id="chart-currency-name">Para Birimi</span> - Gelir/Gider Grafiği
+                    <i class="fas fa-chart-line"></i> <span id="chart-currency-name">{{ __('Para Birimi') }}</span> - {{ __('Gelir/Gider Grafiği') }}
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Kapat') }}"></button>
             </div>
             <div class="modal-body">
                 <!-- Zaman Dilimleri ve Grafik Türü -->
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                     <!-- Zaman Dilimleri -->
                     <div class="btn-group btn-group-sm" role="group" id="chart-period-buttons">
-                        <button type="button" class="btn btn-outline-primary chart-period" data-period="7days">7 Gün</button>
-                        <button type="button" class="btn btn-outline-primary chart-period" data-period="30days">30 Gün</button>
-                        <button type="button" class="btn btn-outline-primary chart-period" data-period="3months">3 Ay</button>
-                        <button type="button" class="btn btn-outline-primary chart-period" data-period="6months">6 Ay</button>
-                        <button type="button" class="btn btn-primary chart-period active" data-period="12months">12 Ay</button>
+                        <button type="button" class="btn btn-outline-primary chart-period" data-period="7days">{{ __(':count Gün', ['count' => 7]) }}</button>
+                        <button type="button" class="btn btn-outline-primary chart-period" data-period="30days">{{ __(':count Gün', ['count' => 30]) }}</button>
+                        <button type="button" class="btn btn-outline-primary chart-period" data-period="3months">{{ __(':count Ay', ['count' => 3]) }}</button>
+                        <button type="button" class="btn btn-outline-primary chart-period" data-period="6months">{{ __(':count Ay', ['count' => 6]) }}</button>
+                        <button type="button" class="btn btn-primary chart-period active" data-period="12months">{{ __(':count Ay', ['count' => 12]) }}</button>
                     </div>
-                    
+
                     <!-- Grafik Türü -->
                     <div class="btn-group btn-group-sm" role="group" id="chart-type-buttons">
-                        <button type="button" class="btn btn-success chart-type active" data-type="line" title="Çizgi Grafik">
+                        <button type="button" class="btn btn-success chart-type active" data-type="line" title="{{ __('Çizgi Grafik') }}">
                             <i class="fas fa-chart-line"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-success chart-type" data-type="bar" title="Çubuk Grafik">
+                        <button type="button" class="btn btn-outline-success chart-type" data-type="bar" title="{{ __('Çubuk Grafik') }}">
                             <i class="fas fa-chart-bar"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-success chart-type" data-type="area" title="Alan Grafik">
+                        <button type="button" class="btn btn-outline-success chart-type" data-type="area" title="{{ __('Alan Grafik') }}">
                             <i class="fas fa-chart-area"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-success chart-type" data-type="radar" title="Radar Grafik">
+                        <button type="button" class="btn btn-outline-success chart-type" data-type="radar" title="{{ __('Radar Grafik') }}">
                             <i class="fas fa-bullseye"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-success chart-type" data-type="polarArea" title="Polar Alan">
+                        <button type="button" class="btn btn-outline-success chart-type" data-type="polarArea" title="{{ __('Polar Alan') }}">
                             <i class="fas fa-circle-notch"></i>
                         </button>
                     </div>
                 </div>
-                
+
                 <div id="chart-loading" class="text-center py-5">
                     <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                    <p class="mt-2">Grafik yükleniyor...</p>
+                    <p class="mt-2">{{ __('Grafik yükleniyor...') }}</p>
                 </div>
                 <div id="chart-container" style="display: none; position: relative; height: 350px;">
                     <canvas id="currencyChart"></canvas>
                 </div>
                 <div id="chart-error" class="text-center py-5 text-danger" style="display: none;">
                     <i class="fas fa-exclamation-triangle fa-2x"></i>
-                    <p class="mt-2">Grafik yüklenirken bir hata oluştu.</p>
+                    <p class="mt-2">{{ __('Grafik yüklenirken bir hata oluştu.') }}</p>
                 </div>
             </div>
             <div class="modal-footer">
-                <small class="text-muted mr-auto" id="chart-period-info"><i class="fas fa-info-circle"></i> Son 12 aylık veriler</small>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <small class="text-muted mr-auto" id="chart-period-info"><i class="fas fa-info-circle"></i> {{ __('Son 12 aylık veriler') }}</small>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Kapat') }}</button>
             </div>
         </div>
     </div>
@@ -653,6 +653,36 @@ html.dark-mode .settlement-done-row {
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
+const accountingI18n = {!! json_encode([
+    'filterActive' => __('Filtre aktif'),
+    'record' => __(':count kayıt'),
+    'errorOccurred' => __('Bir hata oluştu'),
+    'noMatchingRecords' => __('Filtreye uygun kayıt bulunamadı'),
+    'settlement' => __('Mutabakat'),
+    'settlementDone' => __('Mutabakat Yapıldı'),
+    'tracking' => __('Takip'),
+    'salaryPayment' => __('Maaş ödemesi'),
+    'viewTicket' => __('Bileti Görüntüle'),
+    'confirmDelete' => __('Silinsin mi?'),
+    'selectAtLeastOneTicket' => __('Lütfen en az bir bilet seçin.'),
+    'settlementSubmitting' => __('Mutabakat onaya gönderiliyor...'),
+    'settlementSubmitFailed' => __('Mutabakat gönderimi başarısız.'),
+    'settlementCompleted' => __('Mutabakat tamamlandı.'),
+    'awaitingApproval' => __('Onay Bekliyor'),
+    'settlementSentAwaitingApproval' => __('Mutabakat onaya gönderildi. Karşı taraf onayı bekleniyor.'),
+    'settlementSendError' => __('Mutabakat gönderilirken hata oluştu.'),
+    'selectionPending' => __('Seçim bekleniyor'),
+    'totalTry' => __('Toplam TRY'),
+    'income' => __('Gelir'),
+    'expense' => __('Gider'),
+    'periodLabels' => [
+        '7days' => __('Son :count günlük veriler (günlük)', ['count' => 7]),
+        '30days' => __('Son :count günlük veriler (günlük)', ['count' => 30]),
+        '3months' => __('Son :count aylık veriler (haftalık)', ['count' => 3]),
+        '6months' => __('Son :count aylık veriler (aylık)', ['count' => 6]),
+        '12months' => __('Son :count aylık veriler (aylık)', ['count' => 12]),
+    ],
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 document.addEventListener('DOMContentLoaded', function() {
     // Filtre elemanları
     const searchInput = document.getElementById('live-search');
@@ -696,7 +726,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const indexUrl = '{{ route("admin.accounting.index", [], false) }}';
     const tcmbRates = (() => {
         const map = { TRY: 1 };
-        const ratesPayload = @json($exchangeRates['items'] ?? []);
+        const ratesPayload = {!! json_encode($exchangeRates['items'] ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
         ratesPayload.forEach(item => {
             const code = String(item.code || '').toUpperCase();
             if (code) {
@@ -730,7 +760,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Filtre durumu
         if (hasFilter) {
-            statusText.innerHTML = '<i class="fas fa-filter text-primary"></i> Filtre aktif';
+            statusText.innerHTML = '<i class="fas fa-filter text-primary"></i> ' + accountingI18n.filterActive;
         } else {
             statusText.textContent = '';
         }
@@ -783,12 +813,12 @@ document.addEventListener('DOMContentLoaded', function() {
             visibleCountEl.textContent = data.total_count;
             visibleIncomeEl.textContent = data.total_income;
             visibleExpenseEl.textContent = data.total_expense;
-            totalCountBadge.textContent = data.total_count + ' kayıt';
+            totalCountBadge.textContent = accountingI18n.record.replace(':count', data.total_count);
             updateCurrencyCards(data.currency_summary || {});
             
         } catch (error) {
             console.error('Filtre hatası:', error);
-            tableBody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle"></i> Bir hata oluştu</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle"></i> ' + accountingI18n.errorOccurred + '</td></tr>';
             selectedTickets.clear();
             currentTransactions = [];
             refreshSelectionUI();
@@ -804,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
         refreshSelectionUI();
 
         if (!transactions || transactions.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-muted"><i class="fas fa-search"></i> Filtreye uygun kayıt bulunamadı</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-muted"><i class="fas fa-search"></i> ' + accountingI18n.noMatchingRecords + '</td></tr>';
             bindTransactionSelectionEvents();
             return;
         }
@@ -820,7 +850,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const statusCell = isSettled
-                ? `<span class="badge badge-info" title="Mutabakat: ${escapeHtml(t.settled_at || '')}">Mutabakat Yapıldı</span>`
+                ? `<span class="badge badge-info" title="${accountingI18n.settlement}: ${escapeHtml(t.settled_at || '')}">${accountingI18n.settlementDone}</span>`
                 : `<span class="badge badge-${t.status_badge}">${t.status_label}</span>`;
 
             html += `<tr data-ticket-id="${ticketId}"
@@ -836,21 +866,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         : ''}
                 </td>
                 <td>${t.date}</td>
-                <td>${escapeHtml(t.title)}${t.ticket_tracking ? '<br><small class="text-muted">Takip: ' + escapeHtml(t.ticket_tracking) + '</small>' : ''}</td>
+                <td>${escapeHtml(t.title)}${t.ticket_tracking ? '<br><small class="text-muted">' + accountingI18n.tracking + ': ' + escapeHtml(t.ticket_tracking) + '</small>' : ''}</td>
                 <td><span class="badge badge-${t.type_badge}">${t.type_label}</span></td>
                 <td>${t.amount}</td>
                 <td>${t.currency}</td>
                 <td>${statusCell}</td>
                 <td>
                     ${t.payment_label}
-                    ${t.is_salary ? '<br><small class="text-muted">Maaş ödemesi</small>' : ''}
+                    ${t.is_salary ? '<br><small class="text-muted">' + accountingI18n.salaryPayment + '</small>' : ''}
                 </td>
                 <td>
                     <div class="btn-group">
-                        ${t.ticket_url ? '<a href="' + t.ticket_url + '" class="btn btn-sm btn-info" title="Bileti Görüntüle"><i class="fas fa-eye"></i></a>' : ''}
-                        ${t.is_salary ? '<button class="btn btn-sm btn-secondary" disabled title="Maaş ödemesi"><i class="fas fa-money-check-alt"></i></button>' : ''}
+                        ${t.ticket_url ? '<a href="' + t.ticket_url + '" class="btn btn-sm btn-info" title="' + accountingI18n.viewTicket + '"><i class="fas fa-eye"></i></a>' : ''}
+                        ${t.is_salary ? '<button class="btn btn-sm btn-secondary" disabled title="' + accountingI18n.salaryPayment + '"><i class="fas fa-money-check-alt"></i></button>' : ''}
                         ${t.edit_url ? '<a href="' + t.edit_url + '" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>' : ''}
-                        ${t.delete_url ? '<form action="' + t.delete_url + '" method="POST" class="d-inline" onsubmit="return confirm(\'Silinsin mi?\')"><input type="hidden" name="_token" value="' + csrfToken + '"><input type="hidden" name="_method" value="DELETE"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></form>' : ''}
+                        ${t.delete_url ? '<form action="' + t.delete_url + '" method="POST" class="d-inline" onsubmit="return confirm(\'' + accountingI18n.confirmDelete + '\')"><input type="hidden" name="_token" value="' + csrfToken + '"><input type="hidden" name="_method" value="DELETE"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></form>' : ''}
                     </div>
                 </td>
             </tr>`;
@@ -947,9 +977,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderSettlementPreview() {
         if (selectedTickets.size === 0) {
-            settlementCurrencySummaryBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Seçim bekleniyor</td></tr>';
-            settlementDailySummaryBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Seçim bekleniyor</td></tr>';
-            settlementTotalTry.textContent = 'Toplam TRY: 0,00';
+            settlementCurrencySummaryBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">' + accountingI18n.selectionPending + '</td></tr>';
+            settlementDailySummaryBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">' + accountingI18n.selectionPending + '</td></tr>';
+            settlementTotalTry.textContent = accountingI18n.totalTry + ': 0,00';
             return;
         }
 
@@ -1004,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </tr>
             `).join('');
 
-        settlementTotalTry.textContent = `Toplam TRY: ${totalTry.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        settlementTotalTry.textContent = `${accountingI18n.totalTry}: ${totalTry.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
     function showSettlementNotice(message) {
@@ -1022,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         if (effectiveRows.length === 0) {
-            showSettlementNotice('Lütfen en az bir bilet seçin.');
+            showSettlementNotice(accountingI18n.selectAtLeastOneTicket);
             return;
         }
 
@@ -1032,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             settlementConfirmBtn.disabled = true;
-            showSettlementNotice('Mutabakat onaya gönderiliyor...');
+            showSettlementNotice(accountingI18n.settlementSubmitting);
             const response = await fetch(settlementSubmitUrl, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -1049,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json().catch(() => ({}));
             if (!response.ok) {
-                throw new Error(data.message || 'Mutabakat gönderimi başarısız.');
+                throw new Error(data.message || accountingI18n.settlementSubmitFailed);
             }
 
             if (data.immediate_settlement_applied) {
@@ -1057,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (settlementPreviewModalInstance) {
                     settlementPreviewModalInstance.hide();
                 }
-                showSettlementNotice(data.message || 'Mutabakat tamamlandı.');
+                showSettlementNotice(data.message || accountingI18n.settlementCompleted);
                 window.location.reload();
                 return;
             }
@@ -1071,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     row.classList.add('settlement-locked-row');
                     const titleCell = row.children[2];
                     if (titleCell && !titleCell.querySelector('.settlement-waiting-badge')) {
-                        titleCell.insertAdjacentHTML('beforeend', ' <span class="badge badge-warning settlement-waiting-badge">Onay Bekliyor</span>');
+                        titleCell.insertAdjacentHTML('beforeend', ' <span class="badge badge-warning settlement-waiting-badge">' + accountingI18n.awaitingApproval + '</span>');
                     }
                 }
 
@@ -1085,9 +1115,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (settlementPreviewModalInstance) {
                 settlementPreviewModalInstance.hide();
             }
-            showSettlementNotice(data.message || 'Mutabakat onaya gönderildi. Karşı taraf onayı bekleniyor.');
+            showSettlementNotice(data.message || accountingI18n.settlementSentAwaitingApproval);
         } catch (error) {
-            showSettlementNotice(error.message || 'Mutabakat gönderilirken hata oluştu.');
+            showSettlementNotice(error.message || accountingI18n.settlementSendError);
         } finally {
             settlementConfirmBtn.disabled = false;
         }
@@ -1225,13 +1255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const chartPeriodInfo = document.getElementById('chart-period-info');
     const chartDataUrl = '{{ route("admin.accounting.chart-data", [], false) }}';
     
-    const periodLabels = {
-        '7days': 'Son 7 günlük veriler (günlük)',
-        '30days': 'Son 30 günlük veriler (günlük)',
-        '3months': 'Son 3 aylık veriler (haftalık)',
-        '6months': 'Son 6 aylık veriler (aylık)',
-        '12months': 'Son 12 aylık veriler (aylık)'
-    };
+    const periodLabels = accountingI18n.periodLabels;
     
     const chartTypeLabels = {
         'line': 'Çizgi',
@@ -1389,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Temel dataset ayarları
         const incomeDataset = {
-            label: 'Gelir',
+            label: accountingI18n.income,
             data: data.income,
             borderColor: '#28a745',
             backgroundColor: currentChartType === 'area' ? 'rgba(40, 167, 69, 0.3)' : 
@@ -1398,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         const expenseDataset = {
-            label: 'Gider',
+            label: accountingI18n.expense,
             data: data.expense,
             borderColor: '#dc3545',
             backgroundColor: currentChartType === 'area' ? 'rgba(220, 53, 69, 0.3)' : 
@@ -1478,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             case 'polarArea':
                 // Polar Area için veriyi birleştir
-                const combinedLabels = ['Gelir', 'Gider'];
+                const combinedLabels = [accountingI18n.income, accountingI18n.expense];
                 const combinedData = [
                     data.income.reduce((a, b) => a + b, 0),
                     data.expense.reduce((a, b) => a + b, 0)

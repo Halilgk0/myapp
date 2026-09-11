@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Bilet Yönetimi')
+@section('title', __('Bilet Yönetimi'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <!-- Modern Kontrol Paneli -->
-                <div class="tickets-control-panel mb-2">
+                <div class="tickets-control-panel ad-page-header admin-list-toolbar mb-3">
                     <div class="control-left">
-                        <h4 class="control-title"><i class="fas fa-ticket-alt"></i> Bilet Yönetimi</h4>
-                        <p class="control-subtitle">Toplam {{ $tickets->total() }} bilet</p>
+                        <h4 class="control-title"><i class="fas fa-ticket-alt"></i> {{ __('Bilet Yönetimi') }}</h4>
+                        <p class="control-subtitle">{{ __('Toplam :count bilet', ['count' => $tickets->total()]) }}</p>
                     </div>
                     <div class="control-center">
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="ticket-search" class="search-input" placeholder="Bilet ara...">
+                            <input type="text" id="ticket-search" class="search-input" placeholder="{{ __('Bilet ara...') }}">
                             <button type="button" id="ticket-search-clear" class="search-clear" style="display: none;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -48,19 +48,19 @@
                             </a>
                             @endif
                             <a href="{{ route('admin.tickets.create') }}" class="btn btn-sm btn-light">
-                                <i class="fas fa-plus"></i> Yeni Bilet
+                                <i class="fas fa-plus"></i> {{ __('Yeni Bilet') }}
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="ad-card">
                     <div class="card-body p-0">
                         <!-- Modern Filtre Bölümü -->
                         <div class="modern-filters-wrapper">
                             <button type="button" class="filter-toggle-btn" id="filterToggle">
                                 <i class="fas fa-sliders-h mr-2"></i>
-                                <span>Filtreler</span>
+                                <span>{{ __('Filtreler') }}</span>
                                 @php
                                     $activeFilters = 0;
                                     if(request('filter_tour_id')) $activeFilters++;
@@ -92,9 +92,9 @@
                                                 <i class="fas fa-flag"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Ülke</label>
-                                                <select class="filter-select select2" name="filter_country" data-placeholder="Ülke seçin" style="width:100%">
-                                                    <option value="">Tümü</option>
+                                                <label class="filter-label">{{ __('Ülke') }}</label>
+                                                <select class="filter-select select2" name="filter_country" data-placeholder="{{ __('Ülke seçin') }}" style="width:100%">
+                                                    <option value="">{{ __('Tümü') }}</option>
                                                     @isset($countries)
                                                         @foreach($countries as $country)
                                                             <option value="{{ $country }}" 
@@ -112,9 +112,9 @@
                                                 <i class="fas fa-city"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Şehir</label>
-                                                <select class="filter-select select2" name="filter_city" data-placeholder="Şehir seçin" style="width:100%">
-                                                    <option value="">Tümü</option>
+                                                <label class="filter-label">{{ __('Şehir') }}</label>
+                                                <select class="filter-select select2" name="filter_city" data-placeholder="{{ __('Şehir seçin') }}" style="width:100%">
+                                                    <option value="">{{ __('Tümü') }}</option>
                                                     @isset($cities)
                                                         @foreach($cities as $city)
                                                             <option value="{{ $city }}" 
@@ -131,9 +131,9 @@
                                                 <i class="fas fa-route"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Tur Seçimi</label>
+                                                <label class="filter-label">{{ __('Tur Seçimi') }}</label>
                                                 <select class="filter-select" name="filter_tour_id">
-                                                    <option value="">Tüm Turlar</option>
+                                                    <option value="">{{ __('Tüm Turlar') }}</option>
                                             @isset($tours)
                                                 @foreach($tours as $tour)
                                                     <option value="{{ $tour->id }}" {{ (string)request('filter_tour_id') === (string)$tour->id ? 'selected' : '' }}>{{ $tour->name }}</option>
@@ -148,11 +148,11 @@
                                                 <i class="fas fa-calendar-alt"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Tarih Aralığı</label>
+                                                <label class="filter-label">{{ __('Tarih Aralığı') }}</label>
                                                 <div class="date-range-group">
-                                                    <input type="date" class="filter-input" name="filter_from" value="{{ request('filter_from') }}" placeholder="Başlangıç">
+                                                    <input type="date" class="filter-input" name="filter_from" value="{{ request('filter_from') }}" placeholder="{{ __('Başlangıç') }}">
                                                     <span class="date-divider"><i class="fas fa-long-arrow-alt-right"></i></span>
-                                                    <input type="date" class="filter-input" name="filter_to" value="{{ request('filter_to') }}" placeholder="Bitiş">
+                                                    <input type="date" class="filter-input" name="filter_to" value="{{ request('filter_to') }}" placeholder="{{ __('Bitiş') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -162,11 +162,11 @@
                                                 <i class="fas fa-bus"></i>
                                     </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Araç Durumu</label>
+                                                <label class="filter-label">{{ __('Araç Durumu') }}</label>
                                                 <select class="filter-select" name="filter_has_vehicle">
-                                            <option value="">Tümü</option>
-                                            <option value="1" {{ request('filter_has_vehicle')==='1' ? 'selected' : '' }}>Araçlı</option>
-                                            <option value="0" {{ request('filter_has_vehicle')==='0' ? 'selected' : '' }}>Araçsız</option>
+                                            <option value="">{{ __('Tümü') }}</option>
+                                            <option value="1" {{ request('filter_has_vehicle')==='1' ? 'selected' : '' }}>{{ __('Araçlı') }}</option>
+                                            <option value="0" {{ request('filter_has_vehicle')==='0' ? 'selected' : '' }}>{{ __('Araçsız') }}</option>
                                         </select>
                                     </div>
                                         </div>
@@ -176,9 +176,9 @@
                                                 <i class="fas fa-globe"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Milliyet</label>
+                                                <label class="filter-label">{{ __('Milliyet') }}</label>
                                                 <select class="filter-select" name="filter_nationality">
-                                                    <option value="">Tüm Milliyetler</option>
+                                                    <option value="">{{ __('Tüm Milliyetler') }}</option>
                                             @isset($nationalities)
                                                 @foreach($nationalities as $nat)
                                                     <option value="{{ $nat }}" {{ request('filter_nationality')===$nat ? 'selected' : '' }}>{{ $nat }}</option>
@@ -193,11 +193,11 @@
                                                 <i class="fas fa-power-off"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Durum</label>
+                                                <label class="filter-label">{{ __('Durum') }}</label>
                                                 <select class="filter-select" name="filter_is_active">
-                                            <option value="">Tümü</option>
-                                            <option value="1" {{ request('filter_is_active')==='1' ? 'selected' : '' }}>Aktif</option>
-                                            <option value="0" {{ request('filter_is_active')==='0' ? 'selected' : '' }}>Pasif</option>
+                                            <option value="">{{ __('Tümü') }}</option>
+                                            <option value="1" {{ request('filter_is_active')==='1' ? 'selected' : '' }}>{{ __('Aktif') }}</option>
+                                            <option value="0" {{ request('filter_is_active')==='0' ? 'selected' : '' }}>{{ __('Pasif') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -205,10 +205,10 @@
 
                                     <div class="filter-actions">
                                         <a href="{{ route('admin.tickets.index', ['per_page'=>request('per_page', $perPage ?? 10)]) }}" class="filter-btn filter-btn-clear">
-                                            <i class="fas fa-times-circle mr-1"></i> Temizle
+                                            <i class="fas fa-times-circle mr-1"></i> {{ __('Temizle') }}
                                         </a>
                                         <button type="submit" class="filter-btn filter-btn-apply">
-                                            <i class="fas fa-check-circle mr-1"></i> Uygula
+                                            <i class="fas fa-check-circle mr-1"></i> {{ __('Uygula') }}
                                         </button>
                                 </div>
                             </form>
@@ -220,19 +220,19 @@
                         <div class="p-3">
                             <div class="alert alert-warning mb-3">
                                 <i class="fas fa-clock mr-2"></i>
-                                <strong>{{ $pendingRequests->count() }} adet onay bekleyen bilet isteği var</strong>
+                                <strong>{{ __(':count adet onay bekleyen bilet isteği var', ['count' => $pendingRequests->count()]) }}</strong>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead class="bg-warning">
                                         <tr>
-                                            <th>Takip No</th>
-                                            <th>Müşteri</th>
-                                            <th>Tur Bilgileri</th>
-                                            <th>Talep Eden</th>
-                                            <th>Fiyat</th>
-                                            <th>Durum</th>
-                                            <th>İşlemler</th>
+                                            <th>{{ __('Takip No') }}</th>
+                                            <th>{{ __('Müşteri') }}</th>
+                                            <th>{{ __('Tur Bilgileri') }}</th>
+                                            <th>{{ __('Talep Eden') }}</th>
+                                            <th>{{ __('Fiyat') }}</th>
+                                            <th>{{ __('Durum') }}</th>
+                                            <th>{{ __('İşlemler') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -240,7 +240,7 @@
                                             <tr class="table-warning">
                                                 <td>
                                                     <strong>{{ $request->voucher_no ?: '-' }}</strong>
-                                                    <br><small class="text-muted">İstek #{{ $request->id }}</small>
+                                                    <br><small class="text-muted">{{ __('İstek') }} #{{ $request->id }}</small>
                                                 </td>
                                                 <td>
                                                     <strong>{{ $request->customer_name }}</strong>
@@ -279,29 +279,29 @@
                                                     @endphp
                                                     <span class="badge {{ $currClass }}">{{ number_format($request->total_price, 2) }} {{ $curr }}</span>
                                                     <br><small class="text-muted">
-                                                        {{ $request->adult_count }} Yetişkin,
-                                                        {{ $request->child_count }} Çocuk,
-                                                        {{ $request->infant_count }} Bebek
+                                                        {{ $request->adult_count }} {{ __('Yetişkin') }},
+                                                        {{ $request->child_count }} {{ __('Çocuk') }},
+                                                        {{ $request->infant_count }} {{ __('Bebek') }}
                                                     </small>
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-warning"><i class="fas fa-clock"></i> Beklemede</span>
+                                                    <span class="badge badge-warning"><i class="fas fa-clock"></i> {{ __('Beklemede') }}</span>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{{ route('admin.ticket-requests.show', $request) }}" 
-                                                           class="btn btn-sm btn-info" title="Görüntüle">
+                                                           class="btn btn-sm btn-info" title="{{ __('Görüntüle') }}">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         <form action="{{ route('admin.ticket-requests.approve', $request) }}" method="POST" class="d-inline">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm btn-success" title="Onayla" onclick="return confirm('Bu bilet isteğini onaylamak istediğinize emin misiniz?')">
+                                                            <button type="submit" class="btn btn-sm btn-success" title="{{ __('Onayla') }}" onclick="return confirm('{{ __('Bu bilet isteğini onaylamak istediğinize emin misiniz?') }}')">
                                                                 <i class="fas fa-check"></i>
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('admin.ticket-requests.reject', $request) }}" method="POST" class="d-inline">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm btn-danger" title="Reddet" onclick="return confirm('Bu bilet isteğini reddetmek istediğinize emin misiniz?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger" title="{{ __('Reddet') }}" onclick="return confirm('{{ __('Bu bilet isteğini reddetmek istediğinize emin misiniz?') }}')">
                                                                 <i class="fas fa-times"></i>
                                                             </button>
                                                         </form>
@@ -318,16 +318,16 @@
 
                         <div class="p-3">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped ticket-table">
+                                <table class="ad-table table table-bordered table-striped ticket-table">
                                 <thead>
                                     <tr>
-                                        <th>Takip No</th>
-                                        <th>Müşteri</th>
-                                        <th>Tur</th>
-                                        <th>Tarih</th>
-                                        <th>Yolcu</th>
-                                        <th>Toplam</th>
-                                        <th>Durum</th>
+                                        <th>{{ __('Takip No') }}</th>
+                                        <th>{{ __('Müşteri') }}</th>
+                                        <th>{{ __('Tur') }}</th>
+                                        <th>{{ __('Tarih') }}</th>
+                                        <th>{{ __('Yolcu') }}</th>
+                                        <th>{{ __('Toplam') }}</th>
+                                        <th>{{ __('Durum') }}</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -358,7 +358,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <span class="badge badge-secondary" style="font-size:12px;padding:5px 10px;border-radius:12px;">{{ $ticket->total_passengers ?? 0 }} kişi</span>
+                                                <span class="badge badge-secondary" style="font-size:12px;padding:5px 10px;border-radius:12px;">{{ __(':count kişi', ['count' => $ticket->total_passengers ?? 0]) }}</span>
                                             </td>
                                             <td>
                                                 @php
@@ -380,28 +380,28 @@
                                             </td>
                                             <td>
                                                 @if($ticket->is_active)
-                                                    <span class="badge badge-success" style="font-size:12px;padding:5px 12px;border-radius:12px;">Aktif</span>
+                                                    <span class="badge badge-success" style="font-size:12px;padding:5px 12px;border-radius:12px;">{{ __('Aktif') }}</span>
                                                 @else
-                                                    <span class="badge badge-danger" style="font-size:12px;padding:5px 12px;border-radius:12px;">Pasif</span>
+                                                    <span class="badge badge-danger" style="font-size:12px;padding:5px 12px;border-radius:12px;">{{ __('Pasif') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div style="display:flex;gap:6px;justify-content:flex-end;">
-                                                    <a href="{{ route('admin.tickets.show', $ticket) }}" 
-                                                       class="ticket-action-btn ticket-action-info" title="Görüntüle">
+                                                    <a href="{{ route('admin.tickets.show', $ticket) }}"
+                                                       class="ticket-action-btn ticket-action-info" title="{{ __('Görüntüle') }}">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('admin.tickets.edit', $ticket) }}" 
-                                                       class="ticket-action-btn ticket-action-warning" title="Düzenle">
+                                                    <a href="{{ route('admin.tickets.edit', $ticket) }}"
+                                                       class="ticket-action-btn ticket-action-warning" title="{{ __('Düzenle') }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('admin.tickets.destroy', $ticket) }}" 
+                                                    <form action="{{ route('admin.tickets.destroy', $ticket) }}"
                                                           method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="ticket-action-btn ticket-action-danger" 
-                                                                onclick="return confirm('Bu bileti silmek istediğinize emin misiniz?')"
-                                                                title="Sil">
+                                                        <button type="submit" class="ticket-action-btn ticket-action-danger"
+                                                                onclick="return confirm('{{ __('Bu bileti silmek istediğinize emin misiniz?') }}')"
+                                                                title="{{ __('Sil') }}">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -411,7 +411,7 @@
                                     @empty
                                         <!-- made by @hllgkx.0 -->
                                         <tr>
-                                            <td colspan="8" class="text-center">Henüz bilet eklenmemiş.</td>
+                                            <td colspan="8" class="text-center">{{ __('Henüz bilet eklenmemiş.') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -449,7 +449,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border: none;
+            border: 1px solid rgba(255,255,255,.22);
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 13px;
@@ -460,24 +461,27 @@
             text-decoration: none;
         }
         .ticket-action-info {
-            background: #17a2b8;
-            color: #fff;
+            background: rgba(6,182,212,.16);
+            border-color: rgba(34,211,238,.75);
+            color: #67e8f9;
         }
         .ticket-action-info:hover {
             background: #138496;
             color: #fff;
         }
         .ticket-action-warning {
-            background: #ffc107;
-            color: #212529;
+            background: rgba(245,158,11,.16);
+            border-color: rgba(251,191,36,.78);
+            color: #fcd34d;
         }
         .ticket-action-warning:hover {
             background: #e0a800;
             color: #212529;
         }
         .ticket-action-danger {
-            background: #dc3545;
-            color: #fff;
+            background: rgba(239,68,68,.14);
+            border-color: rgba(248,113,113,.78);
+            color: #fca5a5;
         }
         .ticket-action-danger:hover {
             background: #c82333;
@@ -1042,6 +1046,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+    const ticketsI18n = {!! json_encode([
+        'showing' => __(':shown / :total bilet gösteriliyor'),
+        'noResults' => __(':term için sonuç bulunamadı'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     try {
         $('.select2').select2({ 
             theme: 'bootstrap4', 
@@ -1085,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', function(){
             });
             
             if (searchTerm) {
-                ticketSearchInfo.textContent = `${visibleCount} / ${totalRows} bilet gösteriliyor`;
+                ticketSearchInfo.textContent = ticketsI18n.showing.replace(':shown', visibleCount).replace(':total', totalRows);
                 ticketSearchInfo.style.display = 'block';
                 ticketSearchClear.style.display = 'flex';
             } else {
@@ -1099,7 +1107,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 if (!noResultRow) {
                     const tr = document.createElement('tr');
                     tr.className = 'no-search-result';
-                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>"' + searchTerm + '" için sonuç bulunamadı</td>';
+                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>' + ticketsI18n.noResults.replace(':term', '"' + searchTerm + '"') + '</td>';
                     ticketTableBody.appendChild(tr);
                 }
             } else if (noResultRow) {

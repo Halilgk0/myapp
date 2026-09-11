@@ -542,7 +542,7 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    mapboxgl.accessToken = @json($mapboxToken);
+    mapboxgl.accessToken = {!! json_encode($mapboxToken, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
     const defaultCenter = [28.2722, 36.8500]; // Marmaris
     const defaultZoom = 12;
@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }), 'top-right');
 
     const allCards = document.querySelectorAll('.dr-ticket-card');
-    const todayStr = @json($today);
+    const todayStr = {!! json_encode($today, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     let activeDay = todayStr;
     let dayMarkers = {}; // date → [{marker, popup, card, lngLat, isStart, order, el}]
 
@@ -740,7 +740,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const stepGps = document.getElementById('dr-step-gps');
     const stepLocate = document.getElementById('dr-step-locate');
     const tripToast = document.getElementById('dr-trip-toast');
-    const locationUrl = @json(route('driver.location.update'));
+    const locationUrl = {!! json_encode(route('driver.location.update'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
     let watchId = null;

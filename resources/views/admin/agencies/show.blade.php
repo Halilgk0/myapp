@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Acenta Detayı')
+@section('title', __('Acenta Detayı'))
 
 @section('content')
 @php
@@ -11,29 +11,29 @@
         <!-- Agency Information -->
         <div class="col-md-8">
             <!-- Basic Info Card -->
-            <div class="card">
+            <div class="ad-card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-building mr-1"></i>
-                        Acenta Bilgileri
+                        {{ __('Acenta Bilgileri') }}
                     </h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.agencies.edit', $agency) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit mr-1"></i>
-                            Düzenle
+                            {{ __('Düzenle') }}
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <table class="table table-bordered table-striped">
+                            <table class="ad-table table table-bordered table-striped">
                                 <tr>
-                                    <th style="width: 40%">Acenta Adı:</th>
+                                    <th style="width: 40%">{{ __('Acenta Adı') }}:</th>
                                     <td>{{ $agency->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Kullanıcı:</th>
+                                    <th>{{ __('Kullanıcı') }}:</th>
                                     <td>
                                         @if($agency->user)
                                             <strong>{{ $agency->user->name }}</strong><br>
@@ -41,13 +41,13 @@
                                                 ID: <code>{{ $agency->user->id }}</code> • {{ $agency->user->email }}
                                             </small>
                                         @else
-                                            <span class="text-muted">Kullanıcı bağlantısı yok</span>
+                                            <span class="text-muted">{{ __('Kullanıcı bağlantısı yok') }}</span>
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>İletişim Kişisi:</th>
-                                    <td>{{ $agency->contact_person ?? 'Belirtilmemiş' }}</td>
+                                    <th>{{ __('İletişim Kişisi') }}:</th>
+                                    <td>{{ $agency->contact_person ?? __('Belirtilmemiş') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Email:</th>
@@ -55,26 +55,26 @@
                                         @if($agency->email)
                                             <a href="mailto:{{ $agency->email }}">{{ $agency->email }}</a>
                                         @else
-                                            Belirtilmemiş
+                                            {{ __('Belirtilmemiş') }}
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Telefon:</th>
+                                    <th>{{ __('Telefon') }}:</th>
                                     <td>
                                         @if($agency->phone)
                                             <a href="tel:{{ $agency->phone }}">{{ $agency->phone }}</a>
                                         @else
-                                            Belirtilmemiş
+                                            {{ __('Belirtilmemiş') }}
                                         @endif
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <div class="col-md-6">
-                            <table class="table table-bordered table-striped">
+                            <table class="ad-table table table-bordered table-striped">
                                 <tr>
-                                    <th style="width: 40%">Website:</th>
+                                    <th style="width: 40%">{{ __('Website') }}:</th>
                                     <td>
                                         @if($agency->website)
                                             <a href="{{ $agency->website }}" target="_blank" class="btn btn-link btn-sm p-0">
@@ -82,12 +82,12 @@
                                                 {{ $agency->website }}
                                             </a>
                                         @else
-                                            Belirtilmemiş
+                                            {{ __('Belirtilmemiş') }}
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Komisyon Oranı:</th>
+                                    <th>{{ __('Komisyon Oranı') }}:</th>
                                     <td>
                                         <span class="badge badge-info badge-lg">
                                             {{ $agency->formatted_commission_rate }}
@@ -95,21 +95,21 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Durum:</th>
+                                    <th>{{ __('Durum') }}:</th>
                                     <td>
                                         @if($agency->is_active)
                                             <span class="badge badge-success badge-lg">
-                                                <i class="fas fa-check mr-1"></i>Aktif
+                                                <i class="fas fa-check mr-1"></i>{{ __('Aktif') }}
                                             </span>
                                         @else
                                             <span class="badge badge-danger badge-lg">
-                                                <i class="fas fa-times mr-1"></i>Pasif
+                                                <i class="fas fa-times mr-1"></i>{{ __('Pasif') }}
                                             </span>
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Kayıt Tarihi:</th>
+                                    <th>{{ __('Kayıt Tarihi') }}:</th>
                                     <td>{{ $agency->created_at->format('d.m.Y H:i') }}</td>
                                 </tr>
                             </table>
@@ -119,7 +119,7 @@
                     @if($agency->address)
                         <div class="row mt-3">
                             <div class="col-12">
-                                <h6><i class="fas fa-map-marker-alt mr-1"></i> Adres:</h6>
+                                <h6><i class="fas fa-map-marker-alt mr-1"></i> {{ __('Adres') }}:</h6>
                                 <p class="bg-light p-3 rounded">{{ $agency->address }}</p>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                     @if($agency->notes)
                         <div class="row mt-3">
                             <div class="col-12">
-                                <h6><i class="fas fa-sticky-note mr-1"></i> Notlar:</h6>
+                                <h6><i class="fas fa-sticky-note mr-1"></i> {{ __('Notlar') }}:</h6>
                                 <p class="bg-light p-3 rounded">{{ $agency->notes }}</p>
                             </div>
                         </div>
@@ -137,32 +137,32 @@
             </div>
 
             <!-- Recent Tickets Card -->
-            <div class="card">
+            <div class="ad-card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-ticket-alt mr-1"></i>
-                        Son Biletler ({{ $agency->tickets->count() }})
+                        {{ __('Son Biletler (:count)', ['count' => $agency->tickets->count()]) }}
                     </h3>
                     @if($agency->tickets->count() > 0)
                         <div class="card-tools">
                             <span class="badge badge-info">
-                                Toplam {{ $agency->tickets_count ?? $agency->tickets->count() }} bilet
+                                {{ __(':count bilet', ['count' => $agency->tickets_count ?? $agency->tickets->count()]) }}
                             </span>
                         </div>
                     @endif
                 </div>
                 <div class="card-body table-responsive p-0">
                     @if($agency->tickets->count() > 0)
-                        <table class="table table-hover text-nowrap">
+                        <table class="ad-table table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                    <th>Takip No</th>
-                                    <th>Müşteri</th>
-                                    <th>Tur</th>
-                                    <th>Tarih</th>
-                                    <th>Toplam Fiyat</th>
-                                    <th>Durum</th>
-                                    <th>İşlemler</th>
+                                    <th>{{ __('Takip No') }}</th>
+                                    <th>{{ __('Müşteri') }}</th>
+                                    <th>{{ __('Tur') }}</th>
+                                    <th>{{ __('Tarih') }}</th>
+                                    <th>{{ __('Toplam Fiyat') }}</th>
+                                    <th>{{ __('Durum') }}</th>
+                                    <th>{{ __('İşlemler') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -178,10 +178,10 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $ticket->tour_name ?? 'Tur belirtilmemiş' }}
+                                            {{ $ticket->tour_name ?? __('Tur belirtilmemiş') }}
                                         </td>
                                         <td>
-                                            {{ $ticket->tour_date ? $ticket->tour_date->format('d.m.Y') : 'Tarih yok' }}
+                                            {{ $ticket->tour_date ? $ticket->tour_date->format('d.m.Y') : __('Tarih yok') }}
                                         </td>
                                         <td>
                                             <span class="badge badge-success">
@@ -190,15 +190,15 @@
                                         </td>
                                         <td>
                                             @if($ticket->is_active)
-                                                <span class="badge badge-success">Aktif</span>
+                                                <span class="badge badge-success">{{ __('Aktif') }}</span>
                                             @else
-                                                <span class="badge badge-secondary">Pasif</span>
+                                                <span class="badge badge-secondary">{{ __('Pasif') }}</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.tickets.show', $ticket) }}" 
-                                               class="btn btn-info btn-sm" 
-                                               title="Bilet Detayı">
+                                            <a href="{{ route('admin.tickets.show', $ticket) }}"
+                                               class="btn btn-info btn-sm"
+                                               title="{{ __('Bilet Detayı') }}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
@@ -209,8 +209,8 @@
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Henüz bilet bulunmamaktadır</h5>
-                            <p class="text-muted">Bu acenta henüz hiç bilet oluşturmamış.</p>
+                            <h5 class="text-muted">{{ __('Henüz bilet bulunmamaktadır') }}</h5>
+                            <p class="text-muted">{{ __('Bu acenta henüz hiç bilet oluşturmamış.') }}</p>
                         </div>
                     @endif
                 </div>
@@ -224,14 +224,14 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-share-alt mr-1"></i>
-                            Tur Paylaşımı
+                            {{ __('Tur Paylaşımı') }}
                         </h3>
                         <div class="card-tools d-flex align-items-center">
                             <span class="badge badge-primary mr-2" id="selected-tour-counter">
-                                {{ count($sharedTourIds) }} tur seçili
+                                {{ __(':count tur seçili', ['count' => count($sharedTourIds)]) }}
                             </span>
                             <button type="button" class="btn btn-xs btn-outline-primary" id="select-all-tours-btn">
-                                <i class="fas fa-check-double mr-1"></i> Tüm turları seç
+                                <i class="fas fa-check-double mr-1"></i> {{ __('Tüm turları seç') }}
                             </button>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                             @if($ownedTours->isEmpty())
                                 <div class="text-center py-4">
                                     <i class="fas fa-plane text-muted fa-2x mb-2"></i>
-                                    <p class="text-muted mb-0">Henüz paylaşılabilir turunuz yok.</p>
+                                    <p class="text-muted mb-0">{{ __('Henüz paylaşılabilir turunuz yok.') }}</p>
                                 </div>
                             @else
                                 <!-- Arama çubuğu -->
@@ -258,10 +258,10 @@
                                                 <i class="fas fa-search text-muted"></i>
                                             </span>
                                         </div>
-                                        <input type="text" 
-                                               class="form-control" 
-                                               id="tour-search-input" 
-                                               placeholder="Tur ismi ara..."
+                                        <input type="text"
+                                               class="form-control"
+                                               id="tour-search-input"
+                                               placeholder="{{ __('Tur ismi ara...') }}"
                                                autocomplete="off">
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-outline-secondary" id="tour-search-clear" style="display:none;">
@@ -276,12 +276,12 @@
                                     <small class="text-muted mt-1 d-block" id="tour-count-info">
                                         @if($ownedTours->count() > 6)
                                             @if($sharedCount > 0)
-                                                {{ min($sharedCount, 6) }} seçili tur + {{ max(0, $visibleCount - min($sharedCount, 6)) }} önerilen gösteriliyor (Toplam: {{ $ownedTours->count() }})
+                                                {{ __(':selected seçili tur + :suggested önerilen gösteriliyor (Toplam: :total)', ['selected' => min($sharedCount, 6), 'suggested' => max(0, $visibleCount - min($sharedCount, 6)), 'total' => $ownedTours->count()]) }}
                                             @else
-                                                En çok biletli {{ $visibleCount }} tur gösteriliyor (Toplam: {{ $ownedTours->count() }})
+                                                {{ __('En çok biletli :count tur gösteriliyor (Toplam: :total)', ['count' => $visibleCount, 'total' => $ownedTours->count()]) }}
                                             @endif
                                         @else
-                                            {{ $ownedTours->count() }} tur listeleniyor
+                                            {{ __(':count tur listeleniyor', ['count' => $ownedTours->count()]) }}
                                         @endif
                                     </small>
                                 </div>
@@ -311,13 +311,13 @@
                                                 <div>
                                                     <strong>{{ $tour->name }}</strong>
                                                     <div class="small text-muted">
-                                                        {{ $tour->tickets_count ?? 0 }} bilet •
-                                                        {{ $tour->is_active ? 'Aktif' : 'Pasif' }}
+                                                        {{ __(':count bilet', ['count' => $tour->tickets_count ?? 0]) }} •
+                                                        {{ $tour->is_active ? __('Aktif') : __('Pasif') }}
                                                     </div>
                                                     @if($hasCustomPrice && $customMaxPrice > 0)
                                                         <span class="badge badge-warning mt-1 tour-custom-indicator">
                                                             <i class="fas fa-star mr-1"></i>
-                                                            Özel: {{ number_format($customMaxPrice, 2) }} {{ $customCurrency }}
+                                                            {{ __('Özel: :price :currency', ['price' => number_format($customMaxPrice, 2), 'currency' => $customCurrency]) }}
                                                         </span>
                                                     @endif
                                                 </div>
@@ -343,7 +343,7 @@
                                                         data-tour-name="{{ $tour->name }}"
                                                         data-fetch-url="{{ route('admin.agencies.tour-sharing.pricing.show', [$agency, $tour]) }}"
                                                         data-save-url="{{ route('admin.agencies.tour-sharing.pricing.update', [$agency, $tour]) }}">
-                                                    <i class="fas fa-tags mr-1"></i> Özel fiyat gir
+                                                    <i class="fas fa-tags mr-1"></i> {{ __('Özel fiyat gir') }}
                                                 </button>
                                             </div>
                                         </label>
@@ -352,14 +352,14 @@
                                 @if($ownedTours->count() > 6)
                                 <button type="button" class="show-all-tours-btn" id="show-all-tours-btn">
                                     <i class="fas fa-chevron-down"></i>
-                                    <span>Tüm Turları Göster ({{ $ownedTours->count() - 6 }} daha)</span>
+                                    <span>{{ __('Tüm Turları Göster (:count daha)', ['count' => $ownedTours->count() - 6]) }}</span>
                                 </button>
                                 @endif
                             @endif
                         </div>
                         <div class="card-footer text-right">
                             <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-save mr-1"></i> Paylaşımı Kaydet
+                                <i class="fas fa-save mr-1"></i> {{ __('Paylaşımı Kaydet') }}
                             </button>
                         </div>
                     </form>
@@ -367,7 +367,7 @@
             @elseif($agency->user)
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle mr-1"></i>
-                    Tur paylaşımı yalnızca bağlantı kurduğunuz acentalar için kullanılabilir.
+                    {{ __('Tur paylaşımı yalnızca bağlantı kurduğunuz acentalar için kullanılabilir.') }}
                 </div>
             @endif
             <!-- Quick Actions Card -->
@@ -375,22 +375,22 @@
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-bolt mr-1"></i>
-                        Hızlı İşlemler
+                        {{ __('Hızlı İşlemler') }}
                     </h3>
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="{{ route('admin.agencies.edit', $agency) }}" class="btn btn-warning w-100">
                             <i class="fas fa-edit mr-1"></i>
-                            Düzenle
+                            {{ __('Düzenle') }}
                         </a>
                         <a href="{{ route('admin.tickets.create') }}?agency_id={{ $agency->id }}" class="btn btn-primary w-100">
                             <i class="fas fa-plus mr-1"></i>
-                            Yeni Bilet Ekle
+                            {{ __('Yeni Bilet Ekle') }}
                         </a>
                         <a href="{{ route('admin.agencies.index') }}" class="btn btn-secondary w-100">
                             <i class="fas fa-list mr-1"></i>
-                            Acenta Listesi
+                            {{ __('Acenta Listesi') }}
                         </a>
                     </div>
                 </div>
@@ -401,7 +401,7 @@
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-chart-pie mr-1"></i>
-                        İstatistikler
+                        {{ __('İstatistikler') }}
                     </h3>
                 </div>
                 <div class="card-body">
@@ -410,7 +410,7 @@
                             <i class="fas fa-ticket-alt"></i>
                         </span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Toplam Bilet</span>
+                            <span class="info-box-text">{{ __('Toplam Bilet') }}</span>
                             <span class="info-box-number">{{ $agency->tickets_count ?? $agency->tickets->count() }}</span>
                         </div>
                     </div>
@@ -420,7 +420,7 @@
                             <i class="fas fa-money-bill-wave"></i>
                         </span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Komisyon Oranı</span>
+                            <span class="info-box-text">{{ __('Komisyon Oranı') }}</span>
                             <span class="info-box-number">{{ $agency->formatted_commission_rate }}</span>
                         </div>
                     </div>
@@ -430,8 +430,8 @@
                             <i class="fas fa-calendar"></i>
                         </span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Üyelik Süresi</span>
-                            <span class="info-box-number">{{ $agency->created_at->diffInDays(now()) }} gün</span>
+                            <span class="info-box-text">{{ __('Üyelik Süresi') }}</span>
+                            <span class="info-box-number">{{ __(':count gün', ['count' => $agency->created_at->diffInDays(now())]) }}</span>
                         </div>
                     </div>
                 </div>
@@ -443,7 +443,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-address-book mr-1"></i>
-                            İletişim
+                            {{ __('İletişim') }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -462,7 +462,7 @@
                         @if($agency->website)
                             <p>
                                 <i class="fas fa-globe mr-2"></i>
-                                <a href="{{ $agency->website }}" target="_blank">Website'yi Ziyaret Et</a>
+                                <a href="{{ $agency->website }}" target="_blank">{{ __("Website'yi Ziyaret Et") }}</a>
                             </p>
                         @endif
                     </div>
@@ -481,33 +481,33 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-tags mr-1"></i>
-                    Özel Fiyat: <span data-field="tour-name">-</span>
+                    {{ __('Özel Fiyat') }}: <span data-field="tour-name">-</span>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle mr-1"></i>
-                    Bu takvimde belirlediğiniz fiyatlar yalnızca <strong data-field="agency-name">{{ $agency->name }}</strong> için geçerlidir. Turun genel fiyatları değişmez.
+                    {!! __('Bu takvimde belirlediğiniz fiyatlar yalnızca :agency için geçerlidir. Turun genel fiyatları değişmez.', ['agency' => '<strong data-field="agency-name">' . $agency->name . '</strong>']) !!}
                 </div>
                 <div id="sharing-modal-feedback" class="alert d-none"></div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="d-flex flex-wrap align-items-center text-muted small mb-2">
-                            <div class="mr-3">Seçili gün: <strong id="sharing-stat-selected-days">0</strong></div>
-                            <div class="mr-3">Fiyatlanan gün: <strong id="sharing-stat-priced-days">0</strong></div>
-                            <div class="mr-3">Para birimi: <strong id="sharing-current-currency">-</strong></div>
+                            <div class="mr-3">{{ __('Seçili gün') }}: <strong id="sharing-stat-selected-days">0</strong></div>
+                            <div class="mr-3">{{ __('Fiyatlanan gün') }}: <strong id="sharing-stat-priced-days">0</strong></div>
+                            <div class="mr-3">{{ __('Para birimi') }}: <strong id="sharing-current-currency">-</strong></div>
                             <div class="ml-auto">
-                                <button type="button" class="btn btn-xs btn-outline-secondary mr-1" id="sharing-clear-selection" title="Seçimi temizle">
-                                    <i class="fas fa-times mr-1"></i> Seçimi Temizle
+                                <button type="button" class="btn btn-xs btn-outline-secondary mr-1" id="sharing-clear-selection" title="{{ __('Seçimi temizle') }}">
+                                    <i class="fas fa-times mr-1"></i> {{ __('Seçimi Temizle') }}
                                 </button>
-                                <button type="button" class="btn btn-xs btn-outline-danger" id="sharing-delete-selected" title="Seçili günlerin fiyatını sil">
-                                    <i class="fas fa-trash mr-1"></i> Seçilileri Sil
+                                <button type="button" class="btn btn-xs btn-outline-danger" id="sharing-delete-selected" title="{{ __('Seçili günlerin fiyatını sil') }}">
+                                    <i class="fas fa-trash mr-1"></i> {{ __('Seçilileri Sil') }}
                                 </button>
                             </div>
                         </div>
                         <div class="alert alert-light border" id="sharing-availability-summary">
-                            Henüz seçim yapılmadı.
+                            {{ __('Henüz seçim yapılmadı.') }}
                         </div>
                         <div class="year-planner mb-3" id="sharing-year-planner"></div>
                         <div class="selected-dates-container" id="sharing-selected-list" style="display:none"></div>
@@ -518,67 +518,67 @@
                 <input type="hidden" id="sharing-currency">
                 <div id="sharing-weekday-popup" class="weekday-popup" style="display:none">
                     <div class="d-flex flex-wrap" style="gap:6px;">
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="1">Pzt</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="2">Sal</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="3">Çar</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="4">Per</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="5">Cum</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="6">Cmt</button>
-                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="7">Paz</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="1">{{ __('Pzt') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="2">{{ __('Sal') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="3">{{ __('Çar') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="4">{{ __('Per') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="5">{{ __('Cum') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="6">{{ __('Cmt') }}</button>
+                        <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="7">{{ __('Paz') }}</button>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-2">
-                        <small class="text-muted">İki tarih arasında gösterilen günleri seçin.</small>
-                        <button type="button" class="btn btn-xs btn-link p-0" id="sharing-weekday-close">Kapat</button>
+                        <small class="text-muted">{{ __('İki tarih arasında gösterilen günleri seçin.') }}</small>
+                        <button type="button" class="btn btn-xs btn-link p-0" id="sharing-weekday-close">{{ __('Kapat') }}</button>
                     </div>
                 </div>
                 <div id="sharing-price-popup" class="weekday-popup" style="display:none; width:280px;">
-                    <div class="mb-2"><strong><i class="fas fa-tags mr-1"></i> Fiyat Bilgileri</strong></div>
-                    <p class="small text-muted mb-2">Seçili günlere özel fiyat uygulayın. Boş alanlar 0 kabul edilir.</p>
+                    <div class="mb-2"><strong><i class="fas fa-tags mr-1"></i> {{ __('Fiyat Bilgileri') }}</strong></div>
+                    <p class="small text-muted mb-2">{{ __('Seçili günlere özel fiyat uygulayın. Boş alanlar 0 kabul edilir.') }}</p>
                     <select class="form-control form-control-sm mb-2" id="sharing-price-currency">
-                        <option value="TRY">₺ Türk Lirası (TRY)</option>
-                        <option value="USD">$ Amerikan Doları (USD)</option>
+                        <option value="TRY">₺ {{ __('Türk Lirası') }} (TRY)</option>
+                        <option value="USD">$ {{ __('Amerikan Doları') }} (USD)</option>
                         <option value="EUR">€ Euro (EUR)</option>
-                        <option value="GBP">£ İngiliz Sterlini (GBP)</option>
-                        <option value="RUB">₽ Rus Rublesi (RUB)</option>
+                        <option value="GBP">£ {{ __('İngiliz Sterlini') }} (GBP)</option>
+                        <option value="RUB">₽ {{ __('Rus Rublesi') }} (RUB)</option>
                     </select>
-                    <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="sharing-price-adult" placeholder="Yetişkin (₺)">
-                    <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="sharing-price-child" placeholder="Çocuk (₺)">
-                    <input type="number" step="0.01" class="form-control form-control-sm mb-3" id="sharing-price-infant" placeholder="Bebek (₺)">
+                    <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="sharing-price-adult" placeholder="{{ __('Yetişkin') }} (₺)">
+                    <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="sharing-price-child" placeholder="{{ __('Çocuk') }} (₺)">
+                    <input type="number" step="0.01" class="form-control form-control-sm mb-3" id="sharing-price-infant" placeholder="{{ __('Bebek') }} (₺)">
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-xs btn-primary" id="sharing-apply-price">
-                            <i class="fas fa-check mr-1"></i> Uygula
+                            <i class="fas fa-check mr-1"></i> {{ __('Uygula') }}
                         </button>
                         <button type="button" class="btn btn-xs btn-outline-secondary" id="sharing-price-reset">
-                            <i class="fas fa-eraser mr-1"></i> Temizle
+                            <i class="fas fa-eraser mr-1"></i> {{ __('Temizle') }}
                         </button>
-                        <button type="button" class="btn btn-xs btn-link" id="sharing-price-close">Kapat</button>
+                        <button type="button" class="btn btn-xs btn-link" id="sharing-price-close">{{ __('Kapat') }}</button>
                     </div>
                 </div>
                 <div id="sharing-planner-menu" class="sharing-planner-menu" style="display:none">
                     <button type="button" class="btn btn-xs btn-outline-primary" id="sharing-menu-fill">
-                        <i class="fas fa-fill-drip mr-1"></i> Arayı Doldur
+                        <i class="fas fa-fill-drip mr-1"></i> {{ __('Arayı Doldur') }}
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-danger" id="sharing-menu-clear">
-                        <i class="fas fa-times mr-1"></i> Temizle
+                        <i class="fas fa-times mr-1"></i> {{ __('Temizle') }}
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-secondary" id="sharing-menu-weekday">
-                        <i class="fas fa-calendar-day mr-1"></i> Özel Tarih
+                        <i class="fas fa-calendar-day mr-1"></i> {{ __('Özel Tarih') }}
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-success" id="sharing-menu-price">
-                        <i class="fas fa-tags mr-1"></i> Fiyat Ekle
+                        <i class="fas fa-tags mr-1"></i> {{ __('Fiyat Ekle') }}
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-warning" id="sharing-menu-clear-prices">
-                        <i class="fas fa-trash mr-1"></i> Fiyatı Kaldır
+                        <i class="fas fa-trash mr-1"></i> {{ __('Fiyatı Kaldır') }}
                     </button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger mr-auto" id="sharing-reset-prices">
-                    <i class="fas fa-undo mr-1"></i> Özel fiyatı sıfırla
+                    <i class="fas fa-undo mr-1"></i> {{ __('Özel fiyatı sıfırla') }}
                 </button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Kapat') }}</button>
                 <button type="button" class="btn btn-primary" id="sharing-save-prices">
-                    <i class="fas fa-save mr-1"></i> Kaydet
+                    <i class="fas fa-save mr-1"></i> {{ __('Kaydet') }}
                 </button>
             </div>
         </div>
@@ -912,10 +912,49 @@
 
 @push('js')
 <script>
+const sharingI18n = {!! json_encode([
+    'monthSelect' => __('Seç'),
+    'monthClear' => __('Temizle'),
+    'weekdays' => [__('Pzt'), __('Sal'), __('Çar'), __('Per'), __('Cum'), __('Cmt'), __('Paz')],
+    'months' => [__('Ocak'), __('Şubat'), __('Mart'), __('Nisan'), __('Mayıs'), __('Haziran'), __('Temmuz'), __('Ağustos'), __('Eylül'), __('Ekim'), __('Kasım'), __('Aralık')],
+    'noPricesUpdated' => __('Özel fiyatlar yüklenemedi.'),
+    'unknownError' => __('Bilinmeyen bir hata oluştu.'),
+    'needTwoDatesForWeekday' => __('Özel tarih için önce en az iki tarih seçmelisiniz.'),
+    'needRangeForWeekday' => __('Özel tarih uygulamak için önce aralık seçin.'),
+    'needTwoDatesForFill' => __('Arayı doldurmak için en az iki tarih seçmelisiniz.'),
+    'selectDaysFirst' => __('Önce takvimden gün seçin.'),
+    'enterPositivePrice' => __("En az bir fiyat alanına 0'dan büyük değer girin."),
+    'priceAppliedFor' => __(':count gün için fiyat uygulandı (:currency).'),
+    'noSelectedDays' => __('Seçili gün bulunmuyor.'),
+    'selectionCleared' => __('Seçim temizlendi.'),
+    'noPricesToDelete' => __('Silinecek fiyat bulunmuyor.'),
+    'daysPriceDeleted' => __(':count günün fiyatı silindi.'),
+    'saveError' => __('Kaydedilirken hata oluştu.'),
+    'pricesRemovedForSelected' => __('Seçili günlerdeki fiyatlar kaldırıldı.'),
+    'noCustomPriceOnSelected' => __('Seçili günlerde özel fiyat bulunamadı.'),
+    'noSelectionMade' => __('Henüz seçim yapılmadı.'),
+    'daysSelected' => __(':count gün seçildi'),
+    'daysPriced' => __(':count gün fiyatlandırıldı'),
+    'adultLabel' => __('Yetişkin'),
+    'childLabel' => __('Çocuk'),
+    'infantLabel' => __('Bebek'),
+    'confirmResetPrices' => __('Bu acenta için girilmiş tüm özel fiyatları silmek istediğinize emin misiniz?'),
+    'specialLabel' => __('Özel'),
+    'toursSelected' => __(':count tur seçili'),
+    'showAllTours' => __('Tüm Turları Göster (:count daha)'),
+    'showLess' => __('Daha Az Göster'),
+    'allToursShowing' => __('Tüm :count tur gösteriliyor'),
+    'toursListed' => __(':count tur listeleniyor'),
+    'selectedPlusSuggested' => __(':selected seçili tur + :suggested önerilen gösteriliyor (Toplam: :total)'),
+    'selectedShowing' => __(':count seçili tur gösteriliyor (Toplam: :total)'),
+    'mostBookedShowing' => __('En çok biletli :count tur gösteriliyor (Toplam: :total)'),
+    'noMatchFound' => __(':query ile eşleşen tur bulunamadı'),
+    'toursFound' => __(':count tur bulundu'),
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 (function($){
     function formatDate(dateStr) {
         const date = new Date(dateStr + 'T00:00:00');
-        return date.toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' });
+        return date.toLocaleDateString({!! json_encode(app()->getLocale() === 'en' ? 'en-US' : 'tr-TR', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}, { day: '2-digit', month: 'short', year: 'numeric' });
     }
 
     function parseLocalDate(isoString) {
@@ -1128,9 +1167,9 @@
                 const curr = $(this).val();
                 const symbols = { 'TRY': '₺', 'USD': '$', 'EUR': '€', 'GBP': '£', 'RUB': '₽' };
                 const symbol = symbols[curr] || curr;
-                $('#sharing-price-adult').attr('placeholder', 'Yetişkin (' + symbol + ')');
-                $('#sharing-price-child').attr('placeholder', 'Çocuk (' + symbol + ')');
-                $('#sharing-price-infant').attr('placeholder', 'Bebek (' + symbol + ')');
+                $('#sharing-price-adult').attr('placeholder', sharingI18n.adultLabel + ' (' + symbol + ')');
+                $('#sharing-price-child').attr('placeholder', sharingI18n.childLabel + ' (' + symbol + ')');
+                $('#sharing-price-infant').attr('placeholder', sharingI18n.infantLabel + ' (' + symbol + ')');
             });
 
             $('#sharing-save-prices').on('click', function(){
@@ -1138,7 +1177,7 @@
             });
 
             $('#sharing-reset-prices').on('click', function(){
-                if (confirm('Bu acenta için girilmiş tüm özel fiyatları silmek istediğinize emin misiniz?')) {
+                if (confirm(sharingI18n.confirmResetPrices)) {
                     self.save(true);
                 }
             });
@@ -1146,13 +1185,13 @@
             // Seçimi temizle butonu
             $('#sharing-clear-selection').on('click', function(){
                 if (!self.selectedDates.size) {
-                    self.showFeedback('Seçili gün bulunmuyor.', false);
+                    self.showFeedback(sharingI18n.noSelectedDays, false);
                     return;
                 }
                 self.selectedDates = new Set();
                 self.rangeAnchors = [];
                 self.syncState();
-                self.showFeedback('Seçim temizlendi.', true);
+                self.showFeedback(sharingI18n.selectionCleared, true);
             });
 
             // Seçili günlerin fiyatını sil butonu
@@ -1161,7 +1200,7 @@
                 if (!self.selectedDates.size) {
                     const pricedDates = Object.keys(self.priceMap);
                     if (!pricedDates.length) {
-                        self.showFeedback('Silinecek fiyat bulunmuyor.', false);
+                        self.showFeedback(sharingI18n.noPricesToDelete, false);
                         return;
                     }
                     self.selectedDates = new Set(pricedDates);
@@ -1174,7 +1213,7 @@
                 self.rangeAnchors = [];
                 self.refreshAutoSelected();
                 self.syncState();
-                self.showFeedback(count + ' günün fiyatı silindi.', true);
+                self.showFeedback(sharingI18n.daysPriceDeleted.replace(':count', count), true);
             });
         },
         refreshAutoSelected() {
@@ -1207,7 +1246,7 @@
             fetch(this.fetchUrl, { headers: self.headers() })
                 .then(resp => {
                     if (!resp.ok) {
-                        throw new Error('Özel fiyatlar yüklenemedi.');
+                        throw new Error(sharingI18n.noPricesUpdated);
                     }
                     return resp.json();
                 })
@@ -1232,7 +1271,7 @@
                 })
                 .catch(err => {
                     self.toggleLoading(false);
-                    self.showFeedback(err.message || 'Bilinmeyen bir hata oluştu.', false);
+                    self.showFeedback(err.message || sharingI18n.unknownError, false);
                 });
         },
         rememberAnchor(date) {
@@ -1274,7 +1313,7 @@
         openWeekdayPopup($trigger) {
             const pair = this.getRangePair();
             if (!pair) {
-                this.showFeedback('Özel tarih için önce en az iki tarih seçmelisiniz.', false);
+                this.showFeedback(sharingI18n.needTwoDatesForWeekday, false);
                 return;
             }
             this.currentWeekdayPair = pair;
@@ -1344,9 +1383,9 @@
         },
         updatePricePlaceholders() {
             const symbol = this.getCurrencySymbol();
-            $('#sharing-price-adult').attr('placeholder', `Yetişkin (${symbol})`);
-            $('#sharing-price-child').attr('placeholder', `Çocuk (${symbol})`);
-            $('#sharing-price-infant').attr('placeholder', `Bebek (${symbol})`);
+            $('#sharing-price-adult').attr('placeholder', `${sharingI18n.adultLabel} (${symbol})`);
+            $('#sharing-price-child').attr('placeholder', `${sharingI18n.childLabel} (${symbol})`);
+            $('#sharing-price-infant').attr('placeholder', `${sharingI18n.infantLabel} (${symbol})`);
         },
         getCurrencySymbol(currency) {
             const curr = (currency || this.currency || 'TRY').toUpperCase();
@@ -1356,7 +1395,7 @@
         applyWeekdayFilter(day, isActive) {
             const pair = this.currentWeekdayPair || this.getRangePair();
             if (!pair) {
-                this.showFeedback('Özel tarih uygulamak için önce aralık seçin.', false);
+                this.showFeedback(sharingI18n.needRangeForWeekday, false);
                 this.hideWeekdayPopup();
                 return;
             }
@@ -1409,7 +1448,7 @@
         },
         fillRange() {
             if (this.selectedDates.size < 2) {
-                this.showFeedback('Arayı doldurmak için en az iki tarih seçmelisiniz.', false);
+                this.showFeedback(sharingI18n.needTwoDatesForFill, false);
                 return;
             }
             const sorted = Array.from(this.selectedDates).sort();
@@ -1461,7 +1500,7 @@
         },
         applyPrice() {
             if (!this.selectedDates.size) {
-                this.showFeedback('Önce takvimden gün seçin.', false);
+                this.showFeedback(sharingI18n.selectDaysFirst, false);
                 return;
             }
             const adult = parseFloat($('#sharing-price-adult').val()) || 0;
@@ -1469,7 +1508,7 @@
             const infant = parseFloat($('#sharing-price-infant').val()) || 0;
             const currency = $('#sharing-price-currency').val() || this.currency || 'TRY';
             if (adult <= 0 && child <= 0 && infant <= 0) {
-                this.showFeedback('En az bir fiyat alanına 0\'dan büyük değer girin.', false);
+                this.showFeedback(sharingI18n.enterPositivePrice, false);
                 return;
             }
             this.ensureRangeFilledForPricing();
@@ -1482,7 +1521,7 @@
             this.rangeAnchors = [];
             this.refreshAutoSelected();
             this.syncState();
-            this.showFeedback(appliedCount + ' gün için fiyat uygulandı (' + currency + ').', true);
+            this.showFeedback(sharingI18n.priceAppliedFor.replace(':count', appliedCount).replace(':currency', currency), true);
             this.hidePricePopup();
             // Fiyat input'larını temizle
             $('#sharing-price-adult,#sharing-price-child,#sharing-price-infant').val('');
@@ -1505,7 +1544,7 @@
             }
         },
         renderPlanner() {
-            const months=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+            const months = sharingI18n.months;
             const year = new Date().getFullYear();
             let html = '';
             for (let month=1; month<=12; month++) {
@@ -1515,8 +1554,8 @@
                 const offset = dow === 0 ? -6 : 1 - dow;
                 start.setDate(start.getDate() + offset);
                 html += '<div class="yp-card">';
-                html += `<div class="yp-header"><span>${months[month-1]}</span><div><button type="button" class="btn btn-xs btn-outline-success month-select" data-month="${month}">Seç</button> <button type="button" class="btn btn-xs btn-outline-danger month-clear" data-month="${month}">Temizle</button></div></div>`;
-                html += '<div class="yp-weekdays"><div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div></div>';
+                html += `<div class="yp-header"><span>${months[month-1]}</span><div><button type="button" class="btn btn-xs btn-outline-success month-select" data-month="${month}">${sharingI18n.monthSelect}</button> <button type="button" class="btn btn-xs btn-outline-danger month-clear" data-month="${month}">${sharingI18n.monthClear}</button></div></div>`;
+                html += '<div class="yp-weekdays">' + sharingI18n.weekdays.map(d => `<div>${d}</div>`).join('') + '</div>';
                 html += '<div class="yp-grid">';
                 for (let i=0;i<42;i++){
                     const d = new Date(start); d.setDate(start.getDate()+i);
@@ -1559,16 +1598,16 @@
             $('#sharing-stat-selected-days').text(this.selectedDates.size);
             $('#sharing-stat-priced-days').text(Object.keys(this.priceMap).length);
             if (!this.selectedDates.size && !Object.keys(this.priceMap).length) {
-                $('#sharing-availability-summary').text('Henüz seçim yapılmadı.');
+                $('#sharing-availability-summary').text(sharingI18n.noSelectionMade);
                 return;
             }
             const parts = [];
             if (this.selectedDates.size) {
-                parts.push(this.selectedDates.size + ' gün seçildi');
+                parts.push(sharingI18n.daysSelected.replace(':count', this.selectedDates.size));
             }
             const priced = Object.keys(this.priceMap).length;
             if (priced) {
-                parts.push(priced + ' gün fiyatlandırıldı');
+                parts.push(sharingI18n.daysPriced.replace(':count', priced));
             }
             $('#sharing-availability-summary').text(parts.join(' · '));
         },
@@ -1595,7 +1634,7 @@
                 self.toggleLoading(false);
                 if (!resp.ok) {
                     return resp.json().then(err => {
-                        throw new Error(err.message || 'Kaydedilirken hata oluştu.');
+                        throw new Error(err.message || sharingI18n.saveError);
                     });
                 }
                 return resp.json();
@@ -1608,7 +1647,7 @@
                 self.updateListRow(data.custom_price);
             })
             .catch(err => {
-                self.showFeedback(err.message || 'Kaydedilirken hata oluştu.', false);
+                self.showFeedback(err.message || sharingI18n.saveError, false);
             });
         },
         updateListRow(customPrice) {
@@ -1632,9 +1671,9 @@
                     .attr('data-custom-currency', customPrice.currency);
 
                 if (!$row.find('.tour-custom-indicator').length) {
-                    $row.find('strong').first().after(`<span class="badge badge-warning mt-1 tour-custom-indicator"><i class="fas fa-star mr-1"></i> Özel: ${text}</span>`);
+                    $row.find('strong').first().after(`<span class="badge badge-warning mt-1 tour-custom-indicator"><i class="fas fa-star mr-1"></i> ${sharingI18n.specialLabel}: ${text}</span>`);
                 } else {
-                    $row.find('.tour-custom-indicator').html(`<i class="fas fa-star mr-1"></i> Özel: ${text}`);
+                    $row.find('.tour-custom-indicator').html(`<i class="fas fa-star mr-1"></i> ${sharingI18n.specialLabel}: ${text}`);
                 }
                 $checkbox.prop('checked', true).trigger('change');
             } else {
@@ -1665,7 +1704,7 @@
         },
         clearPricesForSelection() {
             if (!this.selectedDates.size) {
-                this.showFeedback('Önce takvimden gün seçin.', false);
+                this.showFeedback(sharingI18n.selectDaysFirst, false);
                 return;
             }
             let removed = false;
@@ -1678,10 +1717,10 @@
             if (removed) {
                 this.refreshAutoSelected();
                 this.syncState();
-                this.showFeedback('Seçili günlerdeki fiyatlar kaldırıldı.', true);
+                this.showFeedback(sharingI18n.pricesRemovedForSelected, true);
                 this.hidePricePopup();
             } else {
-                this.showFeedback('Seçili günlerde özel fiyat bulunamadı.', false);
+                this.showFeedback(sharingI18n.noCustomPriceOnSelected, false);
             }
         },
         getAnchorCell() {
@@ -1785,7 +1824,7 @@
         const $counter = $('#selected-tour-counter');
         function refreshCounter() {
             const count = $('.tour-share-checkbox:checked').length;
-            $counter.text(count + ' tur seçili');
+            $counter.text(sharingI18n.toursSelected.replace(':count', count));
         }
         refreshCounter();
 
@@ -1821,17 +1860,17 @@
             const suggestedCount = Math.max(0, Math.min(defaultVisibleCount, totalTours) - selectedCount);
             
             if (totalTours <= defaultVisibleCount) {
-                return totalTours + ' tur listeleniyor';
+                return sharingI18n.toursListed.replace(':count', totalTours);
             }
-            
+
             if (selectedCount > 0) {
                 if (suggestedCount > 0) {
-                    return selectedCount + ' seçili tur + ' + suggestedCount + ' önerilen gösteriliyor (Toplam: ' + totalTours + ')';
+                    return sharingI18n.selectedPlusSuggested.replace(':selected', selectedCount).replace(':suggested', suggestedCount).replace(':total', totalTours);
                 } else {
-                    return selectedCount + ' seçili tur gösteriliyor (Toplam: ' + totalTours + ')';
+                    return sharingI18n.selectedShowing.replace(':count', selectedCount).replace(':total', totalTours);
                 }
             } else {
-                return 'En çok biletli ' + Math.min(defaultVisibleCount, totalTours) + ' tur gösteriliyor (Toplam: ' + totalTours + ')';
+                return sharingI18n.mostBookedShowing.replace(':count', Math.min(defaultVisibleCount, totalTours)).replace(':total', totalTours);
             }
         }
 
@@ -1868,9 +1907,9 @@
             // Bilgi mesajını güncelle
             if (isSearching) {
                 if (matchCount === 0) {
-                    $countInfo.text('"' + searchTerm + '" ile eşleşen tur bulunamadı');
+                    $countInfo.text(sharingI18n.noMatchFound.replace(':query', '"' + searchTerm + '"'));
                 } else {
-                    $countInfo.text(matchCount + ' tur bulundu');
+                    $countInfo.text(sharingI18n.toursFound.replace(':count', matchCount));
                 }
             } else {
                 $countInfo.text(getDefaultInfoText());
@@ -1896,8 +1935,8 @@
             if (showingAll) {
                 // Tüm turları göster
                 $tourRows.show();
-                $(this).html('<i class="fas fa-chevron-up"></i> <span>Daha Az Göster</span>');
-                $countInfo.text('Tüm ' + totalTours + ' tur gösteriliyor');
+                $(this).html('<i class="fas fa-chevron-up"></i> <span>' + sharingI18n.showLess + '</span>');
+                $countInfo.text(sharingI18n.allToursShowing.replace(':count', totalTours));
             } else {
                 // İlk 6'ya dön
                 $tourRows.each(function(index) {
@@ -1907,10 +1946,10 @@
                         $(this).show();
                     }
                 });
-                $(this).html('<i class="fas fa-chevron-down"></i> <span>Tüm Turları Göster (' + hiddenCount + ' daha)</span>');
+                $(this).html('<i class="fas fa-chevron-down"></i> <span>' + sharingI18n.showAllTours.replace(':count', hiddenCount) + '</span>');
                 $countInfo.text(getDefaultInfoText());
             }
-            
+
             // Aramayı temizle
             $searchInput.val('');
             $searchClear.hide();
@@ -1924,7 +1963,7 @@
             } else {
                 $showAllBtn.show();
                 showingAll = false;
-                $showAllBtn.html('<i class="fas fa-chevron-down"></i> <span>Tüm Turları Göster (' + hiddenCount + ' daha)</span>');
+                $showAllBtn.html('<i class="fas fa-chevron-down"></i> <span>' + sharingI18n.showAllTours.replace(':count', hiddenCount) + '</span>');
             }
         });
     });

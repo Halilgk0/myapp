@@ -1,69 +1,69 @@
 @extends('layouts.admin')
 
-@section('title', 'Araç Detayları')
+@section('title', __('Araç Detayları'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Araç Bilgileri</h3>
+                        <h3 class="card-title">{{ __('Araç Bilgileri') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <dl>
-                                    <dt>Plaka Numarası</dt>
+                                    <dt>{{ __('Plaka Numarası') }}</dt>
                                     <dd><strong>{{ $vehicle->plate_number }}</strong></dd>
-                                    
-                                    <dt>Marka</dt>
+
+                                    <dt>{{ __('Marka') }}</dt>
                                     <dd>{{ $vehicle->brand }}</dd>
-                                    
-                                    <dt>Model</dt>
+
+                                    <dt>{{ __('Model') }}</dt>
                                     <dd>{{ $vehicle->model }}</dd>
-                                    
-                                    <dt>Araç Türü</dt>
+
+                                    <dt>{{ __('Araç Türü') }}</dt>
                                     <dd>{{ $vehicle->vehicle_type }}</dd>
-                                    
-                                    <dt>Renk</dt>
+
+                                    <dt>{{ __('Renk') }}</dt>
                                     <dd>{{ $vehicle->color }}</dd>
                                 </dl>
                             </div>
                             <div class="col-md-6">
                                 <dl>
-                                    <dt>Kapasite</dt>
-                                    <dd>{{ $vehicle->capacity }} kişi</dd>
-                                    
-                                    <dt>Durum</dt>
+                                    <dt>{{ __('Kapasite') }}</dt>
+                                    <dd>{{ __(':count kişi', ['count' => $vehicle->capacity]) }}</dd>
+
+                                    <dt>{{ __('Durum') }}</dt>
                                     <dd>
                                         @if($vehicle->is_active)
-                                            <span class="badge badge-success">Aktif</span>
+                                            <span class="badge badge-success">{{ __('Aktif') }}</span>
                                         @else
-                                            <span class="badge badge-danger">Pasif</span>
+                                            <span class="badge badge-danger">{{ __('Pasif') }}</span>
                                         @endif
                                     </dd>
-                                    
-                                    <dt>Şoför</dt>
+
+                                    <dt>{{ __('Şoför') }}</dt>
                                     <dd>
                                         @if($vehicle->driver)
                                             <span class="badge badge-info">{{ $vehicle->driver->name }}</span>
                                             <br><small class="text-muted">{{ $vehicle->driver->phone_number }}</small>
                                         @else
-                                            <span class="badge badge-secondary">Atanmamış</span>
+                                            <span class="badge badge-secondary">{{ __('Atanmamış') }}</span>
                                         @endif
                                     </dd>
-                                    
-                                    <dt>Oluşturulma Tarihi</dt>
+
+                                    <dt>{{ __('Oluşturulma Tarihi') }}</dt>
                                     <dd>{{ $vehicle->created_at->format('d.m.Y H:i') }}</dd>
                                 </dl>
                             </div>
                         </div>
-                        
+
                         @if($vehicle->notes)
                         <div class="row mt-3">
                             <div class="col-12">
-                                <dt>Notlar</dt>
+                                <dt>{{ __('Notlar') }}</dt>
                                 <dd>{{ $vehicle->notes }}</dd>
                             </div>
                         </div>
@@ -72,9 +72,9 @@
                 </div>
 
                 @if($vehicle->image)
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Araç Resmi</h3>
+                        <h3 class="card-title">{{ __('Araç Resmi') }}</h3>
                     </div>
                     <div class="card-body text-center">
                         <img src="{{ asset('storage/' . $vehicle->image) }}" 
@@ -87,23 +87,23 @@
 
             <div class="col-md-4">
                 <!-- İstatistikler -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">İstatistikler</h3>
+                        <h3 class="card-title">{{ __('İstatistikler') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="info-box">
                             <span class="info-box-icon bg-info"><i class="fas fa-ticket-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Toplam Bilet</span>
+                                <span class="info-box-text">{{ __('Toplam Bilet') }}</span>
                                 <span class="info-box-number">{{ $vehicle->tickets()->count() }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="info-box">
                             <span class="info-box-icon bg-success"><i class="fas fa-map-marker-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Konum Kayıtları</span>
+                                <span class="info-box-text">{{ __('Konum Kayıtları') }}</span>
                                 <span class="info-box-number">{{ $vehicle->locations()->count() }}</span>
                             </div>
                         </div>
@@ -113,9 +113,9 @@
                             <div class="info-box">
                                 <span class="info-box-icon bg-primary"><i class="fas fa-crosshairs"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Son Konum
+                                    <span class="info-box-text">{{ __('Son Konum') }}
                                         @if($lastLoc->recorded_at && $lastLoc->recorded_at->gt(now()->subMinutes(2)))
-                                            <span class="badge badge-success ml-1" style="font-size:9px;">CANLI</span>
+                                            <span class="badge badge-success ml-1" style="font-size:9px;">{{ __('CANLI') }}</span>
                                         @endif
                                     </span>
                                     <span class="info-box-number" style="font-size:13px;">
@@ -130,13 +130,13 @@
                                 </div>
                             </div>
                         @endif
-                        
+
                         <div class="info-box">
                             <span class="info-box-icon bg-warning"><i class="fas fa-clock"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Son Güncelleme</span>
+                                <span class="info-box-text">{{ __('Son Güncelleme') }}</span>
                                 <span class="info-box-number">
-                                    {{ optional($vehicle->updated_at)->diffForHumans() ?? 'Bilinmiyor' }}
+                                    {{ optional($vehicle->updated_at)->diffForHumans() ?? __('Bilinmiyor') }}
                                 </span>
                             </div>
                         </div>
@@ -144,9 +144,9 @@
                 </div>
 
                 <!-- Son Biletler -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Son Biletler</h3>
+                        <h3 class="card-title">{{ __('Son Biletler') }}</h3>
                     </div>
                     <div class="card-body">
                         @forelse($vehicle->tickets()->latest()->take(5)->get() as $ticket)
@@ -158,7 +158,7 @@
                             <span class="badge badge-info">{{ $ticket->tour_date->format('d.m.Y') }}</span>
                         </div>
                         @empty
-                        <p class="text-muted">Henüz bilet atanmamış.</p>
+                        <p class="text-muted">{{ __('Henüz bilet atanmamış.') }}</p>
                         @endforelse
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Acenta Ağı')
-@section('page_title', 'Acenta Ağı')
+@section('title', __('Acenta Ağı'))
+@section('page_title', __('Acenta Ağı'))
 
 @section('content')
 <div class="row">
@@ -9,13 +9,13 @@
         <div class="card mb-3">
             <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-2">
                 <div>
-                    <h5 class="mb-1">Acenta Ağ Yönetimi</h5>
+                    <h5 class="mb-1">{{ __('Acenta Ağ Yönetimi') }}</h5>
                     <small class="text-muted">
-                        Kullanıcı ID'niz:
+                        {{ __("Kullanıcı ID'niz") }}:
                         <code id="network-user-id">{{ $user->id }}</code>
                     </small>
                 </div>
-                <button class="btn btn-outline-primary btn-sm" id="copy-network-user-id" type="button">ID'yi Kopyala</button>
+                <button class="btn btn-outline-primary btn-sm" id="copy-network-user-id" type="button">{{ __("ID'yi Kopyala") }}</button>
             </div>
         </div>
     </div>
@@ -23,30 +23,30 @@
     <div class="col-lg-5">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Acenta Arama ve İstek Gönder</h3>
+                <h3 class="card-title">{{ __('Acenta Arama ve İstek Gönder') }}</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('agencies.requests.store') }}" method="POST" id="send-request-form">
                     @csrf
                     <div class="form-group position-relative">
-                        <label for="target_user_id">Acenta ID / Ad / E-posta</label>
+                        <label for="target_user_id">{{ __('Acenta ID / Ad / E-posta') }}</label>
                         <input type="text"
                                name="target_user_id"
                                id="target_user_id"
                                class="form-control @error('target_user_id') is-invalid @enderror"
                                autocomplete="off"
-                               placeholder="Arama yapın...">
+                               placeholder="{{ __('Arama yapın...') }}">
                         @error('target_user_id')
                             <span class="invalid-feedback d-block">{{ $message }}</span>
                         @enderror
-                        <small class="form-text text-muted">Eşleşen kullanıcıyı listeden seçin.</small>
+                        <small class="form-text text-muted">{{ __('Eşleşen kullanıcıyı listeden seçin.') }}</small>
                         <div id="user-search-suggestions" class="list-group position-absolute w-100 shadow-sm" style="z-index:1050; display:none;"></div>
                     </div>
 
                     <div id="selected-user-info" class="alert alert-success py-2 px-3" style="display:none;"></div>
 
                     <button type="submit" class="btn btn-primary w-100 w-100" id="send-request-button" disabled>
-                        İstek Gönder
+                        {{ __('İstek Gönder') }}
                     </button>
                 </form>
             </div>
@@ -56,7 +56,7 @@
     <div class="col-lg-7">
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title mb-0">Gönderilen Bekleyen İstekler</h3>
+                <h3 class="card-title mb-0">{{ __('Gönderilen Bekleyen İstekler') }}</h3>
                 <span class="badge badge-secondary">{{ $outgoingRequests->count() }}</span>
             </div>
             <div class="card-body p-0">
@@ -66,21 +66,21 @@
                             <div><strong>{{ $requestItem->target->name }}</strong></div>
                             <small class="text-muted">ID: {{ $requestItem->target->id }}</small>
                         </div>
-                        <form action="{{ route('agencies.requests.withdraw', $requestItem) }}" method="POST" onsubmit="return confirm('Bu isteği geri çekmek istiyor musunuz?');">
+                        <form action="{{ route('agencies.requests.withdraw', $requestItem) }}" method="POST" onsubmit="return confirm({!! json_encode(__('Bu isteği geri çekmek istiyor musunuz?'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!});">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-outline-danger btn-sm" type="submit">Geri Çek</button>
+                            <button class="btn btn-outline-danger btn-sm" type="submit">{{ __('Geri Çek') }}</button>
                         </form>
                     </div>
                 @empty
-                    <div class="p-3 text-muted">Bekleyen gönderilmiş istek yok.</div>
+                    <div class="p-3 text-muted">{{ __('Bekleyen gönderilmiş istek yok.') }}</div>
                 @endforelse
             </div>
         </div>
 
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title mb-0">Gelen İstekler</h3>
+                <h3 class="card-title mb-0">{{ __('Gelen İstekler') }}</h3>
                 <span class="badge badge-primary">{{ $incomingRequests->count() }}</span>
             </div>
             <div class="card-body p-0">
@@ -93,16 +93,16 @@
                         <div class="d-flex gap-2">
                             <form action="{{ route('agencies.requests.accept', $requestItem) }}" method="POST">
                                 @csrf
-                                <button class="btn btn-success btn-sm" type="submit">Kabul</button>
+                                <button class="btn btn-success btn-sm" type="submit">{{ __('Kabul') }}</button>
                             </form>
                             <form action="{{ route('agencies.requests.reject', $requestItem) }}" method="POST">
                                 @csrf
-                                <button class="btn btn-danger btn-sm" type="submit">Reddet</button>
+                                <button class="btn btn-danger btn-sm" type="submit">{{ __('Reddet') }}</button>
                             </form>
                         </div>
                     </div>
                 @empty
-                    <div class="p-3 text-muted">Gelen bekleyen istek yok.</div>
+                    <div class="p-3 text-muted">{{ __('Gelen bekleyen istek yok.') }}</div>
                 @endforelse
             </div>
         </div>
@@ -112,6 +112,10 @@
 
 @section('js')
 <script>
+const networkI18n = {!! json_encode([
+    'copied' => __('Kopyalandi'),
+    'selected' => __('secildi.'),
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 document.addEventListener('DOMContentLoaded', function () {
     const copyBtn = document.getElementById('copy-network-user-id');
     const userIdElement = document.getElementById('network-user-id');
@@ -124,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         copyBtn.addEventListener('click', function () {
             navigator.clipboard.writeText((userIdElement.textContent || '').trim()).then(() => {
                 const original = copyBtn.textContent;
-                copyBtn.textContent = 'Kopyalandi';
+                copyBtn.textContent = networkI18n.copied;
                 setTimeout(() => { copyBtn.textContent = original; }, 1200);
             });
         });
@@ -167,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.value = id || '';
         hideSuggestions();
         selectedInfo.style.display = 'block';
-        selectedInfo.innerHTML = `<strong>${name}</strong> secildi. <small>${email}${agency ? ' • ' + agency : ''}</small>`;
+        selectedInfo.innerHTML = `<strong>${name}</strong> ${networkI18n.selected} <small>${email}${agency ? ' • ' + agency : ''}</small>`;
         sendButton.disabled = false;
     }
 

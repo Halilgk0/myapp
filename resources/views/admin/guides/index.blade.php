@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Rehber Yönetimi')
+@section('title', __('Rehber Yönetimi'))
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <!-- Modern Kontrol Paneli -->
-            <div class="guides-control-panel mb-2">
+            <div class="guides-control-panel ad-page-header admin-list-toolbar mb-3">
                 <div class="control-left">
-                    <h4 class="control-title"><i class="fas fa-user-tie"></i> Rehber Yönetimi</h4>
-                    <p class="control-subtitle">Toplam {{ $guides->count() }} rehber</p>
+                    <h4 class="control-title"><i class="fas fa-user-tie"></i> {{ __('Rehber Yönetimi') }}</h4>
+                    <p class="control-subtitle">{{ __('Toplam :count rehber', ['count' => $guides->count()]) }}</p>
                 </div>
                 <div class="control-center">
                     <div class="search-box">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="guide-search" class="search-input" placeholder="Rehber ara...">
+                        <input type="text" id="guide-search" class="search-input" placeholder="{{ __('Rehber ara...') }}">
                         <button type="button" id="guide-search-clear" class="search-clear" style="display: none;">
                             <i class="fas fa-times"></i>
                         </button>
@@ -25,25 +25,25 @@
                 <div class="control-right">
                     <div class="control-item">
                         <a href="{{ route('admin.guides.create') }}" class="btn btn-sm btn-light">
-                            <i class="fas fa-plus"></i> Yeni Rehber
+                            <i class="fas fa-plus"></i> {{ __('Yeni Rehber') }}
                         </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="card">
+
+            <div class="ad-card">
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
+                    <table class="ad-table table table-hover text-nowrap">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Ad Soyad</th>
-                                <th>E-posta</th>
-                                <th>Telefon</th>
-                                <th>Desteklenen Milliyetler</th>
-                                <th>Atanmış Şoförler</th>
-                                <th>Durum</th>
-                                <th>İşlemler</th>
+                                <th>{{ __('Ad Soyad') }}</th>
+                                <th>{{ __('E-posta') }}</th>
+                                <th>{{ __('Telefon') }}</th>
+                                <th>{{ __('Desteklenen Milliyetler') }}</th>
+                                <th>{{ __('Atanmış Şoförler') }}</th>
+                                <th>{{ __('Durum') }}</th>
+                                <th>{{ __('İşlemler') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,16 +60,16 @@
                                     </td>
                                     <td>
                                         <span class="badge badge-secondary">
-                                            {{ $guide->drivers->count() }} Şoför
+                                            {{ __(':count Şoför', ['count' => $guide->drivers->count()]) }}
                                         </span>
                                     </td>
                                     <td>
                                         @if($guide->status == 'Aktif')
-                                            <span class="badge badge-success">{{ $guide->status }}</span>
+                                            <span class="badge badge-success">{{ __('Aktif') }}</span>
                                         @elseif($guide->status == 'İzinli')
-                                            <span class="badge badge-warning">{{ $guide->status }}</span>
+                                            <span class="badge badge-warning">{{ __('İzinli') }}</span>
                                         @else
-                                            <span class="badge badge-danger">{{ $guide->status }}</span>
+                                            <span class="badge badge-danger">{{ __($guide->status) }}</span>
                                         @endif
                                     </td>
                                     <td>
@@ -83,7 +83,7 @@
                                             <form action="{{ route('admin.guides.destroy', $guide) }}" method="POST" style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bu rehberi silmek istediğinizden emin misiniz?')">
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm({!! json_encode(__('Bu rehberi silmek istediğinizden emin misiniz?'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!})">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -92,7 +92,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">Henüz rehber bulunmamaktadır.</td>
+                                    <td colspan="8" class="text-center">{{ __('Henüz rehber bulunmamaktadır.') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -140,13 +140,11 @@
 @push('js')
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    @if(session('success'))
-        toastr.success('{{ session('success') }}');
-    @endif
-    @if(session('error'))
-        toastr.error('{{ session('error') }}');
-    @endif
-    
+    const guidesI18n = {!! json_encode([
+        'showing' => __(':shown / :total rehber gösteriliyor'),
+        'notFound' => __(':query için rehber bulunamadı'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+
     // Rehber Arama Fonksiyonu
     const guideSearchInput = document.getElementById('guide-search');
     const guideSearchClear = document.getElementById('guide-search-clear');
@@ -179,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function(){
             });
             
             if (searchTerm) {
-                guideSearchInfo.textContent = `${visibleCount} / ${totalRows} rehber gösteriliyor`;
+                guideSearchInfo.textContent = guidesI18n.showing.replace(':shown', visibleCount).replace(':total', totalRows);
                 guideSearchInfo.style.display = 'block';
                 guideSearchClear.style.display = 'flex';
             } else {
@@ -193,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 if (!noResultRow) {
                     const tr = document.createElement('tr');
                     tr.className = 'no-search-result';
-                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>"' + searchTerm + '" için rehber bulunamadı</td>';
+                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>' + guidesI18n.notFound.replace(':query', '"' + searchTerm + '"') + '</td>';
                     guideTableBody.appendChild(tr);
                 }
             } else if (noResultRow) {

@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Şoför Yönetimi')
+@section('title', __('Şoför Yönetimi'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <!-- Modern Kontrol Paneli -->
-                <div class="drivers-control-panel mb-2">
+                <div class="drivers-control-panel ad-page-header admin-list-toolbar mb-3">
                     <div class="control-left">
-                        <h4 class="control-title"><i class="fas fa-id-card-alt"></i> Şoför Yönetimi</h4>
-                        <p class="control-subtitle">Toplam {{ $drivers->total() }} şoför</p>
+                        <h4 class="control-title"><i class="fas fa-id-card-alt"></i> {{ __('Şoför Yönetimi') }}</h4>
+                        <p class="control-subtitle">{{ __('Toplam :count şoför', ['count' => $drivers->total()]) }}</p>
                     </div>
                     <div class="control-center">
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="driver-search" class="search-input" placeholder="Şoför ara...">
+                            <input type="text" id="driver-search" class="search-input" placeholder="{{ __('Şoför ara...') }}">
                             <button type="button" id="driver-search-clear" class="search-clear" style="display: none;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -42,19 +42,19 @@
                         </div>
                         <div class="control-item">
                             <a href="{{ route('admin.drivers.create') }}" class="btn btn-sm btn-light">
-                                <i class="fas fa-plus"></i> Yeni Şoför
+                                <i class="fas fa-plus"></i> {{ __('Yeni Şoför') }}
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="ad-card">
                     <div class="card-body p-0">
                         <!-- Modern Filtre Bölümü -->
                         <div class="modern-filters-wrapper">
                             <button type="button" class="filter-toggle-btn" id="filterToggle">
                                 <i class="fas fa-sliders-h mr-2"></i>
-                                <span>Filtreler</span>
+                                <span>{{ __('Filtreler') }}</span>
                                 @php
                                     $activeFilters = 0;
                                     if(request('filter_status')) $activeFilters++;
@@ -76,11 +76,11 @@
                                                 <i class="fas fa-toggle-on"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Durum</label>
+                                                <label class="filter-label">{{ __('Durum') }}</label>
                                                 <select class="filter-select" name="filter_status">
-                                                    <option value="">Tümü</option>
-                                                    <option value="active" {{ request('filter_status')==='active' ? 'selected' : '' }}>Aktif</option>
-                                                    <option value="inactive" {{ request('filter_status')==='inactive' ? 'selected' : '' }}>Pasif</option>
+                                                    <option value="">{{ __('Tümü') }}</option>
+                                                    <option value="active" {{ request('filter_status')==='active' ? 'selected' : '' }}>{{ __('Aktif') }}</option>
+                                                    <option value="inactive" {{ request('filter_status')==='inactive' ? 'selected' : '' }}>{{ __('Pasif') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -90,11 +90,11 @@
                                                 <i class="fas fa-car"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Araç Ataması</label>
+                                                <label class="filter-label">{{ __('Araç Ataması') }}</label>
                                                 <select class="filter-select" name="filter_vehicle">
-                                                    <option value="">Tümü</option>
-                                                    <option value="with" {{ request('filter_vehicle')==='with' ? 'selected' : '' }}>Araçlı</option>
-                                                    <option value="without" {{ request('filter_vehicle')==='without' ? 'selected' : '' }}>Araçsız</option>
+                                                    <option value="">{{ __('Tümü') }}</option>
+                                                    <option value="with" {{ request('filter_vehicle')==='with' ? 'selected' : '' }}>{{ __('Araçlı') }}</option>
+                                                    <option value="without" {{ request('filter_vehicle')==='without' ? 'selected' : '' }}>{{ __('Araçsız') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -104,18 +104,18 @@
                                                 <i class="fas fa-search"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Ara</label>
-                                                <input type="text" class="filter-input" id="driversQuickSearch" name="q" placeholder="Şoför Adı" value="{{ request('q') }}">
+                                                <label class="filter-label">{{ __('Ara') }}</label>
+                                                <input type="text" class="filter-input" id="driversQuickSearch" name="q" placeholder="{{ __('Şoför Adı') }}" value="{{ request('q') }}">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="filter-actions">
                                         <a href="{{ route('admin.drivers.index', ['per_page'=>request('per_page', $perPage ?? 10)]) }}" class="filter-btn filter-btn-clear">
-                                            <i class="fas fa-times-circle mr-1"></i> Temizle
+                                            <i class="fas fa-times-circle mr-1"></i> {{ __('Temizle') }}
                                         </a>
                                         <button type="submit" class="filter-btn filter-btn-apply">
-                                            <i class="fas fa-check-circle mr-1"></i> Uygula
+                                            <i class="fas fa-check-circle mr-1"></i> {{ __('Uygula') }}
                                         </button>
                                     </div>
                                 </form>
@@ -125,19 +125,19 @@
                         <div class="p-3">
                         <div class="table-scroll-top" id="drivers-scroll-top"><div></div></div>
                         <div class="table-responsive" id="drivers-table-wrapper">
-                            <table class="table table-bordered table-striped" id="drivers-table">
+                            <table class="ad-table table table-bordered table-striped" id="drivers-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Ad Soyad</th>
-                                        <th>E-posta</th>
-                                        <th>Telefon</th>
-                                        <th>Desteklenen Milliyetler</th>
-                                        <th>Atanmış Araç</th>
-                                        <th>Maaş</th>
-                                        <th>Durum</th>
-                                        <th>Son Giriş</th>
-                                        <th>İşlemler</th>
+                                        <th>{{ __('Ad Soyad') }}</th>
+                                        <th>{{ __('E-posta') }}</th>
+                                        <th>{{ __('Telefon') }}</th>
+                                        <th>{{ __('Desteklenen Milliyetler') }}</th>
+                                        <th>{{ __('Atanmış Araç') }}</th>
+                                        <th>{{ __('Maaş') }}</th>
+                                        <th>{{ __('Durum') }}</th>
+                                        <th>{{ __('Son Giriş') }}</th>
+                                        <th>{{ __('İşlemler') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -147,16 +147,16 @@
                                             <td>
                                                 <strong class="driver-name">{{ $driver->name }}</strong>
                                                 @if($driver->is_active)
-                                                    <span class="badge badge-success ml-1">Aktif</span>
+                                                    <span class="badge badge-success ml-1">{{ __('Aktif') }}</span>
                                                 @else
-                                                    <span class="badge badge-danger ml-1">Pasif</span>
+                                                    <span class="badge badge-danger ml-1">{{ __('Pasif') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 {{ $driver->email }}
                                                 @if($driver->plain_password)
                                                     <br><small class="text-muted">
-                                                        <i class="fas fa-key"></i> Şifre: <code>{{ $driver->plain_password }}</code>
+                                                        <i class="fas fa-key"></i> {{ __('Şifre') }}: <code>{{ $driver->plain_password }}</code>
                                                     </small>
                                                 @endif
                                             </td>
@@ -168,14 +168,14 @@
                                                 @if($driver->vehicle)
                                                     <span class="badge badge-info">{{ $driver->vehicle->plate_number }}</span>
                                                 @else
-                                                    <span class="badge badge-secondary">Araç Atanmamış</span>
+                                                    <span class="badge badge-secondary">{{ __('Araç Atanmamış') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($driver->salary_amount > 0)
                                                     <strong>{{ number_format((float) $driver->salary_amount, 2, ',', '.') }}</strong>
                                                     <small class="text-muted">{{ $driver->salary_currency ?: 'TRY' }}</small>
-                                                    <br><small class="text-muted"><i class="far fa-calendar"></i> Ayın {{ $driver->salary_day ?: 1 }}'i</small>
+                                                    <br><small class="text-muted"><i class="far fa-calendar"></i> {{ __("Ayın :day'i", ['day' => $driver->salary_day ?: 1]) }}</small>
                                                     @if($driver->last_salary_paid_at)
                                                         <br><small class="text-success"><i class="fas fa-check"></i> {{ \Carbon\Carbon::parse($driver->last_salary_paid_at)->format('d.m.Y') }}</small>
                                                     @endif
@@ -185,9 +185,9 @@
                                             </td>
                                             <td>
                                                 @if($driver->is_active)
-                                                    <span class="badge badge-success">Aktif</span>
+                                                    <span class="badge badge-success">{{ __('Aktif') }}</span>
                                                 @else
-                                                    <span class="badge badge-danger">Pasif</span>
+                                                    <span class="badge badge-danger">{{ __('Pasif') }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -195,26 +195,26 @@
                                                     {{ $driver->last_login_at->format('d.m.Y H:i') }}
                                                     <br><small class="text-muted">{{ $driver->last_login_at->diffForHumans() }}</small>
                                                 @else
-                                                    <span class="text-muted">Hiç giriş yapmadı</span>
+                                                    <span class="text-muted">{{ __('Hiç giriş yapmadı') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{ route('admin.drivers.show', $driver) }}" 
-                                                       class="btn btn-sm btn-info" title="Görüntüle">
+                                                    <a href="{{ route('admin.drivers.show', $driver) }}"
+                                                       class="btn btn-sm btn-info" title="{{ __('Görüntüle') }}">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('admin.drivers.edit', $driver) }}" 
-                                                       class="btn btn-sm btn-warning" title="Düzenle">
+                                                    <a href="{{ route('admin.drivers.edit', $driver) }}"
+                                                       class="btn btn-sm btn-warning" title="{{ __('Düzenle') }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('admin.drivers.destroy', $driver) }}" 
+                                                    <form action="{{ route('admin.drivers.destroy', $driver) }}"
                                                           method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" 
-                                                                onclick="return confirm('Bu şoförü silmek istediğinize emin misiniz?')"
-                                                                title="Sil">
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('{{ __('Bu şoförü silmek istediğinize emin misiniz?') }}')"
+                                                                title="{{ __('Sil') }}">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -223,12 +223,12 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="10" class="text-center">Henüz şoför eklenmemiş.</td>
+                                            <td colspan="10" class="text-center">{{ __('Henüz şoför eklenmemiş.') }}</td>
                                         </tr>
                                     @endforelse
                                     @if($drivers->count() > 0)
                                         <tr id="no-drivers-found" style="display: none;">
-                                            <td colspan="10" class="text-center">Bu isimde şoför yok.</td>
+                                            <td colspan="10" class="text-center">{{ __('Bu isimde şoför yok.') }}</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -306,6 +306,9 @@
 @push('js')
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+    const driversI18n = {!! json_encode([
+        'showing' => __(':shown / :total şoför gösteriliyor'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     // Sayfa boyutu butonları
     const group = document.getElementById('drivers-page-size');
     if (group) {
@@ -386,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
         
         if (query) {
-            driverSearchInfo.textContent = `${matches} / ${totalDriverRows} şoför gösteriliyor`;
+            driverSearchInfo.textContent = driversI18n.showing.replace(':shown', matches).replace(':total', totalDriverRows);
             driverSearchInfo.style.display = 'block';
             driverSearchClear.style.display = 'flex';
         } else {

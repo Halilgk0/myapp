@@ -115,6 +115,11 @@
             --topbar-height: 64px;
         }
 
+        /* Tema geçiş animasyonu - renkler aniden değil yumuşak geçsin */
+        html, body, *, *::before, *::after {
+            transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease, fill .25s ease, stroke .25s ease;
+        }
+
         /* Dark Mode */
         html.dark-mode {
             --ag-bg: #0f172a;
@@ -1227,6 +1232,10 @@
             color: var(--ag-text-muted);
         }
 
+        .ag-dropdown-item.ag-info-item { border-left: 3px solid rgba(6, 182, 212, .55); }
+        .ag-dropdown-item.ag-success-item { border-left: 3px solid rgba(52, 211, 153, .6); }
+        .ag-dropdown-item.ag-quote-item { border-left: 3px solid rgba(167, 139, 250, .6); }
+
         /* User Dropdown */
         .ag-user-dropdown {
             min-width: 220px;
@@ -1325,6 +1334,90 @@
         html.dark-mode .dark-mode-icon-sun {
             display: block !important;
             color: #fbbf24;
+        }
+
+        /* Language Switch */
+        .lang-switch-row {
+            justify-content: center;
+            gap: 10px;
+            cursor: default;
+        }
+
+        .lang-symbol {
+            font-size: 17px;
+            line-height: 1;
+            opacity: .45;
+            filter: grayscale(60%);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .lang-switch-row.lang-is-tr .lang-symbol-tr {
+            opacity: 1;
+            filter: none;
+        }
+
+        .lang-switch-row:not(.lang-is-tr) .lang-symbol-en {
+            opacity: 1;
+            filter: none;
+        }
+
+        .lang-switch {
+            width: 40px;
+            height: 22px;
+            background: #cbd5e1;
+            border-radius: 11px;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .lang-switch-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .lang-switch-row.lang-is-tr .lang-switch {
+            background: var(--ag-accent);
+        }
+
+        .lang-switch-row.lang-is-tr .lang-switch-thumb {
+            transform: translateX(18px);
+        }
+
+        /* Language Loading Overlay */
+        .lang-loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--ag-bg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-loading-overlay.show {
+            display: flex;
+        }
+
+        .lang-loading-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ag-text);
+            opacity: 0;
+            transition: opacity .4s ease;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .lang-loading-text.visible {
+            opacity: 1;
         }
 
         /* Pagination */
@@ -1790,6 +1883,15 @@
             color: var(--ag-text-muted) !important;
         }
     </style>
+    <style>
+        .panel-info-toast { position:fixed; right:22px; bottom:22px; z-index:10050; width:min(360px,calc(100vw - 32px)); padding:14px 16px; border:1px solid rgba(96,165,250,.55); border-radius:10px; background:rgba(15,23,42,.96); color:#e2e8f0; box-shadow:0 10px 28px rgba(2,6,23,.35); animation:panelInfoToastIn .25s ease; }
+        .panel-info-toast.success { border-color:rgba(52,211,153,.6); }
+        .panel-info-toast.quote { border-color:rgba(167,139,250,.6); }
+        .panel-info-toast strong { display:block; margin-bottom:4px; font-size:13px; color:#f8fafc; }
+        .panel-info-toast span { font-size:12px; color:#cbd5e1; line-height:1.45; }
+        .panel-info-toast button { position:absolute; top:7px; right:8px; border:0; background:transparent; color:#94a3b8; cursor:pointer; font-size:16px; }
+        @keyframes panelInfoToastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    </style>
     @stack('css')
 </head>
 <body data-user-id="{{ auth()->id() }}"
@@ -1930,6 +2032,7 @@
             <span class="ag-text-muted" style="font-size:12px">{{ $notifications->count() }} bildirim</span>
         </div>
         <div class="ag-dropdown-body">
+            <div id="agInfoNotifications"></div>
             @forelse($notifications as $note)
                 <div class="ag-dropdown-item">
                     <div class="ag-flex ag-justify-between ag-items-center ag-mb-1">
@@ -1996,6 +2099,14 @@
                     <div class="dark-mode-switch-thumb"></div>
                 </div>
             </div>
+            <!-- Language Switch -->
+            <div class="ag-user-dropdown-link lang-switch-row {{ (auth()->user()->locale ?? 'tr') === 'tr' ? 'lang-is-tr' : '' }}" id="languageToggleRow">
+                <span class="lang-symbol lang-symbol-en" title="English">🇬🇧</span>
+                <div class="lang-switch" id="languageToggle" style="cursor:pointer;">
+                    <div class="lang-switch-thumb"></div>
+                </div>
+                <span class="lang-symbol lang-symbol-tr" title="Türkçe">🇹🇷</span>
+            </div>
             <div style="border-top: 1px solid var(--ag-border); margin: 8px 0;"></div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -2008,6 +2119,11 @@
         </div>
     </div>
     @endif
+
+    <!-- Language Switch Loading Overlay -->
+    <div class="lang-loading-overlay" id="langLoadingOverlay">
+        <div class="lang-loading-text" id="langLoadingText"></div>
+    </div>
 
     <!-- Scripts -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -2208,12 +2324,210 @@
                     html.classList.toggle('dark-mode');
                     const isDark = html.classList.contains('dark-mode');
                     localStorage.setItem(darkModeKey, isDark);
-                    
+
                     // Re-initialize Lucide icons for the toggle
                     lucide.createIcons();
                 });
             }
         })();
+
+        // Language Switch - success toast (shown once, right after the reload that applied it)
+        (function () {
+            var FLAG = 'langSwitchNotice';
+            var pending = sessionStorage.getItem(FLAG);
+            if (!pending) return;
+            sessionStorage.removeItem(FLAG);
+            var old = document.querySelector('.panel-info-toast');
+            if (old) old.remove();
+            var toast = document.createElement('div');
+            toast.className = 'panel-info-toast success';
+            toast.innerHTML = '<button type="button" aria-label="Kapat">&times;</button><strong>{{ __('Dil Değiştirildi') }}</strong><span>{{ __('Dil başarıyla değiştirildi.') }}</span>';
+            toast.querySelector('button').addEventListener('click', function () { toast.remove(); });
+            document.body.appendChild(toast);
+            setTimeout(function () { if (toast.isConnected) toast.remove(); }, 8000);
+        })();
+
+        // Language Switch
+        (function () {
+            var row = document.getElementById('languageToggleRow');
+            var switchEl = document.getElementById('languageToggle');
+            var overlay = document.getElementById('langLoadingOverlay');
+            var textEl = document.getElementById('langLoadingText');
+            if (!row || !switchEl || !overlay || !textEl) return;
+
+            var phraseSets = {
+                tr: [
+                    ['Çaylar demleniyor...', 'Her şey hazırlanıyor...'],
+                    ['Simitler fırınlanıyor...', 'Son dokunuşlar yapılıyor...'],
+                    ['Kahve telveyle demleniyor...', 'Neredeyse hazır...'],
+                    ['Misafir odası hazırlanıyor...', 'Birazdan buyurun...'],
+                    ['Lokumlar tepsiye diziliyor...', 'Her şey yoluna giriyor...'],
+                    ['Nazar boncuğu takılıyor...', 'İşte oldu...']
+                ],
+                en: [
+                    ['Brewing the coffee...', 'Getting everything ready...'],
+                    ['Toasting the bagels...', 'Putting on the finishing touches...'],
+                    ['Warming up the kettle...', 'Almost there...'],
+                    ['Setting the table...', 'Just a moment more...'],
+                    ['Preheating the oven...', 'Everything is coming together...'],
+                    ['Fluffing the pillows...', 'All set...']
+                ]
+            };
+
+            function pickPhrases(locale) {
+                var sets = phraseSets[locale] || phraseSets.tr;
+                return sets[Math.floor(Math.random() * sets.length)];
+            }
+
+            function playSequence(locale, onDone) {
+                var seq = pickPhrases(locale);
+                overlay.classList.add('show');
+                var i = 0;
+                function showNext() {
+                    textEl.textContent = seq[i];
+                    textEl.classList.remove('visible');
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () { textEl.classList.add('visible'); });
+                    });
+                    setTimeout(function () {
+                        textEl.classList.remove('visible');
+                        setTimeout(function () {
+                            i++;
+                            if (i < seq.length) {
+                                showNext();
+                            } else {
+                                onDone();
+                            }
+                        }, 400);
+                    }, 1200);
+                }
+                showNext();
+            }
+
+            var switching = false;
+            switchEl.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (switching) return;
+                switching = true;
+                var targetLocale = row.classList.contains('lang-is-tr') ? 'en' : 'tr';
+
+                var sequenceDone = new Promise(function (resolve) {
+                    playSequence(targetLocale, resolve);
+                });
+
+                var saveRequest = fetch('{{ route('language.update') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ locale: targetLocale })
+                });
+
+                Promise.all([sequenceDone, saveRequest]).then(function () {
+                    sessionStorage.setItem('langSwitchNotice', '1');
+                    window.location.reload();
+                }).catch(function () {
+                    sessionStorage.setItem('langSwitchNotice', '1');
+                    window.location.reload();
+                });
+            });
+        })();
+    </script>
+    <script>
+        (function () {
+            var interval = 10 * 60 * 1000;
+            var STORAGE_KEY = 'agency_info_notifications';
+            var MAX_ITEMS = 5;
+            var toneClass = { success: 'ag-success-item', quote: 'ag-quote-item', info: 'ag-info-item' };
+
+            function loadQueue() {
+                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { return []; }
+            }
+            function saveQueue(queue) {
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(queue)); } catch (e) {}
+            }
+            function updateBadge(queue) {
+                var toggle = document.getElementById('notificationToggle');
+                if (!toggle) return;
+                var unseen = queue.filter(function (n) { return !n.seen; }).length;
+                var total = {{ $notificationCount ?? 0 }} + unseen;
+                var badge = toggle.querySelector('.ag-notification-badge');
+                if (total > 0) {
+                    if (!badge) {
+                        badge = document.createElement('span');
+                        badge.className = 'ag-notification-badge';
+                        toggle.appendChild(badge);
+                    }
+                    badge.textContent = total;
+                    badge.style.display = '';
+                } else if (badge) {
+                    badge.style.display = 'none';
+                }
+            }
+            function renderInfoNotifications() {
+                var container = document.getElementById('agInfoNotifications');
+                if (!container) return;
+                var body = container.closest('.ag-dropdown-body');
+                var emptyEl = body ? body.querySelector('.ag-dropdown-empty') : null;
+                var queue = loadQueue();
+                container.innerHTML = queue.map(function (n) {
+                    var cls = toneClass[n.tone] || 'ag-info-item';
+                    return '<div class="ag-dropdown-item ' + cls + '">' +
+                        '<div class="ag-flex ag-justify-between ag-items-center ag-mb-1">' +
+                            '<strong style="font-size:13px">' + n.title + '</strong>' +
+                            '<small class="ag-text-muted">Az önce</small>' +
+                        '</div>' +
+                        '<p class="ag-text-muted ag-mb-1" style="font-size:12px;margin:0">' + n.message + '</p>' +
+                    '</div>';
+                }).join('');
+                if (emptyEl) emptyEl.style.display = queue.length > 0 ? 'none' : '';
+                updateBadge(queue);
+            }
+            function addInfoNotification(note) {
+                var queue = loadQueue();
+                queue.unshift({ title: note.title, message: note.message, tone: note.tone || 'info', seen: false });
+                queue = queue.slice(0, MAX_ITEMS);
+                saveQueue(queue);
+                renderInfoNotifications();
+            }
+            function markInfoNotificationsSeen() {
+                var queue = loadQueue();
+                var changed = false;
+                queue.forEach(function (n) { if (!n.seen) { n.seen = true; changed = true; } });
+                if (changed) { saveQueue(queue); renderInfoNotifications(); }
+            }
+
+            function showPanelInfoToast(note) {
+                var old = document.querySelector('.panel-info-toast');
+                if (old) old.remove();
+                var toast = document.createElement('div');
+                toast.className = 'panel-info-toast ' + (note.tone || 'info');
+                toast.innerHTML = '<button type="button" aria-label="Kapat">&times;</button><strong>' + note.title + '</strong><span>' + note.message + '</span>';
+                toast.querySelector('button').addEventListener('click', function () { toast.remove(); });
+                document.body.appendChild(toast);
+                setTimeout(function () { if (toast.isConnected) toast.remove(); }, 12000);
+            }
+            function pollPanelInfo() {
+                fetch('{{ route('info.notification') }}', { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+                    .then(function (response) { return response.ok ? response.json() : null; })
+                    .then(function (note) {
+                        if (note && note.message) {
+                            showPanelInfoToast(note);
+                            addInfoNotification(note);
+                        }
+                    })
+                    .catch(function () {});
+            }
+
+            renderInfoNotifications();
+            var bellToggle = document.getElementById('notificationToggle');
+            if (bellToggle) bellToggle.addEventListener('click', markInfoNotificationsSeen);
+            setInterval(pollPanelInfo, interval);
+        }());
     </script>
     @stack('js')
     @yield('js')

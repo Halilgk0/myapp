@@ -1,64 +1,64 @@
 @extends('layouts.admin')
 
-@section('title', 'Şoför Detayları')
+@section('title', __('Şoför Detayları'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Şoför Bilgileri</h3>
+                        <h3 class="card-title">{{ __('Şoför Bilgileri') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <dl>
-                                    <dt>Ad Soyad</dt>
+                                    <dt>{{ __('Ad Soyad') }}</dt>
                                     <dd><strong>{{ $driver->name }}</strong></dd>
-                                    
-                                    <dt>E-posta</dt>
+
+                                    <dt>{{ __('E-posta') }}</dt>
                                     <dd>{{ $driver->email }}</dd>
-                                    
-                                    <dt>Telefon</dt>
+
+                                    <dt>{{ __('Telefon') }}</dt>
                                     <dd>{{ $driver->phone_number }}</dd>
-                                    
-                                    <dt>Kullanıcı Seviyesi</dt>
+
+                                    <dt>{{ __('Kullanıcı Seviyesi') }}</dt>
                                     <dd>{{ $driver->level_label }}</dd>
                                 </dl>
                             </div>
                             <div class="col-md-6">
                                 <dl>
-                                    <dt>Durum</dt>
+                                    <dt>{{ __('Durum') }}</dt>
                                     <dd>
                                         @if($driver->is_active)
-                                            <span class="badge badge-success">Aktif</span>
+                                            <span class="badge badge-success">{{ __('Aktif') }}</span>
                                         @else
-                                            <span class="badge badge-danger">Pasif</span>
+                                            <span class="badge badge-danger">{{ __('Pasif') }}</span>
                                         @endif
                                     </dd>
-                                    
-                                    <dt>Atanmış Araç</dt>
+
+                                    <dt>{{ __('Atanmış Araç') }}</dt>
                                     <dd>
                                         @if($driver->vehicle)
                                             <span class="badge badge-info">{{ $driver->vehicle->plate_number }}</span>
                                             <br><small class="text-muted">{{ $driver->vehicle->brand }} {{ $driver->vehicle->model }}</small>
                                         @else
-                                            <span class="badge badge-secondary">Araç Atanmamış</span>
+                                            <span class="badge badge-secondary">{{ __('Araç Atanmamış') }}</span>
                                         @endif
                                     </dd>
-                                    
-                                    <dt>Son Giriş</dt>
+
+                                    <dt>{{ __('Son Giriş') }}</dt>
                                     <dd>
                                         @if($driver->last_login_at)
                                             {{ $driver->last_login_at->format('d.m.Y H:i') }}
                                             <br><small class="text-muted">{{ $driver->last_login_at->diffForHumans() }}</small>
                                         @else
-                                            <span class="text-muted">Hiç giriş yapmadı</span>
+                                            <span class="text-muted">{{ __('Hiç giriş yapmadı') }}</span>
                                         @endif
                                     </dd>
-                                    
-                                    <dt>Kayıt Tarihi</dt>
+
+                                    <dt>{{ __('Kayıt Tarihi') }}</dt>
                                     <dd>{{ $driver->created_at->format('d.m.Y H:i') }}</dd>
                                 </dl>
                             </div>
@@ -67,41 +67,41 @@
                 </div>
                 <!-- şoför giriş bilgileri kartı-->
                 <!-- Giriş Bilgileri -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header bg-info">
                         <h3 class="card-title">
-                            <i class="fas fa-key"></i> Şoför Paneli Giriş Bilgileri
+                            <i class="fas fa-key"></i> {{ __('Şoför Paneli Giriş Bilgileri') }}
                         </h3>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle"></i>
-                            <strong>Bu bilgileri şoföre verin</strong> - Şoför paneline giriş için kullanacak.
+                            <strong>{{ __('Bu bilgileri şoföre verin') }}</strong> - {{ __('Şoför paneline giriş için kullanacak.') }}
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <dl>
-                                    <dt><i class="fas fa-globe"></i> Giriş Adresi</dt>
+                                    <dt><i class="fas fa-globe"></i> {{ __('Giriş Adresi') }}</dt>
                                     <dd>
                                         <code>{{ url('/login') }}</code>
                                         <button class="btn btn-xs btn-outline-primary ml-2" onclick="copyToClipboard('{{ url('/login') }}')">
-                                            <i class="fas fa-copy"></i> Kopyala
+                                            <i class="fas fa-copy"></i> {{ __('Kopyala') }}
                                         </button>
                                     </dd>
-                                    
-                                    <dt><i class="fas fa-envelope"></i> E-posta</dt>
+
+                                    <dt><i class="fas fa-envelope"></i> {{ __('E-posta') }}</dt>
                                     <dd>
                                         <code>{{ $driver->email }}</code>
                                         <button class="btn btn-xs btn-outline-primary ml-2" onclick="copyToClipboard('{{ $driver->email }}')">
-                                            <i class="fas fa-copy"></i> Kopyala
+                                            <i class="fas fa-copy"></i> {{ __('Kopyala') }}
                                         </button>
                                     </dd>
                                 </dl>
                             </div>
                             <div class="col-md-6">
                                 <dl>
-                                    <dt><i class="fas fa-lock"></i> Şifre</dt>
+                                    <dt><i class="fas fa-lock"></i> {{ __('Şifre') }}</dt>
                                     <dd>
                                         @php
                                             $shownPwd = session('reset_password') && session('reset_driver_id') == $driver->id
@@ -112,32 +112,32 @@
                                             <span id="pwd-value" class="bg-warning px-2 py-1" style="font-family:monospace;border-radius:3px;letter-spacing:0.5px;">
                                                 <span id="pwd-text" data-shown="0" data-real="{{ $shownPwd }}">{{ str_repeat('•', max(strlen($shownPwd), 6)) }}</span>
                                             </span>
-                                            <button type="button" class="btn btn-xs btn-outline-primary ml-2" id="pwd-toggle" title="Göster/Gizle">
+                                            <button type="button" class="btn btn-xs btn-outline-primary ml-2" id="pwd-toggle" title="{{ __('Göster/Gizle') }}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button type="button" class="btn btn-xs btn-outline-primary ml-1" onclick="copyToClipboard('{{ $shownPwd }}')" title="Kopyala">
+                                            <button type="button" class="btn btn-xs btn-outline-primary ml-1" onclick="copyToClipboard('{{ $shownPwd }}')" title="{{ __('Kopyala') }}">
                                                 <i class="fas fa-copy"></i>
                                             </button>
                                             <button type="button" class="btn btn-xs btn-warning ml-1" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
-                                                <i class="fas fa-key"></i> Yeni Şifre
+                                                <i class="fas fa-key"></i> {{ __('Yeni Şifre') }}
                                             </button>
                                             <br>
                                             <small class="text-muted">
                                                 <i class="fas fa-info-circle"></i>
-                                                Şifre yalnızca admin panelinden görülebilir; veritabanında {{ session('reset_password') ? 'az önce sıfırlandı' : 'şifrelenmiş olarak saklanır' }}.
+                                                {{ __('Şifre yalnızca admin panelinden görülebilir; veritabanında :status.', ['status' => session('reset_password') ? __('az önce sıfırlandı') : __('şifrelenmiş olarak saklanır')]) }}
                                             </small>
                                         @else
-                                            <span class="text-muted"><i class="fas fa-question-circle"></i> Şifre kayıtlı değil (eski hesap)</span>
+                                            <span class="text-muted"><i class="fas fa-question-circle"></i> {{ __('Şifre kayıtlı değil (eski hesap)') }}</span>
                                             <br>
                                             <button type="button" class="btn btn-sm btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
-                                                <i class="fas fa-key"></i> Yeni Şifre Belirle
+                                                <i class="fas fa-key"></i> {{ __('Yeni Şifre Belirle') }}
                                             </button>
                                         @endif
                                     </dd>
 
-                                    <dt><i class="fas fa-mobile-alt"></i> Panel Türü</dt>
+                                    <dt><i class="fas fa-mobile-alt"></i> {{ __('Panel Türü') }}</dt>
                                     <dd>
-                                        <span class="badge badge-success">Şoför Paneli</span>
+                                        <span class="badge badge-success">{{ __('Şoför Paneli') }}</span>
                                         <br><small class="text-muted">Level 2 - Driver Dashboard</small>
                                     </dd>
                                 </dl>
@@ -145,12 +145,12 @@
                         </div>
 
                         <div class="mt-3 p-3 bg-light rounded">
-                            <h6><i class="fas fa-info-circle"></i> Giriş Talimatları:</h6>
+                            <h6><i class="fas fa-info-circle"></i> {{ __('Giriş Talimatları:') }}</h6>
                             <ol class="mb-0">
-                                <li>Yukarıdaki giriş adresine gidin</li>
-                                <li>E-posta: <code>{{ $driver->email }}</code></li>
-                                <li>Şifre: yukarıdaki "Yeni Şifre Belirle" ile bir şifre oluşturup şoföre iletin</li>
-                                <li>"Giriş Yap" butonuna tıklayın</li>
+                                <li>{{ __('Yukarıdaki giriş adresine gidin') }}</li>
+                                <li>{{ __('E-posta') }}: <code>{{ $driver->email }}</code></li>
+                                <li>{!! __('Şifre: yukarıdaki :label ile bir şifre oluşturup şoföre iletin', ['label' => '"' . __('Yeni Şifre Belirle') . '"']) !!}</li>
+                                <li>{!! __(':label butonuna tıklayın', ['label' => '"' . __('Giriş Yap') . '"']) !!}</li>
                             </ol>
                         </div>
 
@@ -161,19 +161,19 @@
                                     <form action="{{ route('admin.drivers.reset-password', $driver) }}" method="POST">
                                         @csrf
                                         <div class="modal-header">
-                                            <h5 class="modal-title"><i class="fas fa-key"></i> {{ $driver->name }} — Yeni Şifre</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                            <h5 class="modal-title"><i class="fas fa-key"></i> {{ $driver->name }} — {{ __('Yeni Şifre') }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Kapat') }}"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label for="new_password">Yeni Şifre <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="new_password" name="new_password" minlength="4" maxlength="50" required autocomplete="off" placeholder="En az 4 karakter">
-                                                <small class="form-text text-muted">Şoföre vereceğiniz net şifreyi yazın. Kaydedildikten sonra ekrana yansır.</small>
+                                                <label for="new_password">{{ __('Yeni Şifre') }} <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="new_password" name="new_password" minlength="4" maxlength="50" required autocomplete="off" placeholder="{{ __('En az 4 karakter') }}">
+                                                <small class="form-text text-muted">{{ __('Şoföre vereceğiniz net şifreyi yazın. Kaydedildikten sonra ekrana yansır.') }}</small>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                            <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Şifreyi Kaydet</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('İptal') }}</button>
+                                            <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> {{ __('Şifreyi Kaydet') }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -183,10 +183,10 @@
                 </div>
 
                 <!-- Timeline -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fas fa-history"></i> Aktivite Geçmişi
+                            <i class="fas fa-history"></i> {{ __('Aktivite Geçmişi') }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -221,7 +221,7 @@
                         @else
                             <div class="text-center py-4">
                                 <i class="fas fa-history fa-3x text-muted mb-3"></i>
-                                <p class="text-muted">Henüz aktivite kaydı bulunmuyor.</p>
+                                <p class="text-muted">{{ __('Henüz aktivite kaydı bulunmuyor.') }}</p>
                             </div>
                         @endif
                     </div>
@@ -230,46 +230,46 @@
 
             <div class="col-md-4">
                 <!-- İstatistikler -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">İstatistikler</h3>
+                        <h3 class="card-title">{{ __('İstatistikler') }}</h3>
                     </div>
                     <div class="card-body">
                         @if($driver->vehicle)
                         <div class="info-box">
                             <span class="info-box-icon bg-info"><i class="fas fa-car"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Atanmış Araç</span>
+                                <span class="info-box-text">{{ __('Atanmış Araç') }}</span>
                                 <span class="info-box-number">{{ $driver->vehicle->plate_number }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="info-box">
                             <span class="info-box-icon bg-success"><i class="fas fa-map-marker-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Konum Kayıtları</span>
+                                <span class="info-box-text">{{ __('Konum Kayıtları') }}</span>
                                 <span class="info-box-number">{{ $driver->vehicle->locations()->count() }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="info-box">
                             <span class="info-box-icon bg-warning"><i class="fas fa-ticket-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Toplam Bilet</span>
+                                <span class="info-box-text">{{ __('Toplam Bilet') }}</span>
                                 <span class="info-box-number">{{ $driver->vehicle->tickets()->count() }}</span>
                             </div>
                         </div>
                         @else
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle"></i>
-                            Bu şoföre henüz araç atanmamış.
+                            {{ __('Bu şoföre henüz araç atanmamış.') }}
                         </div>
                         @endif
 
                         <div class="info-box">
                             <span class="info-box-icon bg-primary"><i class="fas fa-history"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Toplam Aktivite</span>
+                                <span class="info-box-text">{{ __('Toplam Aktivite') }}</span>
                                 <span class="info-box-number">{{ $driver->activities()->count() }}</span>
                             </div>
                         </div>
@@ -277,17 +277,17 @@
                 </div>
 
                 <!-- Gün Bazında Atamalar + Rota Planı -->
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap" style="gap:8px;">
-                        <h3 class="card-title mb-0"><i class="fas fa-route text-info"></i> Gün Bazında Atanan Biletler & Rota</h3>
-                        <small class="text-muted">Bir bileti başlangıç olarak işaretle → sıra trafiğe göre otomatik hesaplanır</small>
+                        <h3 class="card-title mb-0"><i class="fas fa-route text-info"></i> {{ __('Gün Bazında Atanan Biletler & Rota') }}</h3>
+                        <small class="text-muted">{{ __('Bir bileti başlangıç olarak işaretle → sıra trafiğe göre otomatik hesaplanır') }}</small>
                     </div>
                     <div class="card-body p-0">
                         @if(!empty($ticketsByDay))
                             {{-- Gün sekmeleri --}}
                             <div id="driver-days-nav" class="driver-days-nav px-3 pt-3 pb-2 border-bottom">
                                 <div class="d-flex flex-wrap align-items-center" style="gap:8px;">
-                                    <small class="driver-days-label mr-1"><i class="far fa-calendar-alt"></i> Günler:</small>
+                                    <small class="driver-days-label mr-1"><i class="far fa-calendar-alt"></i> {{ __('Günler:') }}</small>
                                     @foreach($ticketsByDay as $day)
                                         <button type="button" class="day-tab @if($day['has_route']) has-route @endif" data-date="{{ $day['date'] }}">
                                             {{ \Carbon\Carbon::parse($day['date'])->format('d.m.Y') }}
@@ -302,11 +302,11 @@
                                 <div class="day-block" data-date="{{ $day['date'] }}">
                                     <div class="day-header d-flex justify-content-between align-items-center flex-wrap p-3 border-bottom" style="gap:8px;">
                                         <div>
-                                            <strong>{{ \Carbon\Carbon::parse($day['date'])->locale('tr')->translatedFormat('d F Y, l') }}</strong>
-                                            <span class="badge badge-secondary ml-2">{{ count($day['tickets']) }} bilet</span>
+                                            <strong>{{ \Carbon\Carbon::parse($day['date'])->locale(app()->getLocale())->translatedFormat('d F Y, l') }}</strong>
+                                            <span class="badge badge-secondary ml-2">{{ __(':count bilet', ['count' => count($day['tickets'])]) }}</span>
                                             @if($driver->vehicle)
                                                 <span class="badge badge-{{ $day['passenger_count'] >= $driver->vehicle->capacity ? 'danger' : 'success' }} ml-1">
-                                                    {{ $day['passenger_count'] }}/{{ $driver->vehicle->capacity }} yolcu
+                                                    {{ __(':current/:total yolcu', ['current' => $day['passenger_count'], 'total' => $driver->vehicle->capacity]) }}
                                                 </span>
                                             @endif
                                         </div>
@@ -315,14 +315,14 @@
                                                 @csrf
                                                 <input type="hidden" name="date" value="{{ $day['date'] }}">
                                                 <button type="submit" class="btn btn-sm btn-primary" @disabled(!$hasStart)>
-                                                    <i class="fas fa-sync-alt"></i> Trafiğe Göre Yenile
+                                                    <i class="fas fa-sync-alt"></i> {{ __('Trafiğe Göre Yenile') }}
                                                 </button>
                                             </form>
-                                            <form action="{{ route('admin.routes.clear', $driver) }}" method="POST" class="d-inline" onsubmit="return confirm('Bu günün rota planı silinsin mi?');">
+                                            <form action="{{ route('admin.routes.clear', $driver) }}" method="POST" class="d-inline" onsubmit="return confirm({!! json_encode(__('Bu günün rota planı silinsin mi?'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!});">
                                                 @csrf
                                                 <input type="hidden" name="date" value="{{ $day['date'] }}">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" @disabled(!$day['has_route'])>
-                                                    <i class="fas fa-eraser"></i> Rotayı Temizle
+                                                    <i class="fas fa-eraser"></i> {{ __('Rotayı Temizle') }}
                                                 </button>
                                             </form>
                                         </div>
@@ -350,20 +350,20 @@
                                                     <div style="flex:1; min-width:0;">
                                                         <div class="d-flex justify-content-between align-items-start" style="gap:6px;">
                                                             <div style="min-width:0;">
-                                                                <strong class="rt-name">{{ $t->customer_name ?: 'Müşteri' }}</strong>
+                                                                <strong class="rt-name">{{ $t->customer_name ?: __('Müşteri') }}</strong>
                                                                 <div class="rt-meta">
                                                                     <span class="text-muted">#{{ $t->voucher_no ?: $t->tracking_no }}</span>
                                                                     @if($t->pickup_time)
                                                                         <span class="badge badge-info ml-1"><i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($t->pickup_time)->format('H:i') }}</span>
                                                                     @endif
-                                                                    <span class="badge badge-light ml-1">{{ $t->passengers->sum('quantity') }} kişi</span>
+                                                                    <span class="badge badge-light ml-1">{{ __(':count kişi', ['count' => $t->passengers->sum('quantity')]) }}</span>
                                                                 </div>
                                                                 <div class="rt-meta mt-1">
                                                                     <i class="fas fa-route text-muted"></i> {{ $t->tour->name ?? $t->tour_name ?? '—' }}
                                                                 </div>
                                                                 <div class="rt-meta">
                                                                     <i class="fas fa-map-marker-alt text-danger"></i>
-                                                                    {{ $t->pickup_location ?: 'Konum yazılmamış' }}
+                                                                    {{ $t->pickup_location ?: __('Konum yazılmamış') }}
                                                                 </div>
                                                                 <div class="rt-meta">
                                                                     <i class="fas fa-money-bill-wave text-success"></i>
@@ -376,23 +376,23 @@
                                                             </div>
                                                             <div class="text-right" style="flex-shrink:0;">
                                                                 @if($t->customer_phone)
-                                                                    <a href="tel:{{ $t->customer_phone }}" class="btn btn-xs btn-outline-success" title="Ara"><i class="fas fa-phone"></i></a>
+                                                                    <a href="tel:{{ $t->customer_phone }}" class="btn btn-xs btn-outline-success" title="{{ __('Telefonla Ara') }}"><i class="fas fa-phone"></i></a>
                                                                 @endif
                                                             </div>
                                                         </div>
                                                         <div class="mt-2 d-flex flex-wrap" style="gap:4px;">
                                                             @if($isStart)
-                                                                <span class="badge badge-success"><i class="fas fa-flag"></i> Başlangıç noktası</span>
+                                                                <span class="badge badge-success"><i class="fas fa-flag"></i> {{ __('Başlangıç noktası') }}</span>
                                                             @elseif($hasLoc)
                                                                 <form action="{{ route('admin.routes.set-start', [$driver, $t]) }}" method="POST" class="d-inline">
                                                                     @csrf
                                                                     <input type="hidden" name="date" value="{{ $day['date'] }}">
                                                                     <button type="submit" class="btn btn-xs btn-outline-success">
-                                                                        <i class="fas fa-flag"></i> Başlangıç Yap
+                                                                        <i class="fas fa-flag"></i> {{ __('Başlangıç Yap') }}
                                                                     </button>
                                                                 </form>
                                                             @else
-                                                                <span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> Konum yok — başlangıç yapılamaz</span>
+                                                                <span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> {{ __('Konum yok — başlangıç yapılamaz') }}</span>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -408,7 +408,7 @@
                                         <div class="card-header py-2">
                                             <h6 class="card-title mb-0">
                                                 <i class="fas fa-map-marked-alt text-info"></i>
-                                                {{ \Carbon\Carbon::parse($day['date'])->format('d.m.Y') }} — Harita ve Rota
+                                                {{ __(':date — Harita ve Rota', ['date' => \Carbon\Carbon::parse($day['date'])->format('d.m.Y')]) }}
                                             </h6>
                                         </div>
                                         <div class="card-body p-0">
@@ -418,7 +418,7 @@
                                 @endif
                             @endforeach
                         @else
-                            <div class="p-3 text-muted">Gün bazında atanmış bilet bulunmuyor.</div>
+                            <div class="p-3 text-muted">{{ __('Gün bazında atanmış bilet bulunmuyor.') }}</div>
                         @endif
                     </div>
                 </div>
@@ -426,21 +426,21 @@
                 <!-- Hızlı İşlemler -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Hızlı İşlemler</h3>
+                        <h3 class="card-title">{{ __('Hızlı İşlemler') }}</h3>
                     </div>
                     <div class="card-body">
                         @if($driver->vehicle)
                         <a href="{{ route('admin.vehicles.show', $driver->vehicle) }}" class="btn btn-info w-100 mb-2">
-                            <i class="fas fa-car"></i> Araç Detayları
+                            <i class="fas fa-car"></i> {{ __('Araç Detayları') }}
                         </a>
                         @else
                         <a href="{{ route('admin.vehicles.index') }}" class="btn btn-success w-100 mb-2">
-                            <i class="fas fa-plus"></i> Araç Ata
+                            <i class="fas fa-plus"></i> {{ __('Araç Ata') }}
                         </a>
                         @endif
-                        
+
                         <a href="{{ route('admin.drivers.edit', $driver) }}" class="btn btn-warning w-100 mb-2">
-                            <i class="fas fa-edit"></i> Düzenle
+                            <i class="fas fa-edit"></i> {{ __('Düzenle') }}
                         </a>
                     </div>
                 </div>
@@ -580,9 +580,16 @@ html.dark-mode .bg-light ol {
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
 @endif
 <script>
+const driverShowI18n = {!! json_encode([
+    'copied' => __('Kopyalandı!'),
+    'copiedText' => __('Metin panoya kopyalandı.'),
+    'error' => __('Hata!'),
+    'copyFailed' => __('Kopyalama başarısız oldu.'),
+    'copyUnsupported' => __('Kopyalama desteklenmiyor.'),
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 document.addEventListener('DOMContentLoaded', function() {
     @if($mapboxToken)
-    try { mapboxgl.accessToken = @json($mapboxToken); } catch(e){}
+    try { mapboxgl.accessToken = {!! json_encode($mapboxToken, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}; } catch(e){}
     var dayMaps = {}; // date → mapboxgl.Map
     @endif
 
@@ -644,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function() {
             style: 'mapbox://styles/mapbox/streets-v12',
             center: [28.27, 36.85],
             zoom: 11,
-            language: 'tr',
+            language: {!! json_encode(app()->getLocale(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!},
         });
         map.addControl(new mapboxgl.NavigationControl(), 'top-right');
         dayMaps[dateStr] = map;
@@ -715,8 +722,8 @@ function copyToClipboard(text) {
             // Success feedback
             Swal.fire({
                 icon: 'success',
-                title: 'Kopyalandı!',
-                text: 'Metin panoya kopyalandı.',
+                title: driverShowI18n.copied,
+                text: driverShowI18n.copiedText,
                 timer: 1500,
                 showConfirmButton: false,
                 toast: true,
@@ -750,8 +757,8 @@ function fallbackCopyTextToClipboard(text) {
         if (successful) {
             Swal.fire({
                 icon: 'success',
-                title: 'Kopyalandı!',
-                text: 'Metin panoya kopyalandı.',
+                title: driverShowI18n.copied,
+                text: driverShowI18n.copiedText,
                 timer: 1500,
                 showConfirmButton: false,
                 toast: true,
@@ -760,8 +767,8 @@ function fallbackCopyTextToClipboard(text) {
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Hata!',
-                text: 'Kopyalama başarısız oldu.',
+                title: driverShowI18n.error,
+                text: driverShowI18n.copyFailed,
                 timer: 1500,
                 showConfirmButton: false,
                 toast: true,
@@ -772,8 +779,8 @@ function fallbackCopyTextToClipboard(text) {
         console.error('Fallback kopyalama hatası: ', err);
         Swal.fire({
             icon: 'error',
-            title: 'Hata!',
-            text: 'Kopyalama desteklenmiyor.',
+            title: driverShowI18n.error,
+            text: driverShowI18n.copyUnsupported,
             timer: 1500,
             showConfirmButton: false,
             toast: true,

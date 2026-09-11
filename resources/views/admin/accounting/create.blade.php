@@ -1,18 +1,18 @@
 @extends('layouts.admin')
 
-@section('title', 'Yeni Muhasebe Kaydı')
+@section('title', __('Yeni Muhasebe Kaydı'))
 
 @section('content')
 @php($lockedAgencyId = request('locked_agency_id'))
 <div class="row">
     <div class="col-lg-8">
-        <div class="card shadow-sm">
+        <div class="ad-card mb-3">
             <div class="card-header border-0 bg-white d-flex align-items-center">
                 <div>
-                    <h5 class="mb-0">Yeni Muhasebe Kaydı</h5>
-                    <small class="text-muted">Gelir / gider / bekleyen ödeme kayıtlarını ekleyin.</small>
+                    <h5 class="mb-0">{{ __('Yeni Muhasebe Kaydı') }}</h5>
+                    <small class="text-muted">{{ __('Gelir / gider / bekleyen ödeme kayıtlarını ekleyin.') }}</small>
                 </div>
-                <span class="badge badge-light ml-auto"><i class="fas fa-database mr-1"></i> Sistem Kaydı</span>
+                <span class="badge badge-light ml-auto"><i class="fas fa-database mr-1"></i> {{ __('Sistem Kaydı') }}</span>
             </div>
             <div class="card-body pt-3">
                 <form action="{{ route('admin.accounting.store') }}" method="POST">
@@ -23,26 +23,26 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">Tür</label>
+                            <label class="small text-muted mb-1">{{ __('Tür') }}</label>
                             <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
                                 <label class="btn btn-outline-success active">
-                                    <input type="radio" name="type" value="income" autocomplete="off" checked> Gelir
+                                    <input type="radio" name="type" value="income" autocomplete="off" checked> {{ __('Gelir') }}
                                 </label>
                                 <label class="btn btn-outline-danger">
-                                    <input type="radio" name="type" value="expense" autocomplete="off"> Gider
+                                    <input type="radio" name="type" value="expense" autocomplete="off"> {{ __('Gider') }}
                                 </label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">Durum</label>
+                            <label class="small text-muted mb-1">{{ __('Durum') }}</label>
                             <select name="status" class="form-control">
-                                <option value="paid">Ödendi</option>
-                                <option value="pending">Beklemede</option>
-                                <option value="cancelled">İptal</option>
+                                <option value="paid">{{ __('Ödendi') }}</option>
+                                <option value="pending">{{ __('Beklemede') }}</option>
+                                <option value="cancelled">{{ __('İptal') }}</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">İşlem Tarihi</label>
+                            <label class="small text-muted mb-1">{{ __('İşlem Tarihi') }}</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
@@ -53,13 +53,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="small text-muted mb-1">Başlık</label>
-                        <input type="text" name="title" class="form-control form-control-lg" placeholder="Örn: Online Satış / Ofis Kirası" required>
+                        <label class="small text-muted mb-1">{{ __('Başlık') }}</label>
+                        <input type="text" name="title" class="form-control form-control-lg" placeholder="{{ __('Örn: Online Satış / Ofis Kirası') }}" required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">Tutar</label>
+                            <label class="small text-muted mb-1">{{ __('Tutar') }}</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-coins"></i></span>
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">Para Birimi</label>
+                            <label class="small text-muted mb-1">{{ __('Para Birimi') }}</label>
                             <div class="input-group">
                                 <input type="text" name="currency" id="currency-input" class="form-control" value="TRY" maxlength="3" style="text-transform: uppercase;">
                                 <div class="input-group-append">
@@ -84,21 +84,21 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="small text-muted mb-1">Ödeme Yöntemi</label>
-                            <input type="text" name="payment_method" class="form-control" placeholder="Nakit / Kredi Kartı / EFT">
-                            <small class="text-muted">Otomatik kayıtlar: sale-ticket, payout-owner, owner-share…</small>
+                            <label class="small text-muted mb-1">{{ __('Ödeme Yöntemi') }}</label>
+                            <input type="text" name="payment_method" class="form-control" placeholder="{{ __('Nakit / Kredi Kartı / EFT') }}">
+                            <small class="text-muted">{{ __('Otomatik kayıtlar: sale-ticket, payout-owner, owner-share…') }}</small>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="small text-muted mb-1">Notlar</label>
-                        <textarea name="notes" rows="3" class="form-control" placeholder="Açıklama, referans no, belge no…"></textarea>
+                        <label class="small text-muted mb-1">{{ __('Notlar') }}</label>
+                        <textarea name="notes" rows="3" class="form-control" placeholder="{{ __('Açıklama, referans no, belge no…') }}"></textarea>
                     </div>
 
                     <div class="d-flex align-items-center mt-3">
-                        <button class="btn btn-primary mr-2" type="submit"><i class="fas fa-save mr-1"></i> Kaydet</button>
-                        <a href="{{ route('admin.accounting.index', $lockedAgencyId ? ['locked_agency_id' => $lockedAgencyId] : []) }}" class="btn btn-secondary">Vazgeç</a>
-                        <span class="text-muted small ml-3"><i class="fas fa-info-circle"></i> Kayıt sonrası kilitli türler: sale-ticket / payout-owner / owner-share</span>
+                        <button class="btn btn-primary mr-2" type="submit"><i class="fas fa-save mr-1"></i> {{ __('Kaydet') }}</button>
+                        <a href="{{ route('admin.accounting.index', $lockedAgencyId ? ['locked_agency_id' => $lockedAgencyId] : []) }}" class="btn btn-secondary">{{ __('Vazgeç') }}</a>
+                        <span class="text-muted small ml-3"><i class="fas fa-info-circle"></i> {{ __('Kayıt sonrası kilitli türler: sale-ticket / payout-owner / owner-share') }}</span>
                     </div>
                 </form>
             </div>
@@ -108,21 +108,21 @@
     <div class="col-lg-4">
         <div class="card shadow-sm h-100">
             <div class="card-header border-0 bg-white">
-                <h6 class="mb-0"><i class="fas fa-lightbulb text-warning mr-1"></i> Hızlı Bilgiler</h6>
+                <h6 class="mb-0"><i class="fas fa-lightbulb text-warning mr-1"></i> {{ __('Hızlı Bilgiler') }}</h6>
             </div>
             <div class="card-body pt-2">
                 <ul class="list-unstyled mb-3">
-                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Gelir/Gider türünü doğru seçin.</li>
-                    <li class="mb-2"><i class="fas fa-clock text-info mr-2"></i> Tarihi değiştirerek geçmiş/gelecek işlemleri ekleyin.</li>
-                    <li class="mb-2"><i class="fas fa-lock text-secondary mr-2"></i> Otomatik işlemler (bilet/komisyon) editlenemez.</li>
-                    <li class="mb-2"><i class="fas fa-coins text-primary mr-2"></i> Para birimi 3 harf ve büyük yazılmalıdır (TRY/USD/EUR…).</li>
+                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> {{ __('Gelir/Gider türünü doğru seçin.') }}</li>
+                    <li class="mb-2"><i class="fas fa-clock text-info mr-2"></i> {{ __('Tarihi değiştirerek geçmiş/gelecek işlemleri ekleyin.') }}</li>
+                    <li class="mb-2"><i class="fas fa-lock text-secondary mr-2"></i> {{ __('Otomatik işlemler (bilet/komisyon) editlenemez.') }}</li>
+                    <li class="mb-2"><i class="fas fa-coins text-primary mr-2"></i> {{ __('Para birimi 3 harf ve büyük yazılmalıdır (TRY/USD/EUR…).') }}</li>
                 </ul>
                 <div class="alert alert-light border">
                     <div class="d-flex">
                         <div class="mr-2"><i class="fas fa-link text-muted"></i></div>
                         <div>
-                            <strong>Entegrasyon Notu:</strong><br>
-                            API veya otomatik kayıtlar için `payment_method` alanını tutarlı kullanın (örn: sale-ticket, owner-share).
+                            <strong>{{ __('Entegrasyon Notu') }}:</strong><br>
+                            {{ __('API veya otomatik kayıtlar için `payment_method` alanını tutarlı kullanın (örn: sale-ticket, owner-share).') }}
                         </div>
                     </div>
                 </div>

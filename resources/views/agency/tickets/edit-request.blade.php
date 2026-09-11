@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const infantPriceEl = document.getElementById('infant_price');
     const totalTextEl = document.getElementById('calculated_total_text');
 
-    const detailsUrl = @json(route('agency.tours.details', $ticketRequest->tour_id));
+    const detailsUrl = {!! json_encode(route('agency.tours.details', $ticketRequest->tour_id), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
     function toNumber(val) {
         const n = parseFloat(val);

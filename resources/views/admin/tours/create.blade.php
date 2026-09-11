@@ -1,29 +1,29 @@
 @extends('layouts.admin')
 
-@section('title', 'Yeni Tur Oluştur')
+@section('title', __('Yeni Tur Oluştur'))
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid tour-page">
         <form action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data" id="tour-create-form">
             @csrf
             <div class="row">
                 <!-- Sol: Form Bölümü -->
                 <div class="col-lg-8">
                     <!-- Temel Bilgiler Card -->
-                    <div class="card card-primary card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-info-circle"></i> Temel Bilgiler
+                                <i class="fas fa-info-circle"></i> {{ __('Temel Bilgiler') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name"><i class="fas fa-tag text-primary"></i> Tur Adı *</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                               id="name" name="name" value="{{ old('name') }}" 
-                                               placeholder="Örn: İstanbul - Boğaz Turu" required>
+                                        <label for="name"><i class="fas fa-tag text-primary"></i> {{ __('Tur Adı') }} *</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                               id="name" name="name" value="{{ old('name') }}"
+                                               placeholder="{{ __('Örn: İstanbul - Boğaz Turu') }}" required>
                                         @error('name')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
@@ -31,14 +31,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="currency"><i class="fas fa-money-bill-wave text-success"></i> Para Birimi *</label>
+                                        <label for="currency"><i class="fas fa-money-bill-wave text-success"></i> {{ __('Para Birimi') }} *</label>
                                         <select class="form-control @error('currency') is-invalid @enderror" 
                                                 id="currency" name="currency" required>
-                                            <option value="TRY" {{ old('currency') == 'TRY' ? 'selected' : '' }}>₺ Türk Lirası</option>
-                                            <option value="USD" {{ old('currency') == 'USD' ? 'selected' : '' }}>$ Amerikan Doları</option>
-                                            <option value="EUR" {{ old('currency') == 'EUR' ? 'selected' : '' }}>€ Euro</option>
-                                            <option value="GBP" {{ old('currency') == 'GBP' ? 'selected' : '' }}>£ İngiliz Sterlini</option>
-                                            <option value="RUB" {{ old('currency') == 'RUB' ? 'selected' : '' }}>₽ Rus Rublesi</option>
+                                            <option value="TRY" {{ old('currency') == 'TRY' ? 'selected' : '' }}>₺ {{ __('Türk Lirası') }}</option>
+                                            <option value="USD" {{ old('currency') == 'USD' ? 'selected' : '' }}>$ {{ __('Amerikan Doları') }}</option>
+                                            <option value="EUR" {{ old('currency') == 'EUR' ? 'selected' : '' }}>€ {{ __('Euro') }}</option>
+                                            <option value="GBP" {{ old('currency') == 'GBP' ? 'selected' : '' }}>£ {{ __('İngiliz Sterlini') }}</option>
+                                            <option value="RUB" {{ old('currency') == 'RUB' ? 'selected' : '' }}>₽ {{ __('Rus Rublesi') }}</option>
                                         </select>
                                         @error('currency')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -50,10 +50,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="country"><i class="fas fa-globe text-info"></i> Ülke *</label>
-                                        <input list="country-list" type="text" class="form-control @error('country') is-invalid @enderror" 
-                                               id="country" name="country" value="{{ old('country') }}" 
-                                               placeholder="Ülke seçin veya yazın" autocomplete="off" required>
+                                        <label for="country"><i class="fas fa-globe text-info"></i> {{ __('Ülke') }} *</label>
+                                        <input list="country-list" type="text" class="form-control @error('country') is-invalid @enderror"
+                                               id="country" name="country" value="{{ old('country') }}"
+                                               placeholder="{{ __('Ülke seçin veya yazın') }}" autocomplete="off" required>
                                         <datalist id="country-list"></datalist>
                                         @error('country')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -62,10 +62,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="city"><i class="fas fa-city text-warning"></i> Şehir *</label>
-                                        <input list="city-list" type="text" class="form-control @error('city') is-invalid @enderror" 
-                                               id="city" name="city" value="{{ old('city') }}" 
-                                               placeholder="Şehir seçin veya yazın" autocomplete="off" required>
+                                        <label for="city"><i class="fas fa-city text-warning"></i> {{ __('Şehir') }} *</label>
+                                        <input list="city-list" type="text" class="form-control @error('city') is-invalid @enderror"
+                                               id="city" name="city" value="{{ old('city') }}"
+                                               placeholder="{{ __('Şehir seçin veya yazın') }}" autocomplete="off" required>
                                         <datalist id="city-list"></datalist>
                                         @error('city')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -74,10 +74,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="district"><i class="fas fa-location-arrow text-primary"></i> İlçe</label>
-                                        <input list="district-list" type="text" class="form-control @error('district') is-invalid @enderror" 
-                                               id="district" name="district" value="{{ old('district') }}" 
-                                               placeholder="İlçe seçin veya yazın" autocomplete="off">
+                                        <label for="district"><i class="fas fa-location-arrow text-primary"></i> {{ __('İlçe') }}</label>
+                                        <input list="district-list" type="text" class="form-control @error('district') is-invalid @enderror"
+                                               id="district" name="district" value="{{ old('district') }}"
+                                               placeholder="{{ __('İlçe seçin veya yazın') }}" autocomplete="off">
                                         <datalist id="district-list"></datalist>
                                         @error('district')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -87,10 +87,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description"><i class="fas fa-align-left text-secondary"></i> Açıklama</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" 
-                                          id="description" name="description" rows="3" 
-                                          placeholder="Tur hakkında detaylı açıklama yazın...">{{ old('description') }}</textarea>
+                                <label for="description"><i class="fas fa-align-left text-secondary"></i> {{ __('Açıklama') }}</label>
+                                <textarea class="form-control @error('description') is-invalid @enderror"
+                                          id="description" name="description" rows="3"
+                                          placeholder="{{ __('Tur hakkında detaylı açıklama yazın...') }}">{{ old('description') }}</textarea>
                                 @error('description')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -99,11 +99,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="max_capacity"><i class="fas fa-users text-primary"></i> Maksimum Kapasite</label>
-                                        <input type="number" class="form-control @error('max_capacity') is-invalid @enderror" 
-                                               id="max_capacity" name="max_capacity" value="{{ old('max_capacity') }}" 
-                                               min="1" placeholder="Boş = Sınırsız">
-                                        <small class="form-text text-muted">Boş bırakılırsa sınırsız olur</small>
+                                        <label for="max_capacity"><i class="fas fa-users text-primary"></i> {{ __('Maksimum Kapasite') }}</label>
+                                        <input type="number" class="form-control @error('max_capacity') is-invalid @enderror"
+                                               id="max_capacity" name="max_capacity" value="{{ old('max_capacity') }}"
+                                               min="1" placeholder="{{ __('Boş = Sınırsız') }}">
+                                        <small class="form-text text-muted">{{ __('Boş bırakılırsa sınırsız olur') }}</small>
                                         @error('max_capacity')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
@@ -111,24 +111,24 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-toggle-on text-success"></i> Durum</label>
+                                        <label><i class="fas fa-toggle-on text-success"></i> {{ __('Durum') }}</label>
                                         <div class="custom-control custom-switch" style="padding-top: 8px;">
-                                            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" 
+                                            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1"
                                                    {{ old('is_active', true) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="is_active">Turu Aktif Et</label>
+                                            <label class="custom-control-label" for="is_active">{{ __('Turu Aktif Et') }}</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-share-alt text-info"></i> Otomatik Paylaşım</label>
+                                        <label><i class="fas fa-share-alt text-info"></i> {{ __('Otomatik Paylaşım') }}</label>
                                         <div class="custom-control custom-switch" style="padding-top: 8px;">
                                             <input type="checkbox" class="custom-control-input" id="auto_share_on_connect" name="auto_share_on_connect" value="1"
                                                    {{ old('auto_share_on_connect', false) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="auto_share_on_connect">Yeni bağlantılarla otomatik paylaş</label>
+                                            <label class="custom-control-label" for="auto_share_on_connect">{{ __('Yeni bağlantılarla otomatik paylaş') }}</label>
                                         </div>
                                         <small class="form-text text-muted">
-                                            Bu turu oluşturan kullanıcı, ağda yeni bir bağlantı kurduğunda tur otomatik olarak paylaşılır. Paylaşımı acenta sayfasından kaldırabilirsiniz.
+                                            {{ __('Bu turu oluşturan kullanıcı, ağda yeni bir bağlantı kurduğunda tur otomatik olarak paylaşılır. Paylaşımı acenta sayfasından kaldırabilirsiniz.') }}
                                         </small>
                                     </div>
                                 </div>
@@ -137,34 +137,34 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-check-circle text-success"></i> Otomatik Bilet Kabul Etme</label>
+                                        <label><i class="fas fa-check-circle text-success"></i> {{ __('Otomatik Bilet Kabul Etme') }}</label>
                                         <div class="custom-control custom-switch" style="padding-top: 8px;">
                                             <input type="checkbox" class="custom-control-input" id="auto_approve_tickets" name="auto_approve_tickets" value="1"
                                                    {{ old('auto_approve_tickets', false) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="auto_approve_tickets">Bilet isteklerini otomatik onayla</label>
+                                            <label class="custom-control-label" for="auto_approve_tickets">{{ __('Bilet isteklerini otomatik onayla') }}</label>
                                         </div>
                                         <small class="form-text text-muted">
-                                            Bu tur için acentalardan gelen bilet oluşturma istekleri otomatik olarak onaylanır ve direkt bilet oluşturulur.
+                                            {{ __('Bu tur için acentalardan gelen bilet oluşturma istekleri otomatik olarak onaylanır ve direkt bilet oluşturulur.') }}
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="street_agency_auto_approve_time">
-                                            <i class="fas fa-clock text-info"></i> Sokak Acentası Otomatik Onay Saati
+                                            <i class="fas fa-clock text-info"></i> {{ __('Sokak Acentası Otomatik Onay Saati') }}
                                         </label>
-                                        <input type="time" class="form-control @error('street_agency_auto_approve_time') is-invalid @enderror" 
-                                               id="street_agency_auto_approve_time" 
-                                               name="street_agency_auto_approve_time" 
+                                        <input type="time" class="form-control @error('street_agency_auto_approve_time') is-invalid @enderror"
+                                               id="street_agency_auto_approve_time"
+                                               name="street_agency_auto_approve_time"
                                                value="{{ old('street_agency_auto_approve_time') }}"
-                                               placeholder="Örn: 14:00">
+                                               placeholder="{{ __('Örn: 14:00') }}">
                                         <div class="custom-control custom-switch mt-2">
                                             <input type="checkbox" class="custom-control-input" id="street_agency_auto_approve_enabled" name="street_agency_auto_approve_enabled" value="1"
                                                    {{ old('street_agency_auto_approve_enabled', false) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="street_agency_auto_approve_enabled">Bu saatten sonra otomatik kabulü aktif et</label>
+                                            <label class="custom-control-label" for="street_agency_auto_approve_enabled">{{ __('Bu saatten sonra otomatik kabulü aktif et') }}</label>
                                         </div>
                                         <small class="form-text text-muted">
-                                            Bu saatten sonra sokak acentasından gelen biletler otomatik olarak kabul edilir.
+                                            {{ __('Bu saatten sonra sokak acentasından gelen biletler otomatik olarak kabul edilir.') }}
                                         </small>
                                         @error('street_agency_auto_approve_time')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -174,10 +174,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="notes"><i class="fas fa-sticky-note text-warning"></i> Notlar</label>
-                                <textarea class="form-control @error('notes') is-invalid @enderror" 
-                                          id="notes" name="notes" rows="2" 
-                                          placeholder="İç notlar (opsiyonel)">{{ old('notes') }}</textarea>
+                                <label for="notes"><i class="fas fa-sticky-note text-warning"></i> {{ __('Notlar') }}</label>
+                                <textarea class="form-control @error('notes') is-invalid @enderror"
+                                          id="notes" name="notes" rows="2"
+                                          placeholder="{{ __('İç notlar (opsiyonel)') }}">{{ old('notes') }}</textarea>
                                 @error('notes')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -186,47 +186,47 @@
                     </div>
 
                     <!-- Servis Alanları (Poligon) -->
-                    <div class="card card-info card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">
-                                <i class="fas fa-draw-polygon"></i> Servis Alanları (Poligon)
+                                <i class="fas fa-draw-polygon"></i> {{ __('Servis Alanları (Poligon)') }}
                             </h3>
-                            <small class="text-muted">Turun yapılabileceği bölgeleri çizin</small>
+                            <small class="text-muted">{{ __('Turun yapılabileceği bölgeleri çizin') }}</small>
                         </div>
                         <div class="card-body">
                             <div style="position:relative;">
                                 <div id="sa-toolbar" class="sa-toolbar">
-                                    <button type="button" class="sa-tool-btn active" data-tool="pointer" title="Serbest Gezinme">
+                                    <button type="button" class="sa-tool-btn active" data-tool="pointer" title="{{ __('Serbest Gezinme') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
                                     </button>
-                                    <button type="button" class="sa-tool-btn" data-tool="polygon" title="Poligon Çiz">
+                                    <button type="button" class="sa-tool-btn" data-tool="polygon" title="{{ __('Poligon Çiz') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 7-3.5 11h-11L3 9z"/></svg>
                                     </button>
-                                    <button type="button" class="sa-tool-btn" data-tool="circle" title="Daire Çiz">
+                                    <button type="button" class="sa-tool-btn" data-tool="circle" title="{{ __('Daire Çiz') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="6"/></svg>
                                     </button>
                                     <div class="sa-tool-sep"></div>
-                                    <button type="button" class="sa-tool-btn" data-tool="delete" title="Seçili Poligonu Sil">
+                                    <button type="button" class="sa-tool-btn" data-tool="delete" title="{{ __('Seçili Poligonu Sil') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
                                     </button>
-                                    <button type="button" class="sa-tool-btn" data-tool="delete-all" title="Tümünü Sil">
+                                    <button type="button" class="sa-tool-btn" data-tool="delete-all" title="{{ __('Tümünü Sil') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><line x1="1" y1="1" x2="23" y2="23" stroke-width="2.5"/></svg>
                                     </button>
                                     <div class="sa-tool-sep"></div>
-                                    <button type="button" class="sa-tool-btn sm-library-btn" data-tool="save-map" title="Haritayı Kaydet (sadece size özel)">
+                                    <button type="button" class="sa-tool-btn sm-library-btn" data-tool="save-map" title="{{ __('Haritayı Kaydet (sadece size özel)') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                                     </button>
-                                    <button type="button" class="sa-tool-btn sm-library-btn" data-tool="load-map" title="Kayıtlı Haritalardan Ekle">
+                                    <button type="button" class="sa-tool-btn sm-library-btn" data-tool="load-map" title="{{ __('Kayıtlı Haritalardan Ekle') }}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
                                     </button>
                                 </div>
                                 <div id="service-area-map" style="height: 400px; width: 100%; border:1px solid #ced4da; border-radius:4px;"></div>
                             </div>
                             <small class="form-text text-muted mt-2">
-                                <b>Pointer:</b> Serbest gezinme &nbsp;|&nbsp;
-                                <b>Poligon:</b> Sol tık ile nokta koy, ilk noktaya tıkla veya çift tıkla kapat. Sağ tık ile iptal. &nbsp;|&nbsp;
-                                <b>Daire:</b> Sol tık ile merkez belirle, uzaklaştır ve tekrar tıkla. &nbsp;|&nbsp;
-                                <b>Kaydet / Kütüphane:</b> Çizdiğiniz poligonları kendi kütüphanenize kaydedin veya kayıtlı haritalardan ekleyin.
+                                <b>{{ __('Pointer') }}:</b> {{ __('Serbest gezinme') }} &nbsp;|&nbsp;
+                                <b>{{ __('Poligon') }}:</b> {{ __('Sol tık ile nokta koy, ilk noktaya tıkla veya çift tıkla kapat. Sağ tık ile iptal.') }} &nbsp;|&nbsp;
+                                <b>{{ __('Daire') }}:</b> {{ __('Sol tık ile merkez belirle, uzaklaştır ve tekrar tıkla.') }} &nbsp;|&nbsp;
+                                <b>{{ __('Kaydet / Kütüphane') }}:</b> {{ __('Çizdiğiniz poligonları kendi kütüphanenize kaydedin veya kayıtlı haritalardan ekleyin.') }}
                             </small>
                             <input type="hidden" id="service_areas" name="service_areas" value="{{ old('service_areas') }}">
                         </div>
@@ -236,18 +236,18 @@
                     <div id="sm-save-modal" class="sm-modal-backdrop" style="display:none;">
                         <div class="sm-modal">
                             <div class="sm-modal-header">
-                                <h5><i class="fas fa-save"></i> Haritayı Kaydet</h5>
+                                <h5><i class="fas fa-save"></i> {{ __('Haritayı Kaydet') }}</h5>
                                 <button type="button" class="sm-close" data-sm-close>&times;</button>
                             </div>
                             <div class="sm-modal-body">
-                                <label for="sm-save-name" class="form-label">Harita Adı</label>
-                                <input type="text" id="sm-save-name" class="form-control" maxlength="100" placeholder="Örn: Antalya Merkez Bölgesi">
-                                <small class="text-muted d-block mt-2">Bu harita sadece size özel olarak kaydedilir; cihazınıza dosya indirilmez.</small>
+                                <label for="sm-save-name" class="form-label">{{ __('Harita Adı') }}</label>
+                                <input type="text" id="sm-save-name" class="form-control" maxlength="100" placeholder="{{ __('Örn: Antalya Merkez Bölgesi') }}">
+                                <small class="text-muted d-block mt-2">{{ __('Bu harita sadece size özel olarak kaydedilir; cihazınıza dosya indirilmez.') }}</small>
                                 <div id="sm-save-msg" class="mt-2"></div>
                             </div>
                             <div class="sm-modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-sm-close>İptal</button>
-                                <button type="button" class="btn btn-primary btn-sm" id="sm-save-btn">Kaydet</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-sm-close>{{ __('İptal') }}</button>
+                                <button type="button" class="btn btn-primary btn-sm" id="sm-save-btn">{{ __('Kaydet') }}</button>
                             </div>
                         </div>
                     </div>
@@ -255,39 +255,39 @@
                     <div id="sm-load-modal" class="sm-modal-backdrop" style="display:none;">
                         <div class="sm-modal">
                             <div class="sm-modal-header">
-                                <h5><i class="fas fa-folder-open"></i> Kayıtlı Haritalar</h5>
+                                <h5><i class="fas fa-folder-open"></i> {{ __('Kayıtlı Haritalar') }}</h5>
                                 <button type="button" class="sm-close" data-sm-close>&times;</button>
                             </div>
                             <div class="sm-modal-body">
-                                <div id="sm-load-list" class="sm-load-list">Yükleniyor...</div>
+                                <div id="sm-load-list" class="sm-load-list">{{ __('Yükleniyor...') }}</div>
                             </div>
                             <div class="sm-modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-sm-close>Kapat</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-sm-close>{{ __('Kapat') }}</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Tarih ve Fiyatlandırma Card -->
-                    <div class="card card-success card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-calendar-check"></i> Tarih & Fiyatlandırma
+                                <i class="fas fa-calendar-check"></i> {{ __('Tarih & Fiyatlandırma') }}
                             </h3>
                             <div class="card-tools">
                                 <button type="button" id="global-clear-btn" class="btn btn-tool btn-sm text-danger">
-                                    <i class="fas fa-trash"></i> Tümünü Temizle
+                                    <i class="fas fa-trash"></i> {{ __('Tümünü Temizle') }}
                                 </button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="alert alert-info alert-dismissible">
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <h5><i class="icon fas fa-info"></i> Nasıl Kullanılır?</h5>
+                                <h5><i class="icon fas fa-info"></i> {{ __('Nasıl Kullanılır?') }}</h5>
                                 <ul class="mb-0 pl-3">
-                                    <li><strong>Sol Tık:</strong> Tarih seç/kaldır</li>
-                                    <li><strong>Sağ Tık:</strong> Seçili tarihi kaldır</li>
-                                    <li><strong>Aralık Seçimi:</strong> 2 tarih seçin, ardından "Arayı Doldur" butonuna tıklayın</li>
-                                    <li><strong>Fiyat Ekleme:</strong> Tarih seçtikten sonra "Fiyat Ekle" ile fiyatlandırma yapın</li>
+                                    <li><strong>{{ __('Sol Tık') }}:</strong> {{ __('Tarih seç/kaldır') }}</li>
+                                    <li><strong>{{ __('Sağ Tık') }}:</strong> {{ __('Seçili tarihi kaldır') }}</li>
+                                    <li><strong>{{ __('Aralık Seçimi') }}:</strong> {{ __('2 tarih seçin, ardından "Arayı Doldur" butonuna tıklayın') }}</li>
+                                    <li><strong>{{ __('Fiyat Ekleme') }}:</strong> {{ __('Tarih seçtikten sonra "Fiyat Ekle" ile fiyatlandırma yapın') }}</li>
                                 </ul>
                             </div>
 
@@ -297,41 +297,41 @@
                             <!-- Context Menu -->
                             <div id="planner-menu" class="planner-menu" style="display:none">
                                 <button type="button" class="btn btn-xs btn-outline-primary" id="pm-fill">
-                                    <i class="fas fa-fill"></i> Arayı Doldur
+                                    <i class="fas fa-fill"></i> {{ __('Arayı Doldur') }}
                                 </button>
                                 <button type="button" class="btn btn-xs btn-outline-danger" id="pm-clear">
-                                    <i class="fas fa-eraser"></i> Temizle
+                                    <i class="fas fa-eraser"></i> {{ __('Temizle') }}
                                 </button>
                                 <button type="button" class="btn btn-xs btn-outline-secondary" id="pm-add-date">
-                                    <i class="fas fa-calendar-day"></i> Özel Tarih
+                                    <i class="fas fa-calendar-day"></i> {{ __('Özel Tarih') }}
                                 </button>
                                 <button type="button" class="btn btn-xs btn-outline-warning" id="pm-show-price">
-                                    <i class="fas fa-dollar-sign"></i> Fiyat Ekle
+                                    <i class="fas fa-dollar-sign"></i> {{ __('Fiyat Ekle') }}
                                 </button>
                             </div>
 
                             <!-- Weekday Popup -->
                             <div id="weekday-popup" class="weekday-popup" style="display:none">
                                 <div class="d-flex" style="gap:6px; flex-wrap:wrap;">
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="1">Pzt</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="2">Sal</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="3">Çar</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="4">Per</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="5">Cum</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="6">Cmt</button>
-                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="7">Paz</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="1">{{ __('Pzt') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="2">{{ __('Sal') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="3">{{ __('Çar') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="4">{{ __('Per') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="5">{{ __('Cum') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="6">{{ __('Cmt') }}</button>
+                                    <button type="button" class="btn btn-xs btn-outline-secondary wd-btn" data-wd="7">{{ __('Paz') }}</button>
                                 </div>
                             </div>
 
                             <!-- Price Popup -->
                             <div id="price-popup" class="weekday-popup" style="display:none">
-                                <div class="mb-2"><strong><i class="fas fa-tags"></i> Fiyat Bilgileri</strong></div>
-                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-adult" placeholder="Yetişkin">
-                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-child" placeholder="Çocuk">
-                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-infant" placeholder="Bebek">
+                                <div class="mb-2"><strong><i class="fas fa-tags"></i> {{ __('Fiyat Bilgileri') }}</strong></div>
+                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-adult" placeholder="{{ __('Yetişkin') }}">
+                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-child" placeholder="{{ __('Çocuk') }}">
+                                <input type="number" step="0.01" class="form-control form-control-sm mb-2" id="pm-price-infant" placeholder="{{ __('Bebek') }}">
                                 <div class="d-flex" style="gap:6px;">
-                                    <button type="button" class="btn btn-xs btn-primary" id="price-apply"><i class="fas fa-check"></i> Uygula</button>
-                                    <button type="button" class="btn btn-xs btn-secondary" id="price-close"><i class="fas fa-times"></i> Kapat</button>
+                                    <button type="button" class="btn btn-xs btn-primary" id="price-apply"><i class="fas fa-check"></i> {{ __('Uygula') }}</button>
+                                    <button type="button" class="btn btn-xs btn-secondary" id="price-close"><i class="fas fa-times"></i> {{ __('Kapat') }}</button>
                                 </div>
                             </div>
 
@@ -344,7 +344,7 @@
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <button type="button" class="btn btn-sm btn-outline-info" id="toggle-selected-dates">
                                         <i class="fas fa-chevron-right" id="toggle-icon"></i>
-                                        <span id="toggle-text">Seçili Tarihleri Göster</span>
+                                        <span id="toggle-text">{{ __('Seçili Tarihleri Göster') }}</span>
                                         <span class="badge badge-info ml-1" id="selected-dates-count">0</span>
                                     </button>
                                 </div>
@@ -353,59 +353,55 @@
 
                             <!-- Summary -->
                             <div class="alert alert-light border mt-3 mb-0">
-                                <strong><i class="fas fa-chart-pie"></i> Özet:</strong>
-                                <div class="small" id="availability-summary">Henüz seçim yapılmadı.</div>
+                                <strong><i class="fas fa-chart-pie"></i> {{ __('Özet') }}:</strong>
+                                <div class="small" id="availability-summary">{{ __('Henüz seçim yapılmadı.') }}</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="fas fa-save"></i> Tur Oluştur
-                            </button>
-                            <a href="{{ route('admin.tours.index') }}" class="btn btn-secondary btn-lg">
-                                <i class="fas fa-times"></i> İptal
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Sağ: Yardım Kartları -->
                 <div class="col-lg-4">
+                    <div class="ad-card mb-3 sticky-top tour-action-card" style="top:20px;">
+                        <div class="card-header"><h3 class="card-title"><i class="fas fa-save"></i> {{ __('İşlemler') }}</h3></div>
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-success w-100 mb-2"><i class="fas fa-save"></i> {{ __('Tur Oluştur') }}</button>
+                            <a href="{{ route('admin.tours.index') }}" class="btn btn-secondary w-100"><i class="fas fa-times"></i> {{ __('İptal') }}</a>
+                        </div>
+                    </div>
                     <!-- Progress Card -->
                     <div class="card card-widget widget-user-2">
                         <div class="widget-user-header bg-gradient-primary">
                             <div class="widget-user-image">
                                 <i class="fas fa-route fa-3x"></i>
                             </div>
-                            <h3 class="widget-user-username">Tur Oluşturma Rehberi</h3>
-                            <h5 class="widget-user-desc">Adım adım tamamlayın</h5>
+                            <h3 class="widget-user-username">{{ __('Tur Oluşturma Rehberi') }}</h3>
+                            <h5 class="widget-user-desc">{{ __('Adım adım tamamlayın') }}</h5>
                         </div>
                         <div class="card-footer p-0">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="fas fa-check-circle text-success"></i> Tur adı ve konum
+                                        <i class="fas fa-check-circle text-success"></i> {{ __('Tur adı ve konum') }}
                                         <span class="float-right badge bg-primary">1</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="fas fa-check-circle text-success"></i> Para birimi seçimi
+                                        <i class="fas fa-check-circle text-success"></i> {{ __('Para birimi seçimi') }}
                                         <span class="float-right badge bg-primary">2</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="fas fa-calendar text-warning"></i> Tarih ve fiyatlandırma
+                                        <i class="fas fa-calendar text-warning"></i> {{ __('Tarih ve fiyatlandırma') }}
                                         <span class="float-right badge bg-warning">3</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="fas fa-toggle-on text-info"></i> Aktif durumu kontrol
+                                        <i class="fas fa-toggle-on text-info"></i> {{ __('Aktif durumu kontrol') }}
                                         <span class="float-right badge bg-info">4</span>
                                     </a>
                                 </li>
@@ -417,17 +413,17 @@
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-lightbulb"></i> İpuçları
+                                <i class="fas fa-lightbulb"></i> {{ __('İpuçları') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="callout callout-info">
-                                <h5><i class="fas fa-infinity"></i> Sınırsız Kapasite</h5>
-                                <p class="text-sm mb-0">Kapasite alanını boş bırakırsanız tur sınırsız katılımcı alır</p>
+                                <h5><i class="fas fa-infinity"></i> {{ __('Sınırsız Kapasite') }}</h5>
+                                <p class="text-sm mb-0">{{ __('Kapasite alanını boş bırakırsanız tur sınırsız katılımcı alır') }}</p>
                             </div>
                             <div class="callout callout-warning">
-                                <h5><i class="fas fa-calendar-alt"></i> Toplu Fiyatlandırma</h5>
-                                <p class="text-sm mb-0">Aralık seçerek birden fazla güne aynı fiyatı uygulayabilirsiniz</p>
+                                <h5><i class="fas fa-calendar-alt"></i> {{ __('Toplu Fiyatlandırma') }}</h5>
+                                <p class="text-sm mb-0">{{ __('Aralık seçerek birden fazla güne aynı fiyatı uygulayabilirsiniz') }}</p>
                             </div>
                         </div>
                     </div>
@@ -436,7 +432,7 @@
                     <div class="card bg-gradient-info">
                         <div class="card-header border-0">
                             <h3 class="card-title">
-                                <i class="fas fa-chart-line"></i> Hızlı İstatistik
+                                <i class="fas fa-chart-line"></i> {{ __('Hızlı İstatistik') }}
                             </h3>
                         </div>
                         <div class="card-body">
@@ -444,13 +440,13 @@
                                 <div class="col-6 text-center">
                                     <div class="text-white">
                                         <h3 class="mb-0" id="stat-selected-days">0</h3>
-                                        <small>Seçili Gün</small>
+                                        <small>{{ __('Seçili Gün') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-6 text-center">
                                     <div class="text-white">
                                         <h3 class="mb-0" id="stat-priced-days">0</h3>
-                                        <small>Fiyatlı Gün</small>
+                                        <small>{{ __('Fiyatlı Gün') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -938,7 +934,20 @@ $(function(){
     const preSelectedDays = [];
     const preSelectedMonths = [];
     const preSelectedYears = [];
-    const oldSelectedDates = @json(old('selected_dates'));
+    const oldSelectedDates = {!! json_encode(old('selected_dates'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    const JS_LOCALE = {!! json_encode(app()->getLocale() === 'en' ? 'en-US' : 'tr-TR', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    const plannerI18n = {!! json_encode([
+        'dateSelected' => __(':count tarih seçili'),
+        'daysPriced' => __(':count gün fiyatlandırıldı'),
+        'noSelectionYet' => __('Henüz seçim yapılmadı'),
+        'select' => __('Seç'),
+        'clear' => __('Temizle'),
+        'hideSelectedDates' => __('Seçili Tarihleri Gizle'),
+        'showSelectedDates' => __('Seçili Tarihleri Göster'),
+        'adult' => __('Yetişkin'),
+        'child' => __('Çocuk'),
+        'infant' => __('Bebek'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
     function parseMaybeJson(value, fallback){
         if (value === null || value === undefined || value === '') return fallback;
@@ -958,7 +967,7 @@ $(function(){
                 const arr = JSON.parse(sd); 
                 if (Array.isArray(arr)) {
                     selectedCount = arr.length;
-                    if (arr.length > 0) summary.push(`${arr.length} tarih seçili`);
+                    if (arr.length > 0) summary.push(plannerI18n.dateSelected.replace(':count', arr.length));
                 }
             } catch(_){}
         }
@@ -974,9 +983,9 @@ $(function(){
             } catch(_) {}
         }
         $('#stat-priced-days').text(pricedCount);
-        if (pricedCount > 0) summary.push(`${pricedCount} gün fiyatlandırıldı`);
-        
-        $('#availability-summary').text(summary.length ? summary.join(' · ') : 'Henüz seçim yapılmadı');
+        if (pricedCount > 0) summary.push(plannerI18n.daysPriced.replace(':count', pricedCount));
+
+        $('#availability-summary').text(summary.length ? summary.join(' · ') : plannerI18n.noSelectionYet);
     }
 
     function toLocalISO(date){
@@ -999,12 +1008,17 @@ $(function(){
 
     function refreshPricePlaceholders(){
         const sym = getCurrencySymbol();
-        $('#pm-price-adult').attr('placeholder', 'Yetişkin ('+sym+')');
-        $('#pm-price-child').attr('placeholder', 'Çocuk ('+sym+')');
-        $('#pm-price-infant').attr('placeholder', 'Bebek ('+sym+')');
+        $('#pm-price-adult').attr('placeholder', plannerI18n.adult+' ('+sym+')');
+        $('#pm-price-child').attr('placeholder', plannerI18n.child+' ('+sym+')');
+        $('#pm-price-infant').attr('placeholder', plannerI18n.infant+' ('+sym+')');
     }
 
-    const monthsTr=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+    const monthsTr = {!! json_encode(app()->getLocale() === 'en'
+        ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+        : ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    const weekdaysTr = {!! json_encode(app()->getLocale() === 'en'
+        ? ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+        : ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     const selectedSpecialDates = new Set();
     let lastTwoClicks = [];
     let rangeLocked = false;
@@ -1034,8 +1048,8 @@ $(function(){
             const offset = dow === 0 ? -6 : 1 - dow;
             start.setDate(start.getDate() + offset);
             html += '<div class="yp-card">';
-            html += '<div class="d-flex justify-content-between align-items-center yp-header"><span>' + monthsTr[month-1] + '</span><div><button type="button" class="btn btn-xs btn-outline-success month-select" data-month="'+month+'">Seç</button> <button type="button" class="btn btn-xs btn-outline-danger month-clear" data-month="'+month+'">Temizle</button></div></div>';
-            html += '<div class="yp-weekdays"><div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div></div>';
+            html += '<div class="d-flex justify-content-between align-items-center yp-header"><span>' + monthsTr[month-1] + '</span><div><button type="button" class="btn btn-xs btn-outline-success month-select" data-month="'+month+'">' + plannerI18n.select + '</button> <button type="button" class="btn btn-xs btn-outline-danger month-clear" data-month="'+month+'">' + plannerI18n.clear + '</button></div></div>';
+            html += '<div class="yp-weekdays"><div>' + weekdaysTr.join('</div><div>') + '</div></div>';
             html += '<div class="yp-grid">';
             for (let i=0; i<42; i++){
                 const d = new Date(start); d.setDate(start.getDate()+i);
@@ -1090,7 +1104,7 @@ $(function(){
         
         // Build HTML for selected dates
         let html='';
-        arr.forEach(ds=>{ html += `<span class="selected-date-item"><i class="fas fa-calendar-day"></i> ${new Date(ds).toLocaleDateString('tr-TR')}<span class="remove-date" data-date="${ds}">&times;</span></span>`; });
+        arr.forEach(ds=>{ html += `<span class="selected-date-item"><i class="fas fa-calendar-day"></i> ${new Date(ds).toLocaleDateString(JS_LOCALE)}<span class="remove-date" data-date="${ds}">&times;</span></span>`; });
         $list.html(html);
         
         // Show wrapper but keep list collapsed by default
@@ -1115,11 +1129,11 @@ $(function(){
         if(selectedDatesListOpen){
             $list.slideDown(200);
             $icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
-            $text.text('Seçili Tarihleri Gizle');
+            $text.text(plannerI18n.hideSelectedDates);
         } else {
             $list.slideUp(200);
             $icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
-            $text.text('Seçili Tarihleri Göster');
+            $text.text(plannerI18n.showSelectedDates);
         }
     });
 
@@ -1518,7 +1532,7 @@ $(function(){
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    var MAPBOX_TOKEN = @json(config('services.mapbox.access_token'));
+    var MAPBOX_TOKEN = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     var mapEl = document.getElementById('service-area-map');
     if (!mapEl || !MAPBOX_TOKEN) return;
     mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -1824,27 +1838,35 @@ document.addEventListener('DOMContentLoaded', function(){
         bindTimesPopupEvents(idx);
     }
 
+    var ptpI18n = {!! json_encode([
+        'noTimesYet' => __('Henüz saat eklenmedi'),
+        'polygonTimes' => __('Poligon #:n — Saatler'),
+        'close' => __('Kapat'),
+        'delete' => __('Sil'),
+        'add' => __('Ekle'),
+        'hint' => __('Saat girmek opsiyoneldir. En erken saat tur listesinde gösterilir.'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     function buildTimesPopupHtml(idx){
         var list = Array.isArray(polygonTimes[idx]) ? polygonTimes[idx].slice().sort() : [];
         var rows;
         if (!list.length) {
-            rows = '<div class="ptp-empty">Henüz saat eklenmedi</div>';
+            rows = '<div class="ptp-empty">' + ptpI18n.noTimesYet + '</div>';
         } else {
             rows = list.map(function(t){
                 return '<div class="ptp-item"><span>' + smEscape(t) + '</span>' +
-                       '<button type="button" class="ptp-del" data-time="' + smEscape(t) + '" title="Sil">' +
+                       '<button type="button" class="ptp-del" data-time="' + smEscape(t) + '" title="' + ptpI18n.delete + '">' +
                        '<i class="fas fa-times"></i></button></div>';
             }).join('');
         }
         return '<div class="poly-times-popup">' +
-                    '<div class="ptp-header"><span>Poligon #' + (idx+1) + ' — Saatler</span>' +
-                        '<button type="button" class="ptp-close" title="Kapat">&times;</button></div>' +
+                    '<div class="ptp-header"><span>' + ptpI18n.polygonTimes.replace(':n', idx+1) + '</span>' +
+                        '<button type="button" class="ptp-close" title="' + ptpI18n.close + '">&times;</button></div>' +
                     '<div class="ptp-list">' + rows + '</div>' +
                     '<div class="ptp-add">' +
                         '<input type="time" class="ptp-input form-control form-control-sm" step="60">' +
-                        '<button type="button" class="btn btn-sm btn-primary ptp-add-btn">Ekle</button>' +
+                        '<button type="button" class="btn btn-sm btn-primary ptp-add-btn">' + ptpI18n.add + '</button>' +
                     '</div>' +
-                    '<div class="ptp-hint">Saat girmek opsiyoneldir. En erken saat tur listesinde gösterilir.</div>' +
+                    '<div class="ptp-hint">' + ptpI18n.hint + '</div>' +
                 '</div>';
     }
 
@@ -1890,9 +1912,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // ==================== Saved Maps (kullanıcı bazlı poligon kütüphanesi) ====================
     var SM_URLS = {
-        index:  @json(route('admin.saved-maps.index')),
-        store:  @json(route('admin.saved-maps.store')),
-        destroy: @json(url('admin/saved-maps'))
+        index:  {!! json_encode(route('admin.saved-maps.index'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!},
+        store:  {!! json_encode(route('admin.saved-maps.store'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!},
+        destroy: {!! json_encode(url('admin/saved-maps'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}
     };
     function smCsrf() {
         var i = document.querySelector('input[name="_token"]');
@@ -1905,6 +1927,24 @@ document.addEventListener('DOMContentLoaded', function(){
             return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
         });
     }
+    var SM_LOCALE = {!! json_encode(app()->getLocale() === 'en' ? 'en-US' : 'tr-TR', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    var smI18n = {!! json_encode([
+        'enterName' => __('Lütfen bir isim girin.'),
+        'noPolygonsDrawFirst' => __('Kaydedilecek poligon yok. Önce en az bir poligon çizin.'),
+        'polygonDataUnreadable' => __('Poligon verisi okunamadı.'),
+        'noPolygonsToSave' => __('Kaydedilecek poligon yok.'),
+        'saving' => __('Kaydediliyor...'),
+        'savedSuccessfully' => __('Harita başarıyla kaydedildi.'),
+        'saveFailed' => __('Kaydedilemedi.'),
+        'networkErrorRetry' => __('Ağ hatası. Lütfen tekrar deneyin.'),
+        'loading' => __('Yükleniyor...'),
+        'noSavedMaps' => __('Kayıtlı harita yok. Önce haritadaki bir poligonu kaydedin.'),
+        'add' => __('Ekle'),
+        'listLoadFailed' => __('Liste yüklenemedi.'),
+        'confirmDeleteMap' => __('Bu kayıtlı harita silinsin mi?'),
+        'deleteFailed' => __('Silinemedi.'),
+        'networkErrorDelete' => __('Ağ hatası. Silinemedi.'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     function smShow(id){ var el = document.getElementById(id); if (el) el.style.display = 'flex'; }
     function smHide(id){ var el = document.getElementById(id); if (el) el.style.display = 'none'; }
 
@@ -1930,29 +1970,29 @@ document.addEventListener('DOMContentLoaded', function(){
         msg.innerHTML = '';
         var name = (input.value || '').trim();
         if (!name) {
-            msg.innerHTML = '<div class="text-danger small">Lütfen bir isim girin.</div>';
+            msg.innerHTML = '<div class="text-danger small">' + smI18n.enterName + '</div>';
             return;
         }
         if (!polygons.length) {
-            msg.innerHTML = '<div class="text-danger small">Kaydedilecek poligon yok. Önce en az bir poligon çizin.</div>';
+            msg.innerHTML = '<div class="text-danger small">' + smI18n.noPolygonsDrawFirst + '</div>';
             return;
         }
         serialize();
         var geo;
         try { geo = JSON.parse(document.getElementById('service_areas').value); }
-        catch(e) { msg.innerHTML = '<div class="text-danger small">Poligon verisi okunamadı.</div>'; return; }
+        catch(e) { msg.innerHTML = '<div class="text-danger small">' + smI18n.polygonDataUnreadable + '</div>'; return; }
         var hasAny = false;
         if (geo) {
             if (geo.type === 'FeatureCollection') hasAny = Array.isArray(geo.features) && geo.features.length > 0;
             else if (geo.type === 'MultiPolygon') hasAny = Array.isArray(geo.coordinates) && geo.coordinates.length > 0;
         }
         if (!hasAny) {
-            msg.innerHTML = '<div class="text-danger small">Kaydedilecek poligon yok.</div>';
+            msg.innerHTML = '<div class="text-danger small">' + smI18n.noPolygonsToSave + '</div>';
             return;
         }
         btn.disabled = true;
         var origLabel = btn.innerHTML;
-        btn.innerHTML = 'Kaydediliyor...';
+        btn.innerHTML = smI18n.saving;
         fetch(SM_URLS.store, {
             method: 'POST',
             credentials: 'same-origin',
@@ -1969,24 +2009,24 @@ document.addEventListener('DOMContentLoaded', function(){
             btn.disabled = false;
             btn.innerHTML = origLabel;
             if (res.ok) {
-                msg.innerHTML = '<div class="text-success small">Harita başarıyla kaydedildi.</div>';
+                msg.innerHTML = '<div class="text-success small">' + smI18n.savedSuccessfully + '</div>';
                 setTimeout(function(){ smHide('sm-save-modal'); }, 700);
             } else {
-                var err = (res.body && res.body.message) || 'Kaydedilemedi.';
+                var err = (res.body && res.body.message) || smI18n.saveFailed;
                 msg.innerHTML = '<div class="text-danger small">' + smEscape(err) + '</div>';
             }
         })
         .catch(function(){
             btn.disabled = false;
             btn.innerHTML = origLabel;
-            msg.innerHTML = '<div class="text-danger small">Ağ hatası. Lütfen tekrar deneyin.</div>';
+            msg.innerHTML = '<div class="text-danger small">' + smI18n.networkErrorRetry + '</div>';
         });
     }
 
     function smLoadList() {
         var list = document.getElementById('sm-load-list');
         if (!list) return;
-        list.innerHTML = '<div class="text-muted small">Yükleniyor...</div>';
+        list.innerHTML = '<div class="text-muted small">' + smI18n.loading + '</div>';
         fetch(SM_URLS.index, {
             credentials: 'same-origin',
             headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
@@ -1995,21 +2035,21 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(function(res){
             var items = (res && res.data) || [];
             if (!items.length) {
-                list.innerHTML = '<div class="text-muted small">Kayıtlı harita yok. Önce haritadaki bir poligonu kaydedin.</div>';
+                list.innerHTML = '<div class="text-muted small">' + smI18n.noSavedMaps + '</div>';
                 return;
             }
             list.innerHTML = '';
             items.forEach(function(it){
                 var row = document.createElement('div');
                 row.className = 'sm-item';
-                var when = it.updated_at ? new Date(it.updated_at).toLocaleString('tr-TR') : '';
+                var when = it.updated_at ? new Date(it.updated_at).toLocaleString(SM_LOCALE) : '';
                 row.innerHTML =
                     '<div class="sm-item-info">' +
                         '<div class="sm-item-name">' + smEscape(it.name) + '</div>' +
                         '<div class="sm-item-meta">' + smEscape(when) + '</div>' +
                     '</div>' +
                     '<div class="sm-item-actions">' +
-                        '<button type="button" class="btn btn-sm btn-primary" data-sm-action="add"><i class="fas fa-plus"></i> Ekle</button>' +
+                        '<button type="button" class="btn btn-sm btn-primary" data-sm-action="add"><i class="fas fa-plus"></i> ' + smI18n.add + '</button>' +
                         '<button type="button" class="btn btn-sm btn-outline-danger" data-sm-action="delete"><i class="fas fa-trash"></i></button>' +
                     '</div>';
                 row.querySelector('[data-sm-action="add"]').addEventListener('click', function(){ smAddToMap(it); });
@@ -2018,7 +2058,7 @@ document.addEventListener('DOMContentLoaded', function(){
             });
         })
         .catch(function(){
-            list.innerHTML = '<div class="text-danger small">Liste yüklenemedi.</div>';
+            list.innerHTML = '<div class="text-danger small">' + smI18n.listLoadFailed + '</div>';
         });
     }
 
@@ -2066,7 +2106,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function smDelete(id, row) {
-        if (!confirm('Bu kayıtlı harita silinsin mi?')) return;
+        if (!confirm(smI18n.confirmDeleteMap)) return;
         fetch(SM_URLS.destroy + '/' + encodeURIComponent(id), {
             method: 'DELETE',
             credentials: 'same-origin',
@@ -2079,9 +2119,9 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(function(r){ return r.json().catch(function(){ return {}; }); })
         .then(function(res){
             if (res && res.success) { row.remove(); }
-            else { alert('Silinemedi.'); }
+            else { alert(smI18n.deleteFailed); }
         })
-        .catch(function(){ alert('Ağ hatası. Silinemedi.'); });
+        .catch(function(){ alert(smI18n.networkErrorDelete); });
     }
 
     document.querySelectorAll('.sm-modal-backdrop [data-sm-close]').forEach(function(btn){

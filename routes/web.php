@@ -14,7 +14,9 @@ use App\Http\Controllers\Driver\DashboardController as DriverDashboardController
 use App\Http\Controllers\TicketController as PublicTicketController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AgencyNetworkController;
- 
+use App\Http\Controllers\InfoNotificationController;
+use App\Http\Controllers\LanguageController;
+
 
 // Main Route - Redirect to login page
 Route::get('/', function () {
@@ -25,6 +27,9 @@ Route::get('/', function () {
 Route::get('/csrf-refresh', function () {
     return response()->json(['token' => csrf_token()]);
 })->name('csrf.refresh');
+
+Route::middleware('auth')->get('/info-notification', InfoNotificationController::class)->name('info.notification');
+Route::middleware('auth')->post('/language', [LanguageController::class, 'update'])->name('language.update');
 
 // Admin Dashboard Route
 Route::get('/admin/dashboard', function () {

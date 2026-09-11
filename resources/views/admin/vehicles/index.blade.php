@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Araç Yönetimi')
+@section('title', __('Araç Yönetimi'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <!-- Modern Kontrol Paneli -->
-                <div class="vehicles-control-panel mb-2">
+                <div class="vehicles-control-panel ad-page-header admin-list-toolbar mb-3">
                     <div class="control-left">
-                        <h4 class="control-title"><i class="fas fa-car"></i> Araç Yönetimi</h4>
-                        <p class="control-subtitle">Toplam {{ $vehicles->total() }} araç</p>
+                        <h4 class="control-title"><i class="fas fa-car"></i> {{ __('Araç Yönetimi') }}</h4>
+                        <p class="control-subtitle">{{ __('Toplam :count araç', ['count' => $vehicles->total()]) }}</p>
                     </div>
                     <div class="control-center">
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="plate-search" class="search-input" placeholder="Plaka ara...">
+                            <input type="text" id="plate-search" class="search-input" placeholder="{{ __('Plaka ara...') }}">
                             <button type="button" id="plate-search-clear" class="search-clear" style="display: none;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -42,19 +42,19 @@
                         </div>
                         <div class="control-item">
                             <a href="{{ route('admin.vehicles.create') }}" class="btn btn-sm btn-light">
-                                <i class="fas fa-plus"></i> Yeni Araç
+                                <i class="fas fa-plus"></i> {{ __('Yeni Araç') }}
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="ad-card">
                     <div class="card-body p-0">
                         <!-- Modern Filtre Bölümü -->
                         <div class="modern-filters-wrapper">
                             <button type="button" class="filter-toggle-btn" id="filterToggle">
                                 <i class="fas fa-sliders-h mr-2"></i>
-                                <span>Filtreler</span>
+                                <span>{{ __('Filtreler') }}</span>
                                 @php
                                     $activeFilters = 0;
                                     if(request('filter_status')) $activeFilters++;
@@ -77,11 +77,11 @@
                                                 <i class="fas fa-toggle-on"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Araç Durumu</label>
+                                                <label class="filter-label">{{ __('Araç Durumu') }}</label>
                                                 <select class="filter-select" name="filter_status">
-                                            <option value="">Tümü</option>
-                                            <option value="available" {{ request('filter_status')==='available' ? 'selected' : '' }}>Aktif</option>
-                                            <option value="busy" {{ request('filter_status')==='busy' ? 'selected' : '' }}>Pasif</option>
+                                            <option value="">{{ __('Tümü') }}</option>
+                                            <option value="available" {{ request('filter_status')==='available' ? 'selected' : '' }}>{{ __('Aktif') }}</option>
+                                            <option value="busy" {{ request('filter_status')==='busy' ? 'selected' : '' }}>{{ __('Pasif') }}</option>
                                         </select>
                                     </div>
                                         </div>
@@ -91,11 +91,11 @@
                                                 <i class="fas fa-user-tie"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Şoför Durumu</label>
+                                                <label class="filter-label">{{ __('Şoför Durumu') }}</label>
                                                 <select class="filter-select" name="filter_driver">
-                                                    <option value="">Tümü</option>
-                                                    <option value="with" {{ request('filter_driver')==='with' ? 'selected' : '' }}>Şoförlü</option>
-                                                    <option value="without" {{ request('filter_driver')==='without' ? 'selected' : '' }}>Şoförsüz</option>
+                                                    <option value="">{{ __('Tümü') }}</option>
+                                                    <option value="with" {{ request('filter_driver')==='with' ? 'selected' : '' }}>{{ __('Şoförlü') }}</option>
+                                                    <option value="without" {{ request('filter_driver')==='without' ? 'selected' : '' }}>{{ __('Şoförsüz') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -105,12 +105,12 @@
                                                 <i class="fas fa-users"></i>
                                             </div>
                                             <div class="filter-content">
-                                                <label class="filter-label">Kapasite</label>
+                                                <label class="filter-label">{{ __('Kapasite') }}</label>
                                                 <select class="filter-select" name="filter_capacity">
-                                            <option value="">Tümü</option>
-                                            <option value="small" {{ request('filter_capacity')==='small' ? 'selected' : '' }}>Küçük (1-8)</option>
-                                            <option value="medium" {{ request('filter_capacity')==='medium' ? 'selected' : '' }}>Orta (9-16)</option>
-                                            <option value="large" {{ request('filter_capacity')==='large' ? 'selected' : '' }}>Büyük (17+)</option>
+                                            <option value="">{{ __('Tümü') }}</option>
+                                            <option value="small" {{ request('filter_capacity')==='small' ? 'selected' : '' }}>{{ __('Küçük (1-8)') }}</option>
+                                            <option value="medium" {{ request('filter_capacity')==='medium' ? 'selected' : '' }}>{{ __('Orta (9-16)') }}</option>
+                                            <option value="large" {{ request('filter_capacity')==='large' ? 'selected' : '' }}>{{ __('Büyük (17+)') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -118,10 +118,10 @@
 
                                     <div class="filter-actions">
                                         <a href="{{ route('admin.vehicles.index', ['per_page'=>request('per_page', $perPage ?? 10)]) }}" class="filter-btn filter-btn-clear">
-                                            <i class="fas fa-times-circle mr-1"></i> Temizle
+                                            <i class="fas fa-times-circle mr-1"></i> {{ __('Temizle') }}
                                         </a>
                                         <button type="submit" class="filter-btn filter-btn-apply">
-                                            <i class="fas fa-check-circle mr-1"></i> Uygula
+                                            <i class="fas fa-check-circle mr-1"></i> {{ __('Uygula') }}
                                         </button>
                                 </div>
                             </form>
@@ -130,18 +130,18 @@
 
                         <div class="p-3">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="ad-table table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Plaka</th>
-                                        <th>Marka/Model</th>
-                                        <th>Tür</th>
-                                        <th>Kapasite</th>
-                                        <th>Şoför</th>
-                                        <th>Son Konum</th>
-                                        <th>Durum</th>
-                                        <th>İşlemler</th>
+                                        <th>{{ __('Plaka') }}</th>
+                                        <th>{{ __('Marka/Model') }}</th>
+                                        <th>{{ __('Tür') }}</th>
+                                        <th>{{ __('Kapasite') }}</th>
+                                        <th>{{ __('Şoför') }}</th>
+                                        <th>{{ __('Son Konum') }}</th>
+                                        <th>{{ __('Durum') }}</th>
+                                        <th>{{ __('İşlemler') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -151,7 +151,7 @@
                                             <td>
                                                 <strong>{{ $vehicle->plate_number }}</strong>
                                                 @if($vehicle->image)
-                                                    <br><small class="text-muted">Resim mevcut</small>
+                                                    <br><small class="text-muted">{{ __('Resim mevcut') }}</small>
                                                 @endif
                                             </td>
                                             <td>{{ $vehicle->brand }} {{ $vehicle->model }}</td>
@@ -164,16 +164,16 @@
                                                     $availableSeats = $vehicle->capacity - $currentPassengers;
                                                 @endphp
                                                 <strong>{{ $currentPassengers }}/{{ $vehicle->capacity }}</strong>
-                                                <br><small class="text-muted">{{ $availableSeats }} boş koltuk</small>
+                                                <br><small class="text-muted">{{ __(':count boş koltuk', ['count' => $availableSeats]) }}</small>
                                                 @if($availableSeats <= 0)
-                                                    <br><span class="badge badge-danger">Dolu</span>
+                                                    <br><span class="badge badge-danger">{{ __('Dolu') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($vehicle->driver)
                                                     <span class="badge badge-info">{{ $vehicle->driver->name }}</span>
                                                 @else
-                                                    <span class="badge badge-secondary">Atanmamış</span>
+                                                    <span class="badge badge-secondary">{{ __('Atanmamış') }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -181,7 +181,7 @@
                                                 @if($loc)
                                                     @php $live = $loc->recorded_at && $loc->recorded_at->gt(now()->subMinutes(2)); @endphp
                                                     @if($live)
-                                                        <span class="badge badge-success"><i class="fas fa-circle" style="font-size:7px;"></i> CANLI</span>
+                                                        <span class="badge badge-success"><i class="fas fa-circle" style="font-size:7px;"></i> {{ __('CANLI') }}</span>
                                                     @endif
                                                     <small class="text-muted d-block">
                                                         {{ number_format((float) $loc->latitude, 5) }}, {{ number_format((float) $loc->longitude, 5) }}
@@ -190,33 +190,33 @@
                                                         <i class="far fa-clock"></i> {{ $loc->recorded_at ? $loc->recorded_at->diffForHumans() : '—' }}
                                                     </small>
                                                 @else
-                                                    <small class="text-muted">Henüz konum yok</small>
+                                                    <small class="text-muted">{{ __('Henüz konum yok') }}</small>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($vehicle->is_active)
-                                                    <span class="badge badge-success">Aktif</span>
+                                                    <span class="badge badge-success">{{ __('Aktif') }}</span>
                                                 @else
-                                                    <span class="badge badge-danger">Pasif</span>
+                                                    <span class="badge badge-danger">{{ __('Pasif') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{ route('admin.vehicles.show', $vehicle) }}" 
-                                                       class="btn btn-sm btn-info" title="Görüntüle">
+                                                    <a href="{{ route('admin.vehicles.show', $vehicle) }}"
+                                                       class="btn btn-sm btn-info" title="{{ __('Görüntüle') }}">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('admin.vehicles.edit', $vehicle) }}" 
-                                                       class="btn btn-sm btn-warning" title="Düzenle">
+                                                    <a href="{{ route('admin.vehicles.edit', $vehicle) }}"
+                                                       class="btn btn-sm btn-warning" title="{{ __('Düzenle') }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('admin.vehicles.destroy', $vehicle) }}" 
+                                                    <form action="{{ route('admin.vehicles.destroy', $vehicle) }}"
                                                           method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" 
-                                                                onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')"
-                                                                title="Sil">
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('{{ __('Bu aracı silmek istediğinize emin misiniz?') }}')"
+                                                                title="{{ __('Sil') }}">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -225,7 +225,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="9" class="text-center">Henüz araç eklenmemiş.</td>
+                                            <td colspan="9" class="text-center">{{ __('Henüz araç eklenmemiş.') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -239,7 +239,7 @@
                 <div class="bottom-pagination-wrapper">
                     <div class="pagination-info">
                         <i class="fas fa-info-circle mr-2"></i>
-                        <span>Toplam <strong>{{ $vehicles->total() }}</strong> kayıt bulundu</span>
+                        <span>{!! __('Toplam :count kayıt bulundu', ['count' => '<strong>' . $vehicles->total() . '</strong>']) !!}</span>
                     </div>
                     <div class="custom-pagination">
                         {{ $vehicles->onEachSide(1)->links() }}
@@ -695,6 +695,10 @@ html.dark-mode .table .text-muted { color: #94a3b8 !important; }
 @push('js')
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+    const vehiclesI18n = {!! json_encode([
+        'showing' => __(':shown / :total araç gösteriliyor'),
+        'noResults' => __(':term plakasına uygun araç bulunamadı'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     // Sayfa boyutu butonları
         const group = document.getElementById('vehicles-page-size');
         if (group) {
@@ -763,7 +767,7 @@ html.dark-mode .table .text-muted { color: #94a3b8 !important; }
             
             // Arama bilgisini güncelle
             if (searchTerm) {
-                searchInfo.textContent = `${visibleCount} / ${totalRows} araç gösteriliyor`;
+                searchInfo.textContent = vehiclesI18n.showing.replace(':shown', visibleCount).replace(':total', totalRows);
                 searchInfo.style.display = 'block';
                 plateSearchClear.style.display = 'flex';
             } else {
@@ -777,7 +781,7 @@ html.dark-mode .table .text-muted { color: #94a3b8 !important; }
                 if (!noResultRow) {
                     const tr = document.createElement('tr');
                     tr.className = 'no-search-result';
-                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>"' + searchTerm.toUpperCase() + '" plakasına uygun araç bulunamadı</td>';
+                    tr.innerHTML = '<td colspan="8" class="text-center text-muted py-4"><i class="fas fa-search mr-2"></i>' + vehiclesI18n.noResults.replace(':term', '"' + searchTerm.toUpperCase() + '"') + '</td>';
                     tableBody.appendChild(tr);
                 }
             } else if (noResultRow) {

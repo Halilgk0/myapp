@@ -50,6 +50,11 @@
             --topbar-height: 52px;
         }
 
+        /* Tema geçiş animasyonu - renkler aniden değil yumuşak geçsin */
+        html, body, *, *::before, *::after {
+            transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease, fill .25s ease, stroke .25s ease;
+        }
+
         /* Dark Mode */
         html.dark-mode {
             --ad-bg: #0f172a;
@@ -293,9 +298,10 @@
             border-color: var(--ad-accent) !important;
         }
         
-        html.dark-mode .day-chip.selected,
-        html.dark-mode .day-chip.today {
+        html.dark-mode .day-chip.active {
             background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+            border-color: #2563eb !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
         }
         
         html.dark-mode .table-title {
@@ -1061,6 +1067,11 @@
             color: var(--ad-danger);
         }
 
+        .ad-notification-quote .ad-notification-icon {
+            background: rgba(167, 139, 250, 0.1);
+            color: #a78bfa;
+        }
+
         .ad-notification-content {
             flex: 1;
             min-width: 0;
@@ -1467,6 +1478,291 @@
             color: var(--ad-info);
         }
 
+        .ad-content .card {
+            background: var(--ad-card) !important;
+            border: 1px solid var(--ad-border) !important;
+            border-radius: var(--ad-radius) !important;
+            box-shadow: var(--ad-shadow) !important;
+            color: var(--ad-text);
+        }
+
+        .ad-content .card-header {
+            background: transparent !important;
+            border-bottom: 1px solid var(--ad-border) !important;
+            color: var(--ad-text) !important;
+            padding: 12px 14px;
+        }
+
+        .ad-content .card-header .card-title,
+        .ad-content .card-header h1,
+        .ad-content .card-header h2,
+        .ad-content .card-header h3,
+        .ad-content .card-header h4,
+        .ad-content .card-header h5,
+        .ad-content .card-header h6 {
+            color: var(--ad-text) !important;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .ad-content .card-body { color: var(--ad-text); padding: 14px; }
+        .ad-content .card-footer { background: var(--ad-bg) !important; border-top: 1px solid var(--ad-border) !important; }
+        .ad-content .card-primary,
+        .ad-content .card-success,
+        .ad-content .card-info,
+        .ad-content .card-warning,
+        .ad-content .card-danger { border-top: 0 !important; }
+
+        .ad-content .btn {
+            border-radius: var(--ad-radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .ad-content .btn-primary { background: var(--ad-accent); border-color: var(--ad-accent); }
+        .ad-content .btn-primary:hover { background: var(--ad-accent-hover); border-color: var(--ad-accent-hover); }
+        .ad-content .btn-success { background: var(--ad-success); border-color: var(--ad-success); }
+        .ad-content .btn-warning { background: var(--ad-warning); border-color: var(--ad-warning); color: #fff; }
+        .ad-content .btn-danger { background: var(--ad-danger); border-color: var(--ad-danger); }
+        .ad-content .btn-info { background: var(--ad-info); border-color: var(--ad-info); }
+        .ad-content .btn-light,
+        .ad-content .btn-secondary,
+        .ad-content .btn-outline-secondary {
+            background: var(--ad-bg);
+            border-color: var(--ad-border);
+            color: var(--ad-text);
+        }
+        .ad-content .btn-light:hover,
+        .ad-content .btn-secondary:hover,
+        .ad-content .btn-outline-secondary:hover { background: var(--ad-border); color: var(--ad-text); }
+
+        .ad-content .table { color: var(--ad-text); border-color: var(--ad-border); margin-bottom: 0; }
+        .ad-content .table thead th { background: var(--ad-bg); color: var(--ad-text-muted); border-color: var(--ad-border); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
+        .ad-content .table td,
+        .ad-content .table th { border-color: var(--ad-border); vertical-align: middle; }
+        .ad-content .table-hover tbody tr:hover { background: var(--ad-bg); color: var(--ad-text); }
+        .ad-content .badge { border-radius: 20px; font-size: 11px; font-weight: 600; padding: 4px 10px; }
+        .ad-content .badge-light,
+        .ad-content .badge-secondary { background: var(--ad-bg); color: var(--ad-text-muted); }
+
+        html.dark-mode .ad-content .bg-white,
+        html.dark-mode .ad-content .bg-light { background: var(--ad-bg) !important; color: var(--ad-text) !important; }
+
+        .ad-content .admin-list-toolbar {
+            background: var(--ad-card) !important;
+            border: 1px solid var(--ad-border);
+            border-radius: var(--ad-radius);
+            box-shadow: var(--ad-shadow);
+            padding: 12px 14px;
+        }
+
+        .ad-content .admin-list-toolbar .control-title { color: var(--ad-text); font-size: 15px; font-weight: 700; }
+        .ad-content .admin-list-toolbar .control-subtitle { color: var(--ad-text-muted); font-size: 12px; }
+        .ad-content .admin-list-toolbar .search-box { background: var(--ad-bg); border-color: var(--ad-border); }
+        .ad-content .admin-list-toolbar .search-input { color: var(--ad-text); }
+        .ad-content .admin-list-toolbar .size-selector { background: var(--ad-bg); border-color: var(--ad-border); }
+        .ad-content .admin-list-toolbar .size-btn { color: var(--ad-text-muted); }
+        .ad-content .admin-list-toolbar .size-btn.active { background: var(--ad-accent); color: #fff; }
+
+        .ad-content .small-box,
+        .ad-content .info-box,
+        .ad-content .currency-card,
+        .ad-content .table-container,
+        .ad-content .filter-card {
+            background: var(--ad-card) !important;
+            border: 1px solid var(--ad-border) !important;
+            border-radius: var(--ad-radius) !important;
+            box-shadow: var(--ad-shadow);
+            color: var(--ad-text);
+        }
+
+        .ad-content .small-box {
+            min-height: 112px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ad-content .small-box .inner { padding: 16px; position: relative; z-index: 1; }
+        .ad-content .small-box .inner h3 { color: var(--ad-text); font-size: 24px; font-weight: 700; }
+        .ad-content .small-box .inner p { color: var(--ad-text-muted); font-size: 12px; }
+        .ad-content .small-box .icon { color: var(--ad-accent); opacity: .12; }
+        .ad-content .small-box-footer { display:block; padding:8px 16px; background:var(--ad-bg); color:var(--ad-accent) !important; font-size:11px; text-decoration:none; }
+        .ad-content .small-box.bg-info,
+        .ad-content .small-box.bg-success,
+        .ad-content .small-box.bg-warning,
+        .ad-content .small-box.bg-danger { background: var(--ad-card) !important; }
+
+        .ad-content .info-box {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .ad-content .info-box-icon { width: 42px; height: 42px; border-radius: var(--ad-radius-sm); display:flex; align-items:center; justify-content:center; margin-right:12px; color:#fff; }
+        .ad-content .info-box-content { min-width:0; }
+        .ad-content .info-box-text { color:var(--ad-text-muted); font-size:11px; }
+        .ad-content .info-box-number { color:var(--ad-text); font-size:18px; font-weight:700; }
+
+        .ad-content .filter-card { padding: 12px; }
+        .ad-content .filter-label { color:var(--ad-text-muted); }
+        .ad-content .filter-select,
+        .ad-content .filter-input,
+        .ad-content .form-control { background:var(--ad-card); border-color:var(--ad-border); color:var(--ad-text); }
+        .ad-content .filter-icon { border-radius:var(--ad-radius-sm); }
+        .ad-content .currency-card { padding: 12px; }
+        .ad-content .currency-header,
+        .ad-content .currency-body,
+        .ad-content .currency-row { color:var(--ad-text); border-color:var(--ad-border); }
+        .ad-content .currency-label { color:var(--ad-text-muted); }
+        .ad-content .table-container { padding: 12px; }
+        .ad-content .table-title { color:var(--ad-text); border-bottom-color:var(--ad-border); }
+        .ad-content .btn-group .btn { border-radius:var(--ad-radius-sm) !important; margin-right:3px; }
+
+        .ad-content .btn-group .btn {
+            min-width: 34px;
+            min-height: 32px;
+            padding: 6px 9px;
+            border-width: 1px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+        }
+        .ad-content .btn-group .btn-info { background: rgba(6,182,212,.14) !important; border-color: rgba(34,211,238,.82) !important; color: #67e8f9 !important; }
+        .ad-content .btn-group .btn-warning { background: rgba(245,158,11,.16) !important; border-color: rgba(251,191,36,.84) !important; color: #fcd34d !important; }
+        .ad-content .btn-group .btn-danger { background: rgba(239,68,68,.14) !important; border-color: rgba(248,113,113,.82) !important; color: #fca5a5 !important; }
+        .ad-content .btn-group .btn-success { background: rgba(16,185,129,.14) !important; border-color: rgba(52,211,153,.82) !important; color: #6ee7b7 !important; }
+        .ad-content .btn-group .btn-primary { background: rgba(99,102,241,.14) !important; border-color: rgba(129,140,248,.82) !important; color: #a5b4fc !important; }
+        .ad-content .btn-group .btn:hover { filter: brightness(1.16); }
+        .ad-content .ad-table .btn,
+        .ad-content table .btn {
+            min-height: 32px;
+            padding: 6px 9px;
+            border-width: 1px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+        }
+        .ad-content table .btn-info { background: rgba(6,182,212,.14) !important; border-color: rgba(34,211,238,.82) !important; color: #67e8f9 !important; }
+        .ad-content table .btn-warning { background: rgba(245,158,11,.16) !important; border-color: rgba(251,191,36,.84) !important; color: #fcd34d !important; }
+        .ad-content table .btn-danger { background: rgba(239,68,68,.14) !important; border-color: rgba(248,113,113,.82) !important; color: #fca5a5 !important; }
+        .ad-content table .btn-success { background: rgba(16,185,129,.14) !important; border-color: rgba(52,211,153,.82) !important; color: #6ee7b7 !important; }
+        .ad-content table .btn-primary { background: rgba(99,102,241,.14) !important; border-color: rgba(129,140,248,.82) !important; color: #a5b4fc !important; }
+        .ad-content table .btn:hover { filter: brightness(1.16); }
+        .ad-content .ad-table td:last-child,
+        .ad-content table td:last-child { text-align: right; }
+        .ad-content .ad-table td:last-child .btn-group,
+        .ad-content table td:last-child .btn-group { justify-content: flex-end; display: inline-flex; }
+        .ad-content .ad-table td:last-child form,
+        .ad-content table td:last-child form { display: inline-flex !important; }
+
+        .ad-content .ticket-page .btn,
+        .ad-content .tour-page .btn { box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset; }
+
+        .ad-content .tour-page .btn {
+            min-height: 36px;
+            padding: 8px 14px;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+            transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+        }
+
+        .ad-content .tour-page .btn-sm { min-height: 34px; padding: 7px 12px; }
+        .ad-content .tour-page .btn-lg { min-height: 40px; padding: 9px 18px; font-size: 13px; }
+        .ad-content .tour-page .btn-primary { background: rgba(99,102,241,.16); border-color: rgba(129,140,248,.8); color: #a5b4fc; }
+        .ad-content .tour-page .btn-success { background: rgba(16,185,129,.16); border-color: rgba(52,211,153,.8); color: #6ee7b7; }
+        .ad-content .tour-page .btn-warning { background: rgba(245,158,11,.16); border-color: rgba(251,191,36,.85); color: #fcd34d; }
+        .ad-content .tour-page .btn-danger { background: rgba(239,68,68,.14); border-color: rgba(248,113,113,.8); color: #fca5a5; }
+        .ad-content .tour-page .btn-info { background: rgba(6,182,212,.14); border-color: rgba(34,211,238,.8); color: #67e8f9; }
+        .ad-content .tour-page .btn-secondary,
+        .ad-content .tour-page .btn-light,
+        .ad-content .tour-page .btn-outline-secondary { background: rgba(148,163,184,.12); border-color: rgba(148,163,184,.7); color: var(--ad-text); }
+        .ad-content .tour-page .btn-outline-primary { background: rgba(99,102,241,.10); border-color: rgba(129,140,248,.75); color: #a5b4fc; }
+        .ad-content .tour-page .btn-outline-success { background: rgba(16,185,129,.10); border-color: rgba(52,211,153,.75); color: #6ee7b7; }
+        .ad-content .tour-page .btn-outline-danger { background: rgba(239,68,68,.10); border-color: rgba(248,113,113,.75); color: #fca5a5; }
+        .ad-content .tour-page .btn-outline-warning { background: rgba(245,158,11,.10); border-color: rgba(251,191,36,.75); color: #fcd34d; }
+        .ad-content .tour-page .btn-outline-info { background: rgba(6,182,212,.10); border-color: rgba(34,211,238,.75); color: #67e8f9; }
+        .ad-content .tour-page .btn:hover { filter: brightness(1.16); box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 3px 12px rgba(15,23,42,.16); }
+        .ad-content .tour-page .sa-tool-btn { min-height: 34px; padding: 7px; border: 1px solid rgba(148,163,184,.35); background: rgba(148,163,184,.08); color: var(--ad-text-muted); }
+        .ad-content .tour-page .sa-tool-btn.active { background: rgba(99,102,241,.22); border-color: rgba(129,140,248,.85); color: #a5b4fc; }
+        .ad-content .tour-page .sa-tool-btn[data-tool="delete"]:hover,
+        .ad-content .tour-page .sa-tool-btn[data-tool="delete-all"]:hover { background: rgba(239,68,68,.16); border-color: rgba(248,113,113,.8); color: #fca5a5; }
+
+        .ad-content .tour-page .btn-primary { background: rgba(99,102,241,.16) !important; border: 1px solid rgba(129,140,248,.85) !important; color: #a5b4fc !important; }
+        .ad-content .tour-page .btn-success { background: rgba(16,185,129,.16) !important; border: 1px solid rgba(52,211,153,.85) !important; color: #6ee7b7 !important; }
+        .ad-content .tour-page .btn-warning { background: rgba(245,158,11,.16) !important; border: 1px solid rgba(251,191,36,.85) !important; color: #fcd34d !important; }
+        .ad-content .tour-page .btn-danger { background: rgba(239,68,68,.14) !important; border: 1px solid rgba(248,113,113,.85) !important; color: #fca5a5 !important; }
+        .ad-content .tour-page .btn-secondary,
+        .ad-content .tour-page .btn-light { background: rgba(148,163,184,.12) !important; border: 1px solid rgba(148,163,184,.75) !important; color: var(--ad-text) !important; }
+        .ad-content .tour-page .btn-outline-primary { background: rgba(99,102,241,.10) !important; border: 1px solid rgba(129,140,248,.8) !important; color: #a5b4fc !important; }
+        .ad-content .tour-page .btn-outline-success { background: rgba(16,185,129,.10) !important; border: 1px solid rgba(52,211,153,.8) !important; color: #6ee7b7 !important; }
+        .ad-content .tour-page .btn-outline-danger { background: rgba(239,68,68,.10) !important; border: 1px solid rgba(248,113,113,.8) !important; color: #fca5a5 !important; }
+        .ad-content .tour-page .btn-outline-secondary { background: rgba(148,163,184,.10) !important; border: 1px solid rgba(148,163,184,.7) !important; color: var(--ad-text-muted) !important; }
+        .ad-content .tour-page .ad-btn {
+            min-height: 36px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border-width: 1px;
+            border-style: solid;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+        }
+        .ad-content .tour-page .ad-btn-primary { background: rgba(99,102,241,.16) !important; border-color: rgba(129,140,248,.85) !important; color: #a5b4fc !important; }
+        .ad-content .tour-page .ad-btn-info { background: rgba(6,182,212,.14) !important; border-color: rgba(34,211,238,.85) !important; color: #67e8f9 !important; }
+        .ad-content .tour-page .ad-btn-warning { background: rgba(245,158,11,.16) !important; border-color: rgba(251,191,36,.85) !important; color: #fcd34d !important; }
+        .ad-content .tour-page .ad-btn-danger { background: rgba(239,68,68,.14) !important; border-color: rgba(248,113,113,.85) !important; color: #fca5a5 !important; }
+        .ad-content .tour-page .ad-btn-secondary { background: rgba(148,163,184,.12) !important; border-color: rgba(148,163,184,.75) !important; color: var(--ad-text) !important; }
+
+        .ad-content .ticket-page .btn {
+            min-height: 36px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border-width: 1px;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+        }
+        .ad-content .ticket-page .btn-success { background: rgba(16,185,129,.16) !important; border-color: rgba(52,211,153,.85) !important; color: #6ee7b7 !important; }
+        .ad-content .ticket-page .btn-secondary,
+        .ad-content .ticket-page .btn-light { background: rgba(148,163,184,.12) !important; border-color: rgba(148,163,184,.75) !important; color: var(--ad-text) !important; }
+        .ad-content .ticket-page .btn-primary { background: rgba(99,102,241,.16) !important; border-color: rgba(129,140,248,.85) !important; color: #a5b4fc !important; }
+        .ad-content .ticket-page .btn-warning { background: rgba(245,158,11,.16) !important; border-color: rgba(251,191,36,.85) !important; color: #fcd34d !important; }
+        .ad-content .ticket-page .btn-danger { background: rgba(239,68,68,.14) !important; border-color: rgba(248,113,113,.85) !important; color: #fca5a5 !important; }
+        .ad-content .ticket-page .btn:hover { filter: brightness(1.16); }
+
+        .ad-content .tour-page .widget-user-2,
+        .ad-content .tour-page .tour-action-card + .card,
+        .ad-content .tour-page .tour-action-card ~ .card {
+            background: var(--ad-card) !important;
+            border: 1px solid var(--ad-border) !important;
+            border-radius: var(--ad-radius) !important;
+            box-shadow: var(--ad-shadow) !important;
+            overflow: hidden;
+        }
+        .ad-content .tour-page .widget-user-header,
+        .ad-content .tour-page .widget-user-2 .bg-gradient-primary,
+        .ad-content .tour-page .bg-gradient-info {
+            background: var(--ad-card) !important;
+            color: var(--ad-text) !important;
+            padding: 14px !important;
+        }
+        .ad-content .tour-page .widget-user-image { display:none; }
+        .ad-content .tour-page .widget-user-username { font-size:16px; font-weight:700; color:var(--ad-text) !important; margin:0 0 3px; }
+        .ad-content .tour-page .widget-user-desc { font-size:12px; color:var(--ad-text-muted) !important; margin:0; }
+        .ad-content .tour-page .widget-user-2 .card-footer { background:var(--ad-card) !important; border-top:1px solid var(--ad-border); }
+        .ad-content .tour-page .widget-user-2 .nav-link { padding:9px 14px; color:var(--ad-text-muted); font-size:12px; border-bottom:1px solid var(--ad-border); }
+        .ad-content .tour-page .widget-user-2 .nav-link:last-child { border-bottom:0; }
+        .ad-content .tour-page .callout { margin:0 0 8px; padding:10px 12px; border-left:2px solid var(--ad-accent); background:var(--ad-bg) !important; color:var(--ad-text); border-radius:6px; }
+        .ad-content .tour-page .callout:last-child { margin-bottom:0; }
+        .ad-content .tour-page .callout h5 { font-size:13px; margin:0 0 3px; color:var(--ad-text); }
+        .ad-content .tour-page .callout p { font-size:11px; color:var(--ad-text-muted); }
+        .ad-content .tour-page .widget-user-2 + .card,
+        .ad-content .tour-page .widget-user-2 ~ .card { margin-top:12px; }
+
+        .ad-content .tour-page .ad-btn,
+        .ad-content .tour-page .ad-btn-sm { min-height: 32px; padding: 6px 10px; font-size: 11px; }
+
         /* Alerts */
         .ad-alert {
             padding: 14px 18px;
@@ -1670,6 +1966,90 @@
         html.dark-mode .dark-mode-icon-sun {
             display: block !important;
             color: #fbbf24;
+        }
+
+        /* Language Switch */
+        .lang-switch-row {
+            justify-content: center;
+            gap: 10px;
+            cursor: default;
+        }
+
+        .lang-symbol {
+            font-size: 17px;
+            line-height: 1;
+            opacity: .45;
+            filter: grayscale(60%);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .lang-switch-row.lang-is-tr .lang-symbol-tr {
+            opacity: 1;
+            filter: none;
+        }
+
+        .lang-switch-row:not(.lang-is-tr) .lang-symbol-en {
+            opacity: 1;
+            filter: none;
+        }
+
+        .lang-switch {
+            width: 40px;
+            height: 22px;
+            background: #cbd5e1;
+            border-radius: 11px;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .lang-switch-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .lang-switch-row.lang-is-tr .lang-switch {
+            background: var(--ad-accent);
+        }
+
+        .lang-switch-row.lang-is-tr .lang-switch-thumb {
+            transform: translateX(18px);
+        }
+
+        /* Language Loading Overlay */
+        .lang-loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--ad-bg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-loading-overlay.show {
+            display: flex;
+        }
+
+        .lang-loading-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ad-text);
+            opacity: 0;
+            transition: opacity .4s ease;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .lang-loading-text.visible {
+            opacity: 1;
         }
 
         /* Pagination */
@@ -2325,6 +2705,15 @@
             background: var(--ad-accent) !important;
         }
     </style>
+    <style>
+        .panel-info-toast { position:fixed; right:22px; bottom:22px; z-index:10050; width:min(360px,calc(100vw - 32px)); padding:14px 16px; border:1px solid rgba(129,140,248,.55); border-radius:10px; background:rgba(30,41,59,.96); color:#e2e8f0; box-shadow:0 10px 28px rgba(2,6,23,.35); animation:panelInfoToastIn .25s ease; }
+        .panel-info-toast.success { border-color:rgba(52,211,153,.6); }
+        .panel-info-toast.quote { border-color:rgba(167,139,250,.6); }
+        .panel-info-toast strong { display:block; margin-bottom:4px; font-size:13px; color:#f8fafc; }
+        .panel-info-toast span { font-size:12px; color:#cbd5e1; line-height:1.45; }
+        .panel-info-toast button { position:absolute; top:7px; right:8px; border:0; background:transparent; color:#94a3b8; cursor:pointer; font-size:16px; }
+        @keyframes panelInfoToastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    </style>
     @stack('css')
 </head>
 <body data-user-id="{{ auth()->id() }}"
@@ -2341,60 +2730,60 @@
             </div>
             <div class="ad-sidebar-brand-text">
                 Admin Panel
-                <small>Yönetim Sistemi</small>
+                <small>{{ __('Yönetim Sistemi') }}</small>
             </div>
         </div>
 
         <nav class="ad-sidebar-nav">
             <div class="ad-nav-section">
-                <div class="ad-nav-section-title">Genel</div>
+                <div class="ad-nav-section-title">{{ __('Genel') }}</div>
                 <a href="{{ route('admin.dashboard') }}" class="ad-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i data-lucide="layout-dashboard"></i>
-                    <span>Dashboard</span>
+                    <span>{{ __('Dashboard') }}</span>
                 </a>
             </div>
 
             <div class="ad-nav-section">
-                <div class="ad-nav-section-title">Operasyonlar</div>
+                <div class="ad-nav-section-title">{{ __('Operasyonlar') }}</div>
                 <a href="{{ route('admin.tickets.index') }}" class="ad-nav-item {{ request()->routeIs('admin.tickets.*') ? 'active' : '' }}">
                     <i data-lucide="ticket"></i>
-                    <span>Biletler</span>
+                    <span>{{ __('Biletler') }}</span>
                 </a>
                 <a href="{{ route('admin.tours.index') }}" class="ad-nav-item {{ request()->routeIs('admin.tours.*') ? 'active' : '' }}">
                     <i data-lucide="map"></i>
-                    <span>Turlar</span>
+                    <span>{{ __('Turlar') }}</span>
                 </a>
                 <a href="{{ route('admin.vehicles.index') }}" class="ad-nav-item {{ request()->routeIs('admin.vehicles.*') ? 'active' : '' }}">
                     <i data-lucide="car"></i>
-                    <span>Araçlar</span>
+                    <span>{{ __('Araçlar') }}</span>
                 </a>
                 <a href="{{ route('admin.operations.index') }}" class="ad-nav-item {{ request()->routeIs('admin.operations.*') ? 'active' : '' }}">
                     <i data-lucide="settings-2"></i>
-                    <span>Operasyonlar</span>
+                    <span>{{ __('Operasyonlar') }}</span>
                 </a>
             </div>
 
             <div class="ad-nav-section">
-                <div class="ad-nav-section-title">Kullanıcılar</div>
+                <div class="ad-nav-section-title">{{ __('Kullanıcılar') }}</div>
                 <a href="{{ route('admin.drivers.index') }}" class="ad-nav-item {{ request()->routeIs('admin.drivers.*') ? 'active' : '' }}">
                     <i data-lucide="user-circle"></i>
-                    <span>Şoförler</span>
+                    <span>{{ __('Şoförler') }}</span>
                 </a>
                 <a href="{{ route('admin.guides.index') }}" class="ad-nav-item {{ request()->routeIs('admin.guides.*') ? 'active' : '' }}">
                     <i data-lucide="users"></i>
-                    <span>Rehberler</span>
+                    <span>{{ __('Rehberler') }}</span>
                 </a>
                 <a href="{{ route('admin.agencies.index') }}" class="ad-nav-item {{ request()->routeIs('admin.agencies.*') ? 'active' : '' }}">
                     <i data-lucide="building-2"></i>
-                    <span>Acentalar</span>
+                    <span>{{ __('Acentalar') }}</span>
                 </a>
             </div>
 
             <div class="ad-nav-section">
-                <div class="ad-nav-section-title">Talepler</div>
+                <div class="ad-nav-section-title">{{ __('Talepler') }}</div>
                 <a href="{{ route('admin.ticket-requests.index') }}" class="ad-nav-item {{ request()->routeIs('admin.ticket-requests.*') ? 'active' : '' }}">
                     <i data-lucide="inbox"></i>
-                    <span>Bilet Talepleri</span>
+                    <span>{{ __('Bilet Talepleri') }}</span>
                     @php
                         $pendingRequests = \App\Models\TicketRequest::where('status', 'pending')->count();
                     @endphp
@@ -2405,10 +2794,10 @@
             </div>
 
             <div class="ad-nav-section">
-                <div class="ad-nav-section-title">Finans</div>
+                <div class="ad-nav-section-title">{{ __('Finans') }}</div>
                 <a href="{{ route('admin.accounting.index') }}" class="ad-nav-item {{ request()->routeIs('admin.accounting.*') ? 'active' : '' }}">
                     <i data-lucide="wallet"></i>
-                    <span>Muhasebe</span>
+                    <span>{{ __('Muhasebe') }}</span>
                 </a>
             </div>
         </nav>
@@ -2421,7 +2810,7 @@
                 </div>
                 <div class="ad-user-info">
                     <div class="ad-user-name">{{ $adminUser->name ?? 'Admin' }}</div>
-                    <div class="ad-user-role">Yönetici</div>
+                    <div class="ad-user-role">{{ __('Yönetici') }}</div>
                 </div>
                 <i data-lucide="chevron-up" style="width:16px;height:16px;color:rgba(255,255,255,0.5)"></i>
             </div>
@@ -2471,20 +2860,21 @@
                     
                     <div class="ad-notifications-dropdown" id="notificationsDropdown">
                         <div class="ad-notifications-header">
-                            <span class="ad-notifications-title">Bildirimler</span>
+                            <span class="ad-notifications-title">{{ __('Bildirimler') }}</span>
                             @if($totalNotifications > 0)
-                                <span class="ad-notifications-count">{{ $totalNotifications }} yeni</span>
+                                <span class="ad-notifications-count">{{ __(':count yeni', ['count' => $totalNotifications]) }}</span>
                             @endif
                         </div>
                         <div class="ad-notifications-body">
+                            <div id="adInfoNotifications"></div>
                             @if($pendingTicketRequests > 0)
                                 <a href="{{ route('admin.ticket-requests.index') }}" class="ad-notification-item ad-notification-warning">
                                     <div class="ad-notification-icon">
                                         <i data-lucide="inbox"></i>
                                     </div>
                                     <div class="ad-notification-content">
-                                        <div class="ad-notification-text">{{ $pendingTicketRequests }} bekleyen bilet talebi</div>
-                                        <div class="ad-notification-time">Onay bekliyor</div>
+                                        <div class="ad-notification-text">{{ __(':count bekleyen bilet talebi', ['count' => $pendingTicketRequests]) }}</div>
+                                        <div class="ad-notification-time">{{ __('Onay bekliyor') }}</div>
                                     </div>
                                 </a>
                             @endif
@@ -2495,8 +2885,8 @@
                                         <i data-lucide="link"></i>
                                     </div>
                                     <div class="ad-notification-content">
-                                        <div class="ad-notification-text">{{ $pendingAgencyRequests }} bekleyen acenta bağlantı isteği</div>
-                                        <div class="ad-notification-time">Onay bekliyor</div>
+                                        <div class="ad-notification-text">{{ __(':count bekleyen acenta bağlantı isteği', ['count' => $pendingAgencyRequests]) }}</div>
+                                        <div class="ad-notification-time">{{ __('Onay bekliyor') }}</div>
                                     </div>
                                 </a>
                             @endif
@@ -2507,7 +2897,7 @@
                                         <i data-lucide="calendar-check"></i>
                                     </div>
                                     <div class="ad-notification-content">
-                                        <div class="ad-notification-text">Bugün {{ $todayTickets }} aktif bilet</div>
+                                        <div class="ad-notification-text">{{ __('Bugün :count aktif bilet', ['count' => $todayTickets]) }}</div>
                                         <div class="ad-notification-time">{{ today()->format('d.m.Y') }}</div>
                                     </div>
                                 </a>
@@ -2519,7 +2909,7 @@
                                         <i data-lucide="calendar-clock"></i>
                                     </div>
                                     <div class="ad-notification-content">
-                                        <div class="ad-notification-text">Yarın {{ $tomorrowTickets }} aktif bilet</div>
+                                        <div class="ad-notification-text">{{ __('Yarın :count aktif bilet', ['count' => $tomorrowTickets]) }}</div>
                                         <div class="ad-notification-time">{{ today()->addDay()->format('d.m.Y') }}</div>
                                     </div>
                                 </a>
@@ -2528,12 +2918,12 @@
                             @if($totalNotifications == 0)
                                 <div class="ad-notification-empty">
                                     <i data-lucide="check-circle"></i>
-                                    <span>Yeni bildirim yok</span>
+                                    <span>{{ __('Yeni bildirim yok') }}</span>
                                 </div>
                             @endif
                         </div>
                         <div class="ad-notifications-footer">
-                            <a href="{{ route('admin.ticket-requests.index') }}">Tüm talepleri gör</a>
+                            <a href="{{ route('admin.ticket-requests.index') }}">{{ __('Tüm talepleri gör') }}</a>
                         </div>
                     </div>
                 </div>
@@ -2541,7 +2931,7 @@
                 @if($pendingTicketRequests > 0 || $pendingAgencyRequests > 0)
                 <a href="{{ $primaryPendingRoute }}" class="ad-btn ad-btn-sm ad-btn-warning">
                     <i data-lucide="inbox"></i>
-                    {{ $pendingTicketRequests + $pendingAgencyRequests }} Bekleyen
+                    {{ __(':count Bekleyen', ['count' => $pendingTicketRequests + $pendingAgencyRequests]) }}
                 </a>
                 @endif
             </div>
@@ -2587,7 +2977,7 @@
 
         <!-- Footer -->
         <footer class="ad-footer">
-            <span>&copy; {{ date('Y') }} Admin Panel. Tüm hakları saklıdır.</span>
+            <span>&copy; {{ date('Y') }} Admin Panel. {{ __('Tüm hakları saklıdır.') }}</span>
             <span>v1.2.6</span>
         </footer>
     </main>
@@ -2604,14 +2994,22 @@
             <div class="ad-dropdown-link dark-mode-toggle" id="darkModeToggle" style="cursor:pointer;">
                 <i data-lucide="moon" class="dark-mode-icon-moon"></i>
                 <i data-lucide="sun" class="dark-mode-icon-sun" style="display:none;"></i>
-                <span class="dark-mode-text">Karanlık Tema</span>
+                <span class="dark-mode-text">{{ __('Karanlık Tema') }}</span>
                 <div class="dark-mode-switch">
                     <div class="dark-mode-switch-thumb"></div>
                 </div>
             </div>
+            <!-- Language Switch -->
+            <div class="ad-dropdown-link lang-switch-row {{ (auth()->user()->locale ?? 'tr') === 'tr' ? 'lang-is-tr' : '' }}" id="languageToggleRow">
+                <span class="lang-symbol lang-symbol-en" title="English">🇬🇧</span>
+                <div class="lang-switch" id="languageToggle" style="cursor:pointer;">
+                    <div class="lang-switch-thumb"></div>
+                </div>
+                <span class="lang-symbol lang-symbol-tr" title="Türkçe">🇹🇷</span>
+            </div>
             <div class="ad-dropdown-link" id="addressSettingTrigger" style="cursor:pointer;">
                 <i data-lucide="map-pin"></i>
-                <span>Varsayılan Adres</span>
+                <span>{{ __('Varsayılan Adres') }}</span>
             </div>
             <div style="border-top: 1px solid var(--ad-border); margin: 8px 0;"></div>
             <form action="{{ route('logout') }}" method="POST">
@@ -2619,34 +3017,39 @@
                 <input type="hidden" name="_session_partition" value="{{ $sessionPartition }}">
                 <button type="submit" class="ad-dropdown-link danger" style="width:100%;border:none;background:none;cursor:pointer">
                     <i data-lucide="log-out"></i>
-                    <span>Çıkış Yap</span>
+                    <span>{{ __('Çıkış Yap') }}</span>
                 </button>
             </form>
         </div>
     </div>
     @endif
 
+    <!-- Language Switch Loading Overlay -->
+    <div class="lang-loading-overlay" id="langLoadingOverlay">
+        <div class="lang-loading-text" id="langLoadingText"></div>
+    </div>
+
     <!-- Address Setting Modal -->
     <div class="modal fade" id="addressModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content" style="border-radius:12px;overflow:hidden;">
                 <div class="modal-header" style="background:var(--ad-primary);color:#fff;border:none;padding:16px 20px;">
-                    <h5 class="modal-title" style="font-size:15px;font-weight:600;"><i data-lucide="map-pin" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"></i> Varsayılan Adres</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                    <h5 class="modal-title" style="font-size:15px;font-weight:600;"><i data-lucide="map-pin" style="width:16px;height:16px;margin-right:6px;vertical-align:middle;"></i> {{ __('Varsayılan Adres') }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Kapat') }}"></button>
                 </div>
                 <div class="modal-body" style="padding:16px 20px;">
                     <div class="mb-2">
-                        <input type="text" class="form-control" id="addressSearchInput" placeholder="Adres ara..." style="border-radius:8px;">
+                        <input type="text" class="form-control" id="addressSearchInput" placeholder="{{ __('Adres ara...') }}" style="border-radius:8px;">
                     </div>
                     <div id="address-modal-map" style="height:340px;width:100%;border-radius:8px;border:1px solid #dee2e6;"></div>
                     <div class="mt-2 d-flex justify-content-between align-items-center">
-                        <small class="text-muted" id="addressDisplayText">Haritaya tıklayarak veya arama yaparak adres seçin.</small>
-                        <button type="button" class="btn btn-sm btn-outline-primary" id="addressLocateMe"><i data-lucide="locate" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"></i> Konumumu Bul</button>
+                        <small class="text-muted" id="addressDisplayText">{{ __('Haritaya tıklayarak veya arama yaparak adres seçin.') }}</small>
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="addressLocateMe"><i data-lucide="locate" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"></i> {{ __('Konumumu Bul') }}</button>
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top:1px solid var(--ad-border);padding:12px 20px;">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" id="addressClearBtn">Temizle</button>
-                    <button type="button" class="btn btn-sm btn-primary" id="addressSaveBtn">Kaydet</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="addressClearBtn">{{ __('Temizle') }}</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="addressSaveBtn">{{ __('Kaydet') }}</button>
                 </div>
             </div>
         </div>
@@ -2876,6 +3279,112 @@
             }
         })();
 
+        // Language Switch - success toast (shown once, right after the reload that applied it)
+        (function () {
+            var FLAG = 'langSwitchNotice';
+            var pending = sessionStorage.getItem(FLAG);
+            if (!pending) return;
+            sessionStorage.removeItem(FLAG);
+            var old = document.querySelector('.panel-info-toast');
+            if (old) old.remove();
+            var toast = document.createElement('div');
+            toast.className = 'panel-info-toast success';
+            toast.innerHTML = '<button type="button" aria-label="Kapat">&times;</button><strong>{{ __('Dil Değiştirildi') }}</strong><span>{{ __('Dil başarıyla değiştirildi.') }}</span>';
+            toast.querySelector('button').addEventListener('click', function () { toast.remove(); });
+            document.body.appendChild(toast);
+            setTimeout(function () { if (toast.isConnected) toast.remove(); }, 8000);
+        })();
+
+        // Language Switch
+        (function () {
+            var row = document.getElementById('languageToggleRow');
+            var switchEl = document.getElementById('languageToggle');
+            var overlay = document.getElementById('langLoadingOverlay');
+            var textEl = document.getElementById('langLoadingText');
+            if (!row || !switchEl || !overlay || !textEl) return;
+
+            var phraseSets = {
+                tr: [
+                    ['Çaylar demleniyor...', 'Her şey hazırlanıyor...'],
+                    ['Simitler fırınlanıyor...', 'Son dokunuşlar yapılıyor...'],
+                    ['Kahve telveyle demleniyor...', 'Neredeyse hazır...'],
+                    ['Misafir odası hazırlanıyor...', 'Birazdan buyurun...'],
+                    ['Lokumlar tepsiye diziliyor...', 'Her şey yoluna giriyor...'],
+                    ['Nazar boncuğu takılıyor...', 'İşte oldu...']
+                ],
+                en: [
+                    ['Brewing the coffee...', 'Getting everything ready...'],
+                    ['Toasting the bagels...', 'Putting on the finishing touches...'],
+                    ['Warming up the kettle...', 'Almost there...'],
+                    ['Setting the table...', 'Just a moment more...'],
+                    ['Preheating the oven...', 'Everything is coming together...'],
+                    ['Fluffing the pillows...', 'All set...']
+                ]
+            };
+
+            function pickPhrases(locale) {
+                var sets = phraseSets[locale] || phraseSets.tr;
+                return sets[Math.floor(Math.random() * sets.length)];
+            }
+
+            function playSequence(locale, onDone) {
+                var seq = pickPhrases(locale);
+                overlay.classList.add('show');
+                var i = 0;
+                function showNext() {
+                    textEl.textContent = seq[i];
+                    textEl.classList.remove('visible');
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () { textEl.classList.add('visible'); });
+                    });
+                    setTimeout(function () {
+                        textEl.classList.remove('visible');
+                        setTimeout(function () {
+                            i++;
+                            if (i < seq.length) {
+                                showNext();
+                            } else {
+                                onDone();
+                            }
+                        }, 400);
+                    }, 1200);
+                }
+                showNext();
+            }
+
+            var switching = false;
+            switchEl.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (switching) return;
+                switching = true;
+                var targetLocale = row.classList.contains('lang-is-tr') ? 'en' : 'tr';
+
+                var sequenceDone = new Promise(function (resolve) {
+                    playSequence(targetLocale, resolve);
+                });
+
+                var saveRequest = fetch('{{ route('language.update') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ locale: targetLocale })
+                });
+
+                Promise.all([sequenceDone, saveRequest]).then(function () {
+                    sessionStorage.setItem('langSwitchNotice', '1');
+                    window.location.reload();
+                }).catch(function () {
+                    sessionStorage.setItem('langSwitchNotice', '1');
+                    window.location.reload();
+                });
+            });
+        })();
+
         // Address Setting Modal
         (function(){
             var trigger = document.getElementById('addressSettingTrigger');
@@ -2884,7 +3393,7 @@
             var bsModal = new bootstrap.Modal(modalEl);
             trigger.addEventListener('click', function(){ bsModal.show(); });
 
-            var MAPBOX_TOKEN = @json(config('services.mapbox.access_token'));
+            var MAPBOX_TOKEN = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
             var mapObj = null, marker = null;
             var searchInput = document.getElementById('addressSearchInput');
             var displayText = document.getElementById('addressDisplayText');
@@ -2934,6 +3443,97 @@
             if(saveBtn){saveBtn.addEventListener('click',function(){if(pendingAddr){localStorage.setItem('admin_default_address',JSON.stringify(pendingAddr));bsModal.hide();window.dispatchEvent(new CustomEvent('admin-address-changed',{detail:pendingAddr}));}else{bsModal.hide();}});}
             if(clearBtn){clearBtn.addEventListener('click',function(){localStorage.removeItem('admin_default_address');if(marker){marker.remove();marker=null;}pendingAddr=null;if(displayText)displayText.textContent='Haritaya tıklayarak veya arama yaparak adres seçin.';window.dispatchEvent(new CustomEvent('admin-address-changed',{detail:null}));});}
         })();
+    </script>
+    <script>
+        (function () {
+            var interval = 10 * 60 * 1000;
+            var STORAGE_KEY = 'admin_info_notifications';
+            var MAX_ITEMS = 5;
+            var toneIcon = { success: 'sparkles', quote: 'quote', info: 'info' };
+            var toneClass = { success: 'ad-notification-success', quote: 'ad-notification-quote', info: 'ad-notification-info' };
+
+            function loadQueue() {
+                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { return []; }
+            }
+            function saveQueue(queue) {
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(queue)); } catch (e) {}
+            }
+            function updateBadge(queue) {
+                var toggle = document.getElementById('notificationsToggle');
+                if (!toggle) return;
+                var unseen = queue.filter(function (n) { return !n.seen; }).length;
+                if (unseen === 0) return;
+                var badge = toggle.querySelector('.ad-notification-badge');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'ad-notification-badge';
+                    toggle.appendChild(badge);
+                }
+                badge.textContent = {{ $totalNotifications ?? 0 }} + unseen;
+                badge.style.display = '';
+            }
+            function renderInfoNotifications() {
+                var container = document.getElementById('adInfoNotifications');
+                if (!container) return;
+                var body = container.closest('.ad-notifications-body');
+                var emptyEl = body ? body.querySelector('.ad-notification-empty') : null;
+                var queue = loadQueue();
+                container.innerHTML = queue.map(function (n) {
+                    var cls = toneClass[n.tone] || 'ad-notification-info';
+                    var icon = toneIcon[n.tone] || 'info';
+                    return '<div class="ad-notification-item ' + cls + '">' +
+                        '<div class="ad-notification-icon"><i data-lucide="' + icon + '"></i></div>' +
+                        '<div class="ad-notification-content">' +
+                            '<div class="ad-notification-text">' + n.title + ': ' + n.message + '</div>' +
+                            '<div class="ad-notification-time">Az önce</div>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+                if (emptyEl) emptyEl.style.display = queue.length > 0 ? 'none' : '';
+                updateBadge(queue);
+                if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+            }
+            function addInfoNotification(note) {
+                var queue = loadQueue();
+                queue.unshift({ title: note.title, message: note.message, tone: note.tone || 'info', seen: false });
+                queue = queue.slice(0, MAX_ITEMS);
+                saveQueue(queue);
+                renderInfoNotifications();
+            }
+            function markInfoNotificationsSeen() {
+                var queue = loadQueue();
+                var changed = false;
+                queue.forEach(function (n) { if (!n.seen) { n.seen = true; changed = true; } });
+                if (changed) { saveQueue(queue); renderInfoNotifications(); }
+            }
+
+            function showPanelInfoToast(note) {
+                var old = document.querySelector('.panel-info-toast');
+                if (old) old.remove();
+                var toast = document.createElement('div');
+                toast.className = 'panel-info-toast ' + (note.tone || 'info');
+                toast.innerHTML = '<button type="button" aria-label="Kapat">&times;</button><strong>' + note.title + '</strong><span>' + note.message + '</span>';
+                toast.querySelector('button').addEventListener('click', function () { toast.remove(); });
+                document.body.appendChild(toast);
+                setTimeout(function () { if (toast.isConnected) toast.remove(); }, 12000);
+            }
+            function pollPanelInfo() {
+                fetch('{{ route('info.notification') }}', { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+                    .then(function (response) { return response.ok ? response.json() : null; })
+                    .then(function (note) {
+                        if (note && note.message) {
+                            showPanelInfoToast(note);
+                            addInfoNotification(note);
+                        }
+                    })
+                    .catch(function () {});
+            }
+
+            renderInfoNotifications();
+            var bellToggle = document.getElementById('notificationsToggle');
+            if (bellToggle) bellToggle.addEventListener('click', markInfoNotificationsSeen);
+            setInterval(pollPanelInfo, interval);
+        }());
     </script>
     @stack('js')
     @yield('js')

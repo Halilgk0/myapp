@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Operasyon Yönetimi')
+@section('title', __('Operasyon Yönetimi'))
 @push('css')
 <style>
 .table-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
@@ -511,9 +511,10 @@ html.dark-mode .day-chip:hover {
     border-color: #6366f1 !important;
 }
 
-html.dark-mode .day-chip.selected,
-html.dark-mode .day-chip.today {
+html.dark-mode .day-chip.active {
     background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
 }
 
 html.dark-mode .table-title {
@@ -777,6 +778,45 @@ html.dark-mode .tour-chip:hover {
     box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3) !important;
 }
 
+html.dark-mode .calendar-nav-btn,
+html.dark-mode .calendar-action-btn,
+html.dark-mode .tours-page-size-btn,
+html.dark-mode .tours-page-nav-btn,
+html.dark-mode .tour-chip-btn {
+    background: #1e293b !important;
+    border-color: #475569 !important;
+    color: #cbd5e1 !important;
+    box-shadow: none !important;
+}
+html.dark-mode .calendar-nav-btn:hover,
+html.dark-mode .calendar-action-btn:hover,
+html.dark-mode .tours-page-size-btn:hover,
+html.dark-mode .tours-page-nav-btn:hover:not(:disabled),
+html.dark-mode .tour-chip-btn:hover {
+    background: #263449 !important;
+    border-color: #64748b !important;
+    color: #e2e8f0 !important;
+}
+html.dark-mode .tours-page-size-btn.active {
+    background: #334155 !important;
+    border-color: #64748b !important;
+    color: #e2e8f0 !important;
+}
+html.dark-mode .tour-card,
+html.dark-mode .tour-chip,
+html.dark-mode .tour-card:nth-child(2n),
+html.dark-mode .tour-chip:nth-child(2n),
+html.dark-mode .tour-card:nth-child(3n),
+html.dark-mode .tour-chip:nth-child(3n),
+html.dark-mode .tour-card:nth-child(4n),
+html.dark-mode .tour-chip:nth-child(4n),
+html.dark-mode .tour-card:nth-child(5n),
+html.dark-mode .tour-chip:nth-child(5n) {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
+}
+
 html.dark-mode .tour-title {
     color: #e2e8f0 !important;
     text-shadow: none !important;
@@ -791,10 +831,10 @@ html.dark-mode .tour-count-badge {
 /* Calendar Selected Day - Much More Visible */
 .day-chip.selected,
 .day-chip.today.selected {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-    border: 4px solid #60a5fa !important;
-    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.35), 0 6px 20px rgba(37, 99, 235, 0.5) !important;
-    transform: scale(1.08);
+    background: #1d4ed8 !important;
+    border: 2px solid #60a5fa !important;
+    box-shadow: 0 3px 10px rgba(30, 64, 175, 0.35) !important;
+    transform: scale(1.03);
     z-index: 10;
     position: relative;
 }
@@ -813,11 +853,53 @@ html.dark-mode .tour-count-badge {
 
 html.dark-mode .day-chip.selected,
 html.dark-mode .day-chip.today.selected {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
-    border: 4px solid #93c5fd !important;
-    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.5), 0 8px 24px rgba(59, 130, 246, 0.6) !important;
-    transform: scale(1.08);
+    background: #1e3a8a !important;
+    border: 2px solid #3b82f6 !important;
+    box-shadow: 0 3px 10px rgba(30, 58, 138, 0.45) !important;
+    transform: scale(1.03);
     z-index: 10;
+}
+
+html.dark-mode .calendar-nav-btn,
+html.dark-mode .calendar-action-btn,
+html.dark-mode .tours-page-size-btn,
+html.dark-mode .tours-page-nav-btn,
+html.dark-mode .tour-chip-btn {
+    background: #1e293b !important;
+    border-color: #475569 !important;
+    color: #cbd5e1 !important;
+    box-shadow: none !important;
+}
+
+html.dark-mode .calendar-nav-btn:hover,
+html.dark-mode .calendar-action-btn:hover,
+html.dark-mode .tours-page-size-btn:hover,
+html.dark-mode .tours-page-nav-btn:hover:not(:disabled),
+html.dark-mode .tour-chip-btn:hover {
+    background: #263449 !important;
+    border-color: #64748b !important;
+    color: #e2e8f0 !important;
+}
+
+html.dark-mode .tours-page-size-btn.active {
+    background: #334155 !important;
+    border-color: #64748b !important;
+    color: #e2e8f0 !important;
+}
+
+html.dark-mode .tour-card,
+html.dark-mode .tour-chip,
+html.dark-mode .tour-card:nth-child(2n),
+html.dark-mode .tour-chip:nth-child(2n),
+html.dark-mode .tour-card:nth-child(3n),
+html.dark-mode .tour-chip:nth-child(3n),
+html.dark-mode .tour-card:nth-child(4n),
+html.dark-mode .tour-chip:nth-child(4n),
+html.dark-mode .tour-card:nth-child(5n),
+html.dark-mode .tour-chip:nth-child(5n) {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
 }
 
 html.dark-mode .day-chip.selected .dc-day-name,
@@ -841,26 +923,44 @@ html.dark-mode .day-chip.selected .dc-day {
 .day-chip.selected {
     animation: selectedDayPulse 2s ease-in-out infinite;
 }
+
+html.dark-mode .day-chip.selected,
+html.dark-mode .day-chip.today.selected {
+    background: #1e3a8a !important;
+    border: 2px solid #3b82f6 !important;
+    box-shadow: 0 3px 10px rgba(30, 58, 138, 0.45) !important;
+    transform: scale(1.03) !important;
+    animation: none !important;
+}
+
+.day-chip.selected,
+.day-chip.today.selected {
+    background: #1d4ed8 !important;
+    border: 2px solid #60a5fa !important;
+    box-shadow: 0 3px 10px rgba(30, 64, 175, 0.35) !important;
+    transform: scale(1.03) !important;
+    animation: none !important;
+}
 </style>
 @endpush
 <!-- end of the css -->
 <!-- operasyon yönetimi başlık-->
 @section('content_header')
-    <h1>Operasyon Yönetimi</h1>
+    <h1>{{ __('Operasyon Yönetimi') }}</h1>
 @stop
 <!-- operasyon yönetimi formu-->
 @section('content')
 <!-- Modern Kontrol Paneli -->
-<div class="guides-control-panel mb-2">
+<div class="guides-control-panel ad-page-header admin-list-toolbar mb-3">
     <div class="control-left">
-        <h4 class="control-title"><i class="fas fa-calendar-check"></i> Operasyon Yönetimi</h4>
-        <p class="control-subtitle">Günlük atamalar</p>
+        <h4 class="control-title"><i class="fas fa-calendar-check"></i> {{ __('Operasyon Yönetimi') }}</h4>
+        <p class="control-subtitle">{{ __('Günlük atamalar') }}</p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="ad-card mb-3">
             <div class="card-body" style="overflow: hidden;">
                 <!-- Modern Takvim Header -->
                 <div class="mb-3">
@@ -868,7 +968,7 @@ html.dark-mode .day-chip.selected .dc-day {
                         <div class="calendar-title-section">
                             <h4 class="calendar-main-title">
                                 <i class="fas fa-calendar-alt mr-2"></i>
-                                <span id="modeTitle">Gün Seçimi</span>
+                                <span id="modeTitle">{{ __('Gün Seçimi') }}</span>
                             </h4>
                             <div class="calendar-month-display">
                                 <i class="far fa-clock mr-2"></i>
@@ -876,16 +976,16 @@ html.dark-mode .day-chip.selected .dc-day {
                             </div>
                         </div>
                         <div class="calendar-toolbar" id="toolbarButtons">
-                            <button type="button" id="dayPrev" class="calendar-nav-btn" title="Önceki Ay">
+                            <button type="button" id="dayPrev" class="calendar-nav-btn" title="{{ __('Önceki Ay') }}">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                             <button type="button" id="dayToday" class="calendar-action-btn calendar-today-btn">
-                                <i class="fas fa-calendar-day mr-1"></i>Bugün
+                                <i class="fas fa-calendar-day mr-1"></i>{{ __('Bugün') }}
                             </button>
                             <button type="button" id="dayClear" class="calendar-action-btn calendar-clear-btn">
-                                <i class="fas fa-eraser mr-1"></i>Tümü
+                                <i class="fas fa-eraser mr-1"></i>{{ __('Tümü') }}
                             </button>
-                            <button type="button" id="dayNext" class="calendar-nav-btn" title="Sonraki Ay">
+                            <button type="button" id="dayNext" class="calendar-nav-btn" title="{{ __('Sonraki Ay') }}">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
                         </div>
@@ -903,14 +1003,14 @@ html.dark-mode .day-chip.selected .dc-day {
                     <div class="col-md-6" id="tickets-section">
                         <div class="table-container">
                             <h4 class="table-title">
-                                Biletler
+                                {{ __('Biletler') }}
                                 <div class="float-right">
                                     <div class="btn-group mr-2" id="tickets-pagination" style="display: inline-block;">
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('tickets', 5)">5</button>
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('tickets', 10)">10</button>
                                         <button type="button" class="btn btn-xs btn-outline-info active" onclick="setPagination('tickets', 15)">15</button>
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('tickets', 20)">20</button>
-                                        <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('tickets', -1)">Tümü</button>
+                                        <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('tickets', -1)">{{ __('Tümü') }}</button>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleSection('tickets')" id="tickets-toggle">
                                         <i class="fas fa-minus"></i>
@@ -921,9 +1021,9 @@ html.dark-mode .day-chip.selected .dc-day {
                                 <div id="tickets-filters" class="mb-2">
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
-                                            <label class="mb-1">Tura Göre</label>
+                                            <label class="mb-1">{{ __('Tura Göre') }}</label>
                                             <select class="form-control form-control-sm" id="ticketsTourFilter">
-                                                <option value="">Tümü</option>
+                                                <option value="">{{ __('Tümü') }}</option>
                                                 @if(isset($tours))
                                                     @foreach($tours as $tour)
                                                         <option value="{{ $tour->id }}">{{ $tour->name }}</option>
@@ -932,50 +1032,50 @@ html.dark-mode .day-chip.selected .dc-day {
                                             </select>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label class="mb-1">Tarih</label>
+                                            <label class="mb-1">{{ __('Tarih') }}</label>
                                             <input type="date" class="form-control form-control-sm" id="ticketsDateFilter">
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label class="mb-1">Araç Durumu</label>
+                                            <label class="mb-1">{{ __('Araç Durumu') }}</label>
                                             <select class="form-control form-control-sm" id="ticketsStatusFilter">
-                                                <option value="">Tümü</option>
-                                                <option value="with-vehicle">Araçlı</option>
-                                                <option value="without-vehicle">Araçsız</option>
+                                                <option value="">{{ __('Tümü') }}</option>
+                                                <option value="with-vehicle">{{ __('Araçlı') }}</option>
+                                                <option value="without-vehicle">{{ __('Araçsız') }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label class="mb-1">Milliyet</label>
+                                            <label class="mb-1">{{ __('Milliyet') }}</label>
                                             <select class="form-control form-control-sm" id="ticketsNationalityFilter">
-                                                <option value="">Tümü</option>
-                                                <option value="DE">Almanca</option>
-                                                <option value="RU">Rusça</option>
-                                                <option value="EN">İngilizce</option>
-                                                <option value="TR">Türkçe</option>
+                                                <option value="">{{ __('Tümü') }}</option>
+                                                <option value="DE">{{ __('Almanca') }}</option>
+                                                <option value="RU">{{ __('Rusça') }}</option>
+                                                <option value="EN">{{ __('İngilizce') }}</option>
+                                                <option value="TR">{{ __('Türkçe') }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-1">
-                                            <label class="mb-1">Aktif</label>
+                                            <label class="mb-1">{{ __('Aktif') }}</label>
                                             <select class="form-control form-control-sm" id="ticketsActiveStatusFilter">
-                                                <option value="">Tümü</option>
-                                                <option value="active">Aktif</option>
-                                                <option value="inactive">Pasif</option>
+                                                <option value="">{{ __('Tümü') }}</option>
+                                                <option value="active">{{ __('Aktif') }}</option>
+                                                <option value="inactive">{{ __('Pasif') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-sm btn-primary mr-2" onclick="applyTicketsFilter()">Uygula</button>
-                                        <button type="button" class="btn btn-sm btn-secondary" onclick="clearTicketsFilter()">Temizle</button>
+                                        <button type="button" class="btn btn-sm btn-primary mr-2" onclick="applyTicketsFilter()">{{ __('Uygula') }}</button>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="clearTicketsFilter()">{{ __('Temizle') }}</button>
                                     </div>
                                 </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Takip No</th>
-                                            <th>Müşteri</th>
-                                            <th>Oda</th>
-                                            <th>Tur</th>
-                                            <th>Durum</th>
+                                            <th>{{ __('Takip No') }}</th>
+                                            <th>{{ __('Müşteri') }}</th>
+                                            <th>{{ __('Oda') }}</th>
+                                            <th>{{ __('Tur') }}</th>
+                                            <th>{{ __('Durum') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tickets-area">
@@ -994,9 +1094,9 @@ html.dark-mode .day-chip.selected .dc-day {
                                             <td>
                                                 <strong>{{ $ticket->voucher_no }}</strong>
                                                 @if($ticket->vehicle)
-                                                    <br><small class="text-success">Araç: {{ $ticket->vehicle->plate_number }}</small>
+                                                    <br><small class="text-success">{{ __('Araç') }}: {{ $ticket->vehicle->plate_number }}</small>
                                                 @else
-                                                    <br><small class="text-muted">Araçsız</small>
+                                                    <br><small class="text-muted">{{ __('Araçsız') }}</small>
                                                 @endif
                                             </td>
                                             <td>
@@ -1013,27 +1113,27 @@ html.dark-mode .day-chip.selected .dc-day {
                                                     @if($ticket->tour_date)
                                                         <br><small class="text-muted">{{ $ticket->tour_date->format('d.m.Y') }}</small>
                                                         @if($ticket->tour_date->isPast())
-                                                            <br><small class="text-danger font-weight-bold">Süresi geçmiş</small>
+                                                            <br><small class="text-danger font-weight-bold">{{ __('Süresi geçmiş') }}</small>
                                                         @endif
                                                     @endif
                                                 @else
-                                                    <span class="text-muted">Tur Atanmamış</span>
+                                                    <span class="text-muted">{{ __('Tur Atanmamış') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column align-items-start">
                                                     <div class="mb-1">
                                                         @if($ticket->vehicle)
-                                                            <span class="badge badge-success">Araçlı</span>
+                                                            <span class="badge badge-success">{{ __('Araçlı') }}</span>
                                                         @else
-                                                            <span class="badge badge-secondary">Araçsız</span>
+                                                            <span class="badge badge-secondary">{{ __('Araçsız') }}</span>
                                                         @endif
                                                     </div>
                                                     <div>
                                                         @if($ticket->is_active)
-                                                            <span class="badge badge-success">Aktif</span>
+                                                            <span class="badge badge-success">{{ __('Aktif') }}</span>
                                                         @else
-                                                            <span class="badge badge-danger">Pasif</span>
+                                                            <span class="badge badge-danger">{{ __('Pasif') }}</span>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -1050,14 +1150,14 @@ html.dark-mode .day-chip.selected .dc-day {
                     <div class="col-md-6" id="vehicles-section">
                         <div class="table-container">
                             <h4 class="table-title">
-                                Araçlar
+                                {{ __('Araçlar') }}
                                 <div class="float-right">
                                     <div class="btn-group mr-2" id="vehicles-pagination" style="display: inline-block;">
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('vehicles', 5)">5</button>
                                         <button type="button" class="btn btn-xs btn-outline-info active" onclick="setPagination('vehicles', 10)">10</button>
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('vehicles', 15)">15</button>
                                         <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('vehicles', 20)">20</button>
-                                        <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('vehicles', -1)">Tümü</button>
+                                        <button type="button" class="btn btn-xs btn-outline-info" onclick="setPagination('vehicles', -1)">{{ __('Tümü') }}</button>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleSection('vehicles')" id="vehicles-toggle">
                                         <i class="fas fa-minus"></i>
@@ -1068,35 +1168,35 @@ html.dark-mode .day-chip.selected .dc-day {
                                 <div id="vehicles-filters" class="mb-2">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label class="mb-1">Durum</label>
+                                            <label class="mb-1">{{ __('Durum') }}</label>
                                             <select class="form-control form-control-sm" id="vehiclesStatusFilter">
-                                                <option value="">Tümü</option>
-                                                <option value="available">Şoförlü</option>
-                                                <option value="busy">Şoförsüz</option>
+                                                <option value="">{{ __('Tümü') }}</option>
+                                                <option value="available">{{ __('Şoförlü') }}</option>
+                                                <option value="busy">{{ __('Şoförsüz') }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label class="mb-1">Kapasite</label>
+                                            <label class="mb-1">{{ __('Kapasite') }}</label>
                                             <select class="form-control form-control-sm" id="vehiclesCapacityFilter">
-                                                <option value="">Tümü</option>
-                                                <option value="small">Küçük (1-8)</option>
-                                                <option value="medium">Orta (9-16)</option>
-                                                <option value="large">Büyük (17+)</option>
+                                                <option value="">{{ __('Tümü') }}</option>
+                                                <option value="small">{{ __('Küçük (1-8)') }}</option>
+                                                <option value="medium">{{ __('Orta (9-16)') }}</option>
+                                                <option value="large">{{ __('Büyük (17+)') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-sm btn-primary mr-2" onclick="applyVehiclesFilter()">Uygula</button>
-                                        <button type="button" class="btn btn-sm btn-secondary" onclick="clearVehiclesFilter()">Temizle</button>
+                                        <button type="button" class="btn btn-sm btn-primary mr-2" onclick="applyVehiclesFilter()">{{ __('Uygula') }}</button>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="clearVehiclesFilter()">{{ __('Temizle') }}</button>
                                     </div>
                                 </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Plaka</th>
-                                            <th>Model</th>
-                                            <th>Durum</th>
+                                            <th>{{ __('Plaka') }}</th>
+                                            <th>{{ __('Model') }}</th>
+                                            <th>{{ __('Durum') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody id="vehicles-area">
@@ -1111,9 +1211,9 @@ html.dark-mode .day-chip.selected .dc-day {
                                             <td>
                                                 <strong>{{ $vehicle->plate_number }}</strong>
                                                 @if($vehicle->driver)
-                                                    <br><small class="text-success">Şoför: {{ $vehicle->driver->name }}</small>
+                                                    <br><small class="text-success">{{ __('Şoför') }}: {{ $vehicle->driver->name }}</small>
                                                 @else
-                                                    <br><small class="text-muted">Şoförsüz</small>
+                                                    <br><small class="text-muted">{{ __('Şoförsüz') }}</small>
                                                 @endif
                                                 @php
                                                     $currentPassengers = $vehicle->tickets->sum(function($ticket) {
@@ -1132,10 +1232,10 @@ html.dark-mode .day-chip.selected .dc-day {
                                                     }
                                                     $natOptions = \App\Models\User::getNationalityOptions();
                                                 @endphp
-                                                <br><small class="text-info vehicle-capacity" data-vehicle-id="{{ $vehicle->id }}">Kapasite: {{ $currentPassengers }}/{{ $vehicle->capacity }} ({{ $availableSeats }} boş)</small>
+                                                <br><small class="text-info vehicle-capacity" data-vehicle-id="{{ $vehicle->id }}">{{ __('Kapasite') }}: {{ $currentPassengers }}/{{ $vehicle->capacity }} ({{ __(':count boş', ['count' => $availableSeats]) }})</small>
                                                 <div class="vehicle-nationalities">
                                                     @if($supportedNats === null || empty($supportedNats))
-                                                        <span class="vehicle-nat-badge vehicle-nat-all">Tüm Milliyetler</span>
+                                                        <span class="vehicle-nat-badge vehicle-nat-all">{{ __('Tüm Milliyetler') }}</span>
                                                     @else
                                                         @foreach($supportedNats as $natCode)
                                                             <span class="vehicle-nat-badge">{{ $natOptions[$natCode] ?? $natCode }}</span>
@@ -1146,12 +1246,12 @@ html.dark-mode .day-chip.selected .dc-day {
                                             <td>{{ $vehicle->model }}</td>
                                             <td>
                                                 @if($vehicle->driver)
-                                                    <span class="badge badge-success">Şoförlü</span>
+                                                    <span class="badge badge-success">{{ __('Şoförlü') }}</span>
                                                 @else
-                                                    <span class="badge badge-secondary">Şoförsüz</span>
+                                                    <span class="badge badge-secondary">{{ __('Şoförsüz') }}</span>
                                                 @endif
                                                 @php $isFull = $availableSeats <= 0; @endphp
-                                                <br><span class="badge badge-danger vehicle-full-badge" data-vehicle-id="{{ $vehicle->id }}" style="display: {{ $isFull ? '' : 'none' }};">Dolu</span>
+                                                <br><span class="badge badge-danger vehicle-full-badge" data-vehicle-id="{{ $vehicle->id }}" style="display: {{ $isFull ? '' : 'none' }};">{{ __('Dolu') }}</span>
                                             </td>
                                             <!-- made by @hllgkx.0 -->
                                         </tr>
@@ -1176,7 +1276,38 @@ html.dark-mode .day-chip.selected .dc-day {
 @section('js')
 <script>
 // Tours verilerini JavaScript'te kullanmak için
-window.toursData = @json($tours ?? []);
+window.toursData = {!! json_encode($tours ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+
+const opsI18n = {!! json_encode([
+    'vehicle' => __('Araç'),
+    'active' => __('Aktif'),
+    'inactive' => __('Pasif'),
+    'withVehicle' => __('Araçlı'),
+    'capacity' => __('Kapasite'),
+    'empty' => __(':count boş', ['count' => ':count']),
+    'driverlessAssignError' => __('Şoförsüz araca bilet atanamaz.'),
+    'pastDateAssignError' => __('Bu biletin tarihi geçmiş. Araca atanamaz.'),
+    'assignError' => __('Atama sırasında bir hata oluştu.'),
+    'genericError' => __('Bir hata oluştu: :msg'),
+    'nationalityWarningTitle' => __('Milliyet Uyarısı'),
+    'continueBtn' => __('Devam Et'),
+    'cancelBtn' => __('İptal'),
+    'noToursOnDate' => __('Bu tarihte tur bulunamadı'),
+    'tourSelectionTitle' => __('Tur Seçimi'),
+    'toursCountSuffix' => __(':count tur'),
+    'operationPrefix' => __('Operasyon'),
+    'assigningTickets' => __(':count bilet atanıyor...'),
+    'expiredSkipped' => __('#:id tarihi geçmiş: atlanıyor'),
+    'perPage' => __('Sayfa başına:'),
+    'tourFallbackName' => __('Tur #:id'),
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+const opsMonths = {!! json_encode(app()->getLocale() === 'en'
+    ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+    : ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+const opsDow = {!! json_encode(app()->getLocale() === 'en'
+    ? ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+    : ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+const JS_LOCALE_OPS = {!! json_encode(app()->getLocale() === 'en' ? 'en-US' : 'tr-TR', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
 let draggedElement = null;
 
@@ -1209,7 +1340,7 @@ function dropOnVehicle(event) {
     const dragData = event.dataTransfer.getData('text/plain');
 
     if (!hasDriver && (dragType === 'single-ticket' || dragType === 'multiple-tickets' || draggedElement?.classList?.contains('ticket-item'))) {
-        showAlert('error', 'Şoförsüz araca bilet atanamaz.');
+        showAlert('error', opsI18n.driverlessAssignError);
         return;
     }
     
@@ -1270,7 +1401,7 @@ function assignTicketToVehicle(ticketId, vehicleId, forceAssign = false) {
                 const today = new Date(); today.setHours(0,0,0,0);
                 const d = new Date(ds); d.setHours(0,0,0,0);
                 if (d < today) {
-                    showAlert('error', 'Bu biletin tarihi geçmiş. Araca atanamaz.');
+                    showAlert('error', opsI18n.pastDateAssignError);
                     return;
                 }
             }
@@ -1306,18 +1437,18 @@ function assignTicketToVehicle(ticketId, vehicleId, forceAssign = false) {
                 });
                 return;
             }
-            showAlert('error', payload.message || 'Atama sırasında bir hata oluştu.');
+            showAlert('error', payload.message || opsI18n.assignError);
         }
     })
     .catch(error => {
-        showAlert('error', 'Bir hata oluştu: ' + error.message);
+        showAlert('error', opsI18n.genericError.replace(':msg', error.message));
     });
 }
 
 // Çoklu bileti araca ata
 function assignMultipleTicketsToVehicle(ticketIds, vehicleId) {
     // Loading mesajı göster
-    showAlert('info', `${ticketIds.length} bilet atanıyor...`);
+    showAlert('info', opsI18n.assigningTickets.replace(':count', ticketIds.length));
     // Client-side filter: remove expired before sending
     try {
         const today = new Date(); today.setHours(0,0,0,0);
@@ -1328,7 +1459,7 @@ function assignMultipleTicketsToVehicle(ticketIds, vehicleId) {
             if (!ds) return true;
             const d = new Date(ds); d.setHours(0,0,0,0);
             if (d < today) {
-                showAlert('error', `#${id} tarihi geçmiş: atlanıyor`);
+                showAlert('error', opsI18n.expiredSkipped.replace(':id', id));
                 return false;
             }
             return true;
@@ -1364,7 +1495,7 @@ function assignMultipleTicketsToVehicle(ticketIds, vehicleId) {
         }
     })
     .catch(error => {
-        showAlert('error', 'Bir hata oluştu: ' + error.message);
+        showAlert('error', opsI18n.genericError.replace(':msg', error.message));
     });
 }
 
@@ -1392,7 +1523,7 @@ function assignDriverToVehicle(driverId, vehicleId) {
         }
     })
     .catch(error => {
-        showAlert('error', 'Bir hata oluştu: ' + error.message);
+        showAlert('error', opsI18n.genericError.replace(':msg', error.message));
     });
 }
 
@@ -1419,7 +1550,7 @@ function assignDriverToGuide(driverId, guideId) {
         }
     })
     .catch(error => {
-        showAlert('error', 'Bir hata oluştu: ' + error.message);
+        showAlert('error', opsI18n.genericError.replace(':msg', error.message));
     });
 }
 
@@ -1466,7 +1597,7 @@ function updateTicketRowVehicle(ticketId, vehicleId, plateNumber) {
     if (vehicleCell) {
         const voucherEl = vehicleCell.querySelector('strong');
         const voucher = voucherEl ? voucherEl.textContent.trim() : '';
-        const vehicleLabel = plate ? `Araç: ${plate}` : `Araç: #${vehicleId}`;
+        const vehicleLabel = plate ? `${opsI18n.vehicle}: ${plate}` : `${opsI18n.vehicle}: #${vehicleId}`;
         vehicleCell.innerHTML = `<strong>${voucher}</strong><br><small class="text-success">${vehicleLabel}</small>`;
     }
 
@@ -1475,8 +1606,8 @@ function updateTicketRowVehicle(ticketId, vehicleId, plateNumber) {
         const isActive = row.getAttribute('data-is-active') === '1';
         statusCell.innerHTML = `
             <div class="d-flex flex-column align-items-start">
-                <div class="mb-1"><span class="badge badge-success">Araçlı</span></div>
-                <div>${isActive ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Pasif</span>'}</div>
+                <div class="mb-1"><span class="badge badge-success">${opsI18n.withVehicle}</span></div>
+                <div>${isActive ? '<span class="badge badge-success">' + opsI18n.active + '</span>' : '<span class="badge badge-danger">' + opsI18n.inactive + '</span>'}</div>
             </div>
         `;
     }
@@ -1514,7 +1645,7 @@ function updateVehicleCapacitiesForDate(dateISO){
             const capacity = parseInt(row ? row.getAttribute('data-capacity') : '0', 10);
             const used = counts[vid] || 0;
             const empty = Math.max(capacity - used, 0);
-            el.textContent = `Kapasite: ${used}/${capacity} (${empty} boş)`;
+            el.textContent = `${opsI18n.capacity}: ${used}/${capacity} (${opsI18n.empty.replace(':count', empty)})`;
             const badge = document.querySelector(`.vehicle-full-badge[data-vehicle-id="${vid}"]`);
             if (badge) badge.style.display = used >= capacity ? '' : 'none';
         });
@@ -1561,11 +1692,11 @@ function showNationalityWarning(message, onConfirm) {
     overlay.innerHTML = `
         <div class="nationality-toast">
             <div class="nationality-toast-icon">⚠️</div>
-            <div class="nationality-toast-title">Milliyet Uyarısı</div>
+            <div class="nationality-toast-title">${opsI18n.nationalityWarningTitle}</div>
             <div class="nationality-toast-msg">${message}</div>
             <div class="nationality-toast-actions">
-                <button class="nationality-toast-btn nationality-toast-btn-confirm" id="natToastConfirm">Devam Et</button>
-                <button class="nationality-toast-btn nationality-toast-btn-cancel" id="natToastCancel">İptal</button>
+                <button class="nationality-toast-btn nationality-toast-btn-confirm" id="natToastConfirm">${opsI18n.continueBtn}</button>
+                <button class="nationality-toast-btn nationality-toast-btn-cancel" id="natToastCancel">${opsI18n.cancelBtn}</button>
             </div>
         </div>
     `;
@@ -2079,7 +2210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dd = t.getDate().toString().padStart(2,'0');
         return y + '-' + m + '-' + dd; // Local YYYY-MM-DD (timezone-shift safe)
     }
-    function trDow(d){ return ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'][d.getDay()]; }
+    function trDow(d){ return opsDow[d.getDay()]; }
     function pad(n){ return (n<10?'0':'') + n; }
 
     function renderDays(){
@@ -2090,8 +2221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Başlık
         const titleEl = document.getElementById('monthTitle');
         if (titleEl) {
-            const trMonths = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-            titleEl.textContent = trMonths[month] + ' ' + year;
+            titleEl.textContent = opsMonths[month] + ' ' + year;
         }
 
         let dayCards = [];
@@ -2203,13 +2333,12 @@ document.addEventListener('DOMContentLoaded', function() {
         toursListEl.style.display = '';
         // Tur seçimi açıldığında kapalı bölümler satırını görünür yap
         // Kapalı bölümler özelliği kaldırıldığı için bir şey yapma
-        try { (document.getElementById('modeTitle')||{}).textContent = 'Tur Seçimi'; } catch(e) {}
+        try { (document.getElementById('modeTitle')||{}).textContent = opsI18n.tourSelectionTitle; } catch(e) {}
         const monthTitle = document.getElementById('monthTitle');
         if (monthTitle) {
             try {
                 const d = new Date(dateISO);
-                const trMonths = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-                const text = `${d.getDate()} ${trMonths[d.getMonth()]} ${d.getFullYear()}`;
+                const text = `${d.getDate()} ${opsMonths[d.getMonth()]} ${d.getFullYear()}`;
                 monthTitle.textContent = text;
             } catch(e) {}
         }
@@ -2223,7 +2352,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Turları bilet sayısıyla birlikte sakla
         allToursData = tours.map(function(t){
             const tourId = (t.id || t.ID || t.Id);
-            const name = t.name || t.title || ('Tur #' + tourId);
+            const name = t.name || t.title || opsI18n.tourFallbackName.replace(':id', tourId);
             const count = ticketRows.filter(r => r.dataset.tourId == String(tourId) && r.dataset.tourDate === dateISO).length;
             return { id: tourId, name: name, count: count };
         });
@@ -2242,12 +2371,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         
         if (totalTours === 0) {
-            html = '<div class="text-center text-muted py-3">Bu tarihte tur bulunamadı</div>';
+            html = '<div class="text-center text-muted py-3">' + opsI18n.noToursOnDate + '</div>';
         } else {
             // Pagination bar
             html += '<div class="tours-pagination-bar">';
             html += '<div class="tours-pagination-left">';
-            html += '<span class="page-size-label">Sayfa başına:</span>';
+            html += '<span class="page-size-label">' + opsI18n.perPage + '</span>';
             html += '<div class="tours-page-size-selector">';
             [5, 10, 15, 20].forEach(function(size) {
                 html += `<button type="button" class="tours-page-size-btn ${toursPerPage === size ? 'active' : ''}" data-size="${size}">${size}</button>`;
@@ -2256,7 +2385,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             html += '<div class="tours-pagination-right">';
             html += `<button type="button" class="tours-page-nav-btn" id="toursPrevPage" ${toursCurrentPage <= 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
-            html += `<span class="tours-page-info"><strong>${toursCurrentPage}</strong> / ${totalPages} <span class="d-none d-sm-inline">(${totalTours} tur)</span></span>`;
+            html += `<span class="tours-page-info"><strong>${toursCurrentPage}</strong> / ${totalPages} <span class="d-none d-sm-inline">(${opsI18n.toursCountSuffix.replace(':count', totalTours)})</span></span>`;
             html += `<button type="button" class="tours-page-nav-btn" id="toursNextPage" ${toursCurrentPage >= totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
             html += '</div></div>';
             
@@ -2279,11 +2408,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Apply styles dynamically to tour cards
         toursListEl.querySelectorAll('.tour-chip').forEach(function(el){
             const index = parseInt(el.dataset.index) || 0;
+            const darkMode = document.documentElement.classList.contains('dark-mode');
+            const cardBackground = darkMode ? '#1e293b' : '#ffffff';
+            const cardBorder = darkMode ? '#334155' : '#e1e5e9';
+            const cardShadow = darkMode ? 'none' : '0 1px 3px rgba(0,0,0,0.1)';
+            const titleColor = darkMode ? '#e2e8f0' : '#374151';
             // Base styles - daha küçük ve sade
             el.style.cssText = `
                 appearance: none !important;
                 -webkit-appearance: none !important;
-                border: 1px solid #e1e5e9 !important;
+                border: 1px solid ${cardBorder} !important;
                 width: 100% !important;
                 border-radius: 8px !important;
                 padding: 12px 10px !important;
@@ -2296,8 +2430,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 gap: 8px !important;
                 min-height: 50px !important;
                 overflow: hidden !important;
-                background: #ffffff !important;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+                background: ${cardBackground} !important;
+                box-shadow: ${cardShadow} !important;
             `;
             
             // Sade renkler - sadece kenarlık rengi değişiyor
@@ -2316,7 +2450,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (title) {
                 title.style.cssText = `
                     font-weight: 600 !important;
-                    color: #374151 !important;
+                    color: ${titleColor} !important;
                     font-size: 14px !important;
                     line-height: 1.4 !important;
                     text-align: left !important;
@@ -2346,14 +2480,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Hover effects - daha sade
             el.addEventListener('mouseenter', function(){
+                const isDark = document.documentElement.classList.contains('dark-mode');
                 this.style.transform = 'translateY(-1px) !important';
-                this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15) !important';
-                this.style.backgroundColor = '#f8fafc !important';
+                this.style.boxShadow = isDark ? 'none' : '0 4px 12px rgba(0,0,0,0.15) !important';
+                this.style.backgroundColor = isDark ? '#263449 !important' : '#f8fafc !important';
             });
             el.addEventListener('mouseleave', function(){
+                const isDark = document.documentElement.classList.contains('dark-mode');
                 this.style.transform = 'none !important';
-                this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1) !important';
-                this.style.backgroundColor = '#ffffff !important';
+                this.style.boxShadow = isDark ? 'none' : '0 1px 3px rgba(0,0,0,0.1) !important';
+                this.style.backgroundColor = isDark ? '#1e293b !important' : '#ffffff !important';
             });
         });
 
@@ -2403,6 +2539,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    new MutationObserver(function (mutations) {
+        if (mutations.some(function (mutation) { return mutation.attributeName === 'class'; })) {
+            renderToursPaginated();
+        }
+    }).observe(document.documentElement, { attributes: true });
+
     function chooseTour(tourId){
         selectedTourId = tourId;
         // Ensure inline board visible
@@ -2433,7 +2575,7 @@ function openOperationsModal(dateISO){
         const board = document.getElementById('operations-board');
         const title = document.getElementById('operationsModalTitle');
         if (!modal || !slot || !board) return;
-        title.textContent = 'Operasyon - ' + (new Date(dateISO)).toLocaleDateString('tr-TR');
+        title.textContent = opsI18n.operationPrefix + ' - ' + (new Date(dateISO)).toLocaleDateString(JS_LOCALE_OPS);
         // Tahtayı modal slotuna taşı
         slot.appendChild(board);
         board.style.display = 'block';
@@ -3116,18 +3258,41 @@ function filterGuides(nationalityFilter, driversFilter) {
   <div class="modal-dialog modal-xl" role="document" style="max-width: 96%;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="operationsModalTitle">Operasyon</h5>
+        <h5 class="modal-title" id="operationsModalTitle">{{ __('Operasyon') }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeOperationsModal()"></button>
       </div>
       <div class="modal-body" id="operations-board-slot">
         <!-- Tahta buraya taşınacak -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeOperationsModal()">Kapat</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeOperationsModal()">{{ __('Kapat') }}</button>
       </div>
     </div>
   </div>
 </div>
 <!-- end of js -->
+@push('css')
+<style>
+html.dark-mode #tours-list .tour-card,
+html.dark-mode #tours-list .tour-chip,
+html.dark-mode #tours-list .tour-card:nth-child(n),
+html.dark-mode #tours-list .tour-chip:nth-child(n) {
+    background: #1e293b !important;
+    background-image: none !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
+    color: #e2e8f0 !important;
+}
+html.dark-mode #tours-list .tour-card:hover,
+html.dark-mode #tours-list .tour-chip:hover {
+    background: #263449 !important;
+    border-color: #64748b !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+html.dark-mode #tours-list .tour-title { color: #e2e8f0 !important; text-shadow: none !important; }
+html.dark-mode #tours-list .tour-count-badge { background: #334155 !important; border-color: #64748b !important; color: #cbd5e1 !important; }
+</style>
+@endpush
 @stop 
 <!-- end of code -->

@@ -1,25 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'Şoför Düzenle')
+@section('title', __('Şoför Düzenle'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Şoför Bilgileri</h3>
+                        <h3 class="card-title">{{ __('Şoför Bilgileri') }}</h3>
                     </div>
                     <form action="{{ route('admin.drivers.update', $driver) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">Ad Soyad  </label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                        <label for="name">{{ __('Ad Soyad') }}</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                                                id="name" name="name" value="{{ old('name', $driver->name) }}" required>
                                         @error('name')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -28,8 +28,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">E-posta  </label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                        <label for="email">{{ __('E-posta') }}</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                id="email" name="email" value="{{ old('email', $driver->email) }}" required>
                                         @error('email')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -41,8 +41,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone_number">Telefon  </label>
-                                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" 
+                                        <label for="phone_number">{{ __('Telefon') }}</label>
+                                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
                                                id="phone_number" name="phone_number" value="{{ old('phone_number', $driver->phone_number) }}" required>
                                         @error('phone_number')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -51,10 +51,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="password">Şifre</label>
-                                        <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                               id="password" name="password" placeholder="Değiştirmek için doldurun">
-                                        <small class="form-text text-muted">Şifreyi değiştirmek istemiyorsanız boş bırakın.</small>
+                                        <label for="password">{{ __('Şifre') }}</label>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                               id="password" name="password" placeholder="{{ __('Değiştirmek için doldurun') }}">
+                                        <small class="form-text text-muted">{{ __('Şifreyi değiştirmek istemiyorsanız boş bırakın.') }}</small>
                                         @error('password')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
@@ -65,12 +65,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Desteklenen Milliyetler</label>
+                                        <label>{{ __('Desteklenen Milliyetler') }}</label>
                                         <div class="nationality-toolbar d-flex align-items-center mb-2" id="nationalityToolbar">
-                                            <input type="text" class="form-control form-control-sm nationality-search" placeholder="Milliyet ara..." style="max-width: 260px;">
-                                            <button type="button" class="btn btn-sm btn-outline-primary ml-2" id="btnSelectAllNationalities">Tümünü Seç</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="btnClearNationalities">Temizle</button>
-                                            <span class="badge badge-info ml-2" id="nationalitySelectedCount">0 seçili</span>
+                                            <input type="text" class="form-control form-control-sm nationality-search" placeholder="{{ __('Milliyet ara...') }}" style="max-width: 260px;">
+                                            <button type="button" class="btn btn-sm btn-outline-primary ml-2" id="btnSelectAllNationalities">{{ __('Tümünü Seç') }}</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="btnClearNationalities">{{ __('Temizle') }}</button>
+                                            <span class="badge badge-info ml-2" id="nationalitySelectedCount">{{ __(':count seçili', ['count' => 0]) }}</span>
                                         </div>
                                         <div class="nationality-chips" id="nationalityChips">
                                             @foreach(\App\Models\User::getNationalityOptions() as $code => $name)
@@ -84,7 +84,7 @@
                                             @endforeach
                                         </div>
                                         <small class="form-text text-muted">
-                                            Hiçbiri seçilmezse tüm milliyetlerden yolcu alabilir
+                                            {{ __('Hiçbiri seçilmezse tüm milliyetlerden yolcu alabilir') }}
                                         </small>
                                         @error('supported_nationalities')
                                             <span class="invalid-feedback d-block">{{ $message }}</span>
@@ -97,10 +97,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="salary_amount">Maaş Tutarı</label>
+                                        <label for="salary_amount">{{ __('Maaş Tutarı') }}</label>
                                         <div class="input-group">
                                             <input type="number" step="0.01" min="0" class="form-control @error('salary_amount') is-invalid @enderror"
-                                                   id="salary_amount" name="salary_amount" value="{{ old('salary_amount', $driver->salary_amount) }}" placeholder="Örn: 15000">
+                                                   id="salary_amount" name="salary_amount" value="{{ old('salary_amount', $driver->salary_amount) }}" placeholder="{{ __('Örn: 15000') }}">
                                             <select class="form-control col-4 @error('salary_currency') is-invalid @enderror" name="salary_currency" id="salary_currency">
                                                 @php $curr = old('salary_currency', $driver->salary_currency ?? 'TRY'); @endphp
                                                 <option value="TRY" {{ $curr==='TRY'?'selected':'' }}>TRY</option>
@@ -116,14 +116,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Maaş Günü (aylık)</label>
+                                        <label>{{ __('Maaş Günü (aylık)') }}</label>
                                         @php $salaryDay = (int) old('salary_day', $driver->salary_day ?? 1); @endphp
                                         <div class="salary-day-presets">
-                                            <span class="salary-day-preset" data-day="1">Ayın 1'i</span>
-                                            <span class="salary-day-preset" data-day="10">Ayın 10'u</span>
-                                            <span class="salary-day-preset" data-day="15">Ayın 15'i</span>
-                                            <span class="salary-day-preset" data-day="20">Ayın 20'si</span>
-                                            <span class="salary-day-preset" data-day="28">Ay sonu (28)</span>
+                                            <span class="salary-day-preset" data-day="1">{{ __("Ayın :day'i", ['day' => 1]) }}</span>
+                                            <span class="salary-day-preset" data-day="10">{{ __("Ayın :day'i", ['day' => 10]) }}</span>
+                                            <span class="salary-day-preset" data-day="15">{{ __("Ayın :day'i", ['day' => 15]) }}</span>
+                                            <span class="salary-day-preset" data-day="20">{{ __("Ayın :day'i", ['day' => 20]) }}</span>
+                                            <span class="salary-day-preset" data-day="28">{{ __('Ay sonu (:day)', ['day' => 28]) }}</span>
                                         </div>
                                         <div class="salary-day-picker" id="salaryDayPicker">
                                             @for($d=1;$d<=28;$d++)
@@ -132,7 +132,7 @@
                                         </div>
                                         <input type="hidden" name="salary_day" id="salary_day" value="{{ $salaryDay }}">
                                         <div class="salary-day-summary">
-                                            <i class="fas fa-info-circle"></i> Her ayın <strong id="salaryDayLabel">{{ $salaryDay }}.</strong> günü otomatik maaş gideri oluşur.
+                                            <i class="fas fa-info-circle"></i> {!! __('Her ayın :day günü otomatik maaş gideri oluşur.', ['day' => '<strong id="salaryDayLabel">' . $salaryDay . '.</strong>']) !!}
                                         </div>
                                         @error('salary_day') <span class="invalid-feedback d-block">{{ $message }}</span> @enderror
                                     </div>
@@ -140,24 +140,24 @@
                             </div>
 
                             <!-- Araç Atama Bölümü -->
-                            <div class="card card-outline card-primary">
+                            <div class="ad-card mb-3">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        <i class="fas fa-car"></i> Araç Atama
+                                        <i class="fas fa-car"></i> {{ __('Araç Atama') }}
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label for="vehicle_id">Araç Seçimi</label>
-                                                <select class="form-control @error('vehicle_id') is-invalid @enderror" 
+                                                <label for="vehicle_id">{{ __('Araç Seçimi') }}</label>
+                                                <select class="form-control @error('vehicle_id') is-invalid @enderror"
                                                         id="vehicle_id" name="vehicle_id">
-                                                    <option value="">Araç Atanmamış</option>
+                                                    <option value="">{{ __('Araç Atanmamış') }}</option>
                                                     @foreach($availableVehicles as $vehicle)
-                                                        <option value="{{ $vehicle->id }}" 
+                                                        <option value="{{ $vehicle->id }}"
                                                                 {{ old('vehicle_id', $driver->vehicle_id) == $vehicle->id ? 'selected' : '' }}>
-                                                            {{ $vehicle->plate_number }} - {{ $vehicle->brand }} {{ $vehicle->model }} 
+                                                            {{ $vehicle->plate_number }} - {{ $vehicle->brand }} {{ $vehicle->model }}
                                                             ({{ $vehicle->vehicle_type }})
                                                         </option>
                                                     @endforeach
@@ -171,9 +171,9 @@
                                             <div class="form-group">
                                                 <label>&nbsp;</label>
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" 
+                                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1"
                                                            {{ old('is_active', $driver->is_active) ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="is_active">Aktif</label>
+                                                    <label class="custom-control-label" for="is_active">{{ __('Aktif') }}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,21 +182,21 @@
                                     @if($driver->vehicle)
                                     <div class="alert alert-info">
                                         <i class="fas fa-info-circle"></i>
-                                        <strong>Mevcut Araç:</strong> {{ $driver->vehicle->plate_number }} 
+                                        <strong>{{ __('Mevcut Araç:') }}</strong> {{ $driver->vehicle->plate_number }}
                                         ({{ $driver->vehicle->brand }} {{ $driver->vehicle->model }})
                                         <br>
                                         <small class="text-muted">
-                                            Bu araç değiştirilirse, eski araç ataması kaldırılacak ve yeni araç atanacaktır.
+                                            {{ __('Bu araç değiştirilirse, eski araç ataması kaldırılacak ve yeni araç atanacaktır.') }}
                                         </small>
                                     </div>
                                     @endif
                                     @if(!$driver->vehicle && isset($inactiveUnassignedCount) && $inactiveUnassignedCount > 0)
                                     <div class="alert alert-warning mt-2">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        Şoförsüz ve pasif durumda <strong>{{ $inactiveUnassignedCount }}</strong> araç bulundu. 
-                                        Pasif araçları aktifleştirmek ister misiniz?
+                                        {!! __('Şoförsüz ve pasif durumda :count araç bulundu.', ['count' => '<strong>' . $inactiveUnassignedCount . '</strong>']) !!}
+                                        {{ __('Pasif araçları aktifleştirmek ister misiniz?') }}
                                         <br>
-                                        <small class="text-muted">Araçlar etkinleştirildikten sonra bu listede görüneceklerdir.</small>
+                                        <small class="text-muted">{{ __('Araçlar etkinleştirildikten sonra bu listede görüneceklerdir.') }}</small>
                                     </div>
                                     @endif
                                 </div>
@@ -205,10 +205,10 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Güncelle
+                                <i class="fas fa-save"></i> {{ __('Güncelle') }}
                             </button>
                             <a href="{{ route('admin.drivers.show', $driver) }}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> İptal
+                                <i class="fas fa-times"></i> {{ __('İptal') }}
                             </a>
                         </div>
                     </form>
@@ -216,27 +216,27 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card">
+                        <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Mevcut Bilgiler</h3>
+                        <h3 class="card-title">{{ __('Mevcut Bilgiler') }}</h3>
                     </div>
                     <div class="card-body">
                         <dl>
-                            <dt>Kayıt Tarihi</dt>
+                            <dt>{{ __('Kayıt Tarihi') }}</dt>
                             <dd>{{ $driver->created_at->format('d.m.Y H:i') }}</dd>
-                            
-                            <dt>Son Güncelleme</dt>
+
+                            <dt>{{ __('Son Güncelleme') }}</dt>
                             <dd>{{ $driver->updated_at->format('d.m.Y H:i') }}</dd>
-                            
+
                             @if($driver->vehicle)
-                            <dt>Mevcut Araç</dt>
+                            <dt>{{ __('Mevcut Araç') }}</dt>
                             <dd>
                                 <span class="badge badge-info">{{ $driver->vehicle->plate_number }}</span>
                                 <br><small class="text-muted">{{ $driver->vehicle->brand }} {{ $driver->vehicle->model }}</small>
                             </dd>
                             @endif
 
-                            <dt>Toplam Aktivite</dt>
+                            <dt>{{ __('Toplam Aktivite') }}</dt>
                             <dd>{{ $driver->activities()->count() }}</dd>
                         </dl>
                     </div>
@@ -245,16 +245,16 @@
                 @if($availableVehicles->count() > 0)
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Atanabilir Araçlar</h3>
+                        <h3 class="card-title">{{ __('Atanabilir Araçlar') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Plaka</th>
-                                        <th>Marka/Model</th>
-                                        <th>Durum</th>
+                                        <th>{{ __('Plaka') }}</th>
+                                        <th>{{ __('Marka/Model') }}</th>
+                                        <th>{{ __('Durum') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -265,12 +265,12 @@
                                         <td>
                                             @if($vehicle->driver_id)
                                                 @if($vehicle->driver_id == $driver->id)
-                                                    <span class="badge badge-success">Bu şoföre atanmış</span>
+                                                    <span class="badge badge-success">{{ __('Bu şoföre atanmış') }}</span>
                                                 @else
                                                     <span class="badge badge-warning">{{ $vehicle->driver->name }}</span>
                                                 @endif
                                             @else
-                                                <span class="badge badge-secondary">Boş</span>
+                                                <span class="badge badge-secondary">{{ __('Boş') }}</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -283,15 +283,15 @@
                 @else
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Araç Durumu</h3>
+                        <h3 class="card-title">{{ __('Araç Durumu') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-warning">
                             <i class="fas fa-exclamation-triangle"></i>
-                            Atanabilir araç bulunmuyor. Önce araç oluşturun.
+                            {{ __('Atanabilir araç bulunmuyor. Önce araç oluşturun.') }}
                         </div>
                         <a href="{{ route('admin.vehicles.create') }}" class="btn btn-success w-100">
-                            <i class="fas fa-plus"></i> Yeni Araç Oluştur
+                            <i class="fas fa-plus"></i> {{ __('Yeni Araç Oluştur') }}
                         </a>
                     </div>
                 </div>
@@ -347,15 +347,21 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
 @push('js')
 <script>
 $(document).ready(function() {
+    var driverFormI18n = {!! json_encode([
+        'selectedCount' => __(':count seçili'),
+        'vehicleReassignConfirm' => __('Bu araç başka bir şoföre atanmış. Değiştirmek istediğinizden emin misiniz?'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    window.__driverFormI18n = driverFormI18n;
+
     // Vehicle selection change handler
     $('#vehicle_id').change(function() {
         var selectedVehicle = $(this).find('option:selected');
         var vehicleText = selectedVehicle.text();
-        
+
         if ($(this).val()) {
             // Show confirmation for vehicle assignment
             if (vehicleText.includes('tarafından kullanılıyor')) {
-                if (!confirm('Bu araç başka bir şoföre atanmış. Değiştirmek istediğinizden emin misiniz?')) {
+                if (!confirm(driverFormI18n.vehicleReassignConfirm)) {
                     $(this).val(''); // Reset selection
                     return;
                 }
@@ -376,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         const updateCount = () => {
             const checked = chips ? chips.querySelectorAll('input[type="checkbox"]:checked').length : 0;
-            if (countBadge) countBadge.textContent = checked + ' seçili';
+            if (countBadge) countBadge.textContent = (window.__driverFormI18n ? window.__driverFormI18n.selectedCount.replace(':count', checked) : checked + ' seçili');
         };
 
         if (chips) {

@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const tcmbRates = (() => {
         const map = { TRY: 1 };
-        const ratesPayload = @json($exchangeRates['items'] ?? []);
+        const ratesPayload = {!! json_encode($exchangeRates['items'] ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
         ratesPayload.forEach(item => {
             const code = String(item.code || '').toUpperCase();
             if (code) map[code] = Number(item.buy || 0);

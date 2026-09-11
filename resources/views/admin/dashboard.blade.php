@@ -10,13 +10,13 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ \App\Models\Vehicle::count() }}</h3>
-                        <p>Araç</p>
+                        <p>{{ __('Araç') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-car"></i>
                     </div>
                     <a href="{{ route('admin.vehicles.index') }}" class="small-box-footer">
-                        Detaylar <i class="fas fa-arrow-circle-right"></i>
+                        {{ __('Detaylar') }} <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -25,13 +25,13 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{ \App\Models\User::where('level', 2)->count() }}</h3>
-                        <p>Şoför</p>
+                        <p>{{ __('Şoför') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
                     <a href="{{ route('admin.drivers.index') }}" class="small-box-footer">
-                        Detaylar <i class="fas fa-arrow-circle-right"></i>
+                        {{ __('Detaylar') }} <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -40,13 +40,13 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>{{ \App\Models\Ticket::count() }}</h3>
-                        <p>Bilet</p>
+                        <p>{{ __('Bilet') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-ticket-alt"></i>
                     </div>
                     <a href="{{ route('admin.tickets.index') }}" class="small-box-footer">
-                        Detaylar <i class="fas fa-arrow-circle-right"></i>
+                        {{ __('Detaylar') }} <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -56,13 +56,13 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{ \App\Models\Vehicle::where('is_active', true)->count() }}</h3>
-                        <p>Aktif Araç</p>
+                        <p>{{ __('Aktif Araç') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <a href="{{ route('admin.vehicles.index') }}" class="small-box-footer">
-                        Detaylar <i class="fas fa-arrow-circle-right"></i>
+                        {{ __('Detaylar') }} <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
@@ -71,30 +71,30 @@
         <!-- Hızlı İşlemler -->
         <div class="row">
             <div class="col-md-6">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-bolt mr-1"></i> Hızlı İşlemler</h3>
+                        <h3 class="card-title"><i class="fas fa-bolt mr-1"></i> {{ __('Hızlı İşlemler') }}</h3>
                     </div>
                     <div class="card-body p-2">
                         <div class="row">
                             <div class="col-6 mb-1">
-                                <a href="{{ route('admin.vehicles.create') }}" class="btn btn-primary btn-sm w-100">
-                                    <i class="fas fa-plus"></i> Yeni Araç
+                                <a href="{{ route('admin.vehicles.create') }}" class="ad-btn ad-btn-primary ad-btn-sm w-100">
+                                    <i data-lucide="plus"></i> {{ __('Yeni Araç') }}
                                 </a>
                             </div>
                             <div class="col-6 mb-1">
-                                <a href="{{ route('admin.drivers.create') }}" class="btn btn-success btn-sm w-100">
-                                    <i class="fas fa-plus"></i> Yeni Şoför
+                                <a href="{{ route('admin.drivers.create') }}" class="ad-btn ad-btn-success ad-btn-sm w-100">
+                                    <i data-lucide="plus"></i> {{ __('Yeni Şoför') }}
                                 </a>
                             </div>
                             <div class="col-6 mb-1">
-                                <a href="{{ route('admin.tickets.create') }}" class="btn btn-warning btn-sm w-100">
-                                    <i class="fas fa-plus"></i> Yeni Bilet
+                                <a href="{{ route('admin.tickets.create') }}" class="ad-btn ad-btn-warning ad-btn-sm w-100">
+                                    <i data-lucide="plus"></i> {{ __('Yeni Bilet') }}
                                 </a>
                             </div>
                             <div class="col-6 mb-1">
-                                <a href="{{ route('admin.tours.create') }}" class="btn btn-info btn-sm w-100">
-                                    <i class="fas fa-plus"></i> Yeni Tur
+                                <a href="{{ route('admin.tours.create') }}" class="ad-btn ad-btn-info ad-btn-sm w-100">
+                                    <i data-lucide="plus"></i> {{ __('Yeni Tur') }}
                                 </a>
                             </div>
                         </div>
@@ -103,17 +103,17 @@
             </div>
 
             <div class="col-md-6">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Son İşlemler</h3>
+                        <h3 class="card-title">{{ __('Son İşlemler') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm">
+                            <table class="ad-table table table-sm">
                                 <thead>
                                     <tr>
-                                        <th>İşlem</th>
-                                        <th>Tarih</th>
+                                        <th>{{ __('İşlem') }}</th>
+                                        <th>{{ __('Tarih') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -122,33 +122,33 @@
 
                                         // Araçlar: eklendi + düzenlendi
                                         foreach (\App\Models\Vehicle::latest('updated_at')->take(20)->get() as $v) {
-                                            $events[] = ['type'=>'vehicle','text'=>'Araç eklendi: ' . $v->plate_number,'date'=>$v->created_at,'action'=>'create'];
+                                            $events[] = ['type'=>'vehicle','text'=>__('Araç eklendi') . ': ' . $v->plate_number,'date'=>$v->created_at,'action'=>'create'];
                                             if ($v->updated_at && $v->updated_at->gt($v->created_at->addSeconds(5))) {
-                                                $events[] = ['type'=>'vehicle_edit','text'=>'Araç düzenlendi: ' . $v->plate_number,'date'=>$v->updated_at,'action'=>'edit'];
+                                                $events[] = ['type'=>'vehicle_edit','text'=>__('Araç düzenlendi') . ': ' . $v->plate_number,'date'=>$v->updated_at,'action'=>'edit'];
                                             }
                                         }
 
                                         // Biletler: eklendi + düzenlendi
                                         foreach (\App\Models\Ticket::latest('updated_at')->take(20)->get() as $t) {
-                                            $events[] = ['type'=>'ticket','text'=>'Bilet eklendi: ' . ($t->voucher_no ?: $t->tracking_no),'date'=>$t->created_at,'action'=>'create'];
+                                            $events[] = ['type'=>'ticket','text'=>__('Bilet eklendi') . ': ' . ($t->voucher_no ?: $t->tracking_no),'date'=>$t->created_at,'action'=>'create'];
                                             if ($t->updated_at && $t->updated_at->gt($t->created_at->addSeconds(5))) {
-                                                $events[] = ['type'=>'ticket_edit','text'=>'Bilet düzenlendi: ' . ($t->voucher_no ?: $t->tracking_no),'date'=>$t->updated_at,'action'=>'edit'];
+                                                $events[] = ['type'=>'ticket_edit','text'=>__('Bilet düzenlendi') . ': ' . ($t->voucher_no ?: $t->tracking_no),'date'=>$t->updated_at,'action'=>'edit'];
                                             }
                                         }
 
                                         // Turlar: eklendi + düzenlendi
                                         foreach (\App\Models\Tour::latest('updated_at')->take(20)->get() as $tr) {
-                                            $events[] = ['type'=>'tour','text'=>'Tur eklendi: ' . $tr->name,'date'=>$tr->created_at,'action'=>'create'];
+                                            $events[] = ['type'=>'tour','text'=>__('Tur eklendi') . ': ' . $tr->name,'date'=>$tr->created_at,'action'=>'create'];
                                             if ($tr->updated_at && $tr->updated_at->gt($tr->created_at->addSeconds(5))) {
-                                                $events[] = ['type'=>'tour_edit','text'=>'Tur düzenlendi: ' . $tr->name,'date'=>$tr->updated_at,'action'=>'edit'];
+                                                $events[] = ['type'=>'tour_edit','text'=>__('Tur düzenlendi') . ': ' . $tr->name,'date'=>$tr->updated_at,'action'=>'edit'];
                                             }
                                         }
 
                                         // Şoförler: eklendi + düzenlendi
                                         foreach (\App\Models\User::where('level',2)->latest('updated_at')->take(20)->get() as $dr) {
-                                            $events[] = ['type'=>'driver','text'=>'Şoför eklendi: ' . $dr->name,'date'=>$dr->created_at,'action'=>'create'];
+                                            $events[] = ['type'=>'driver','text'=>__('Şoför eklendi') . ': ' . $dr->name,'date'=>$dr->created_at,'action'=>'create'];
                                             if ($dr->updated_at && $dr->updated_at->gt($dr->created_at->addSeconds(5))) {
-                                                $events[] = ['type'=>'driver_edit','text'=>'Şoför düzenlendi: ' . $dr->name,'date'=>$dr->updated_at,'action'=>'edit'];
+                                                $events[] = ['type'=>'driver_edit','text'=>__('Şoför düzenlendi') . ': ' . $dr->name,'date'=>$dr->updated_at,'action'=>'edit'];
                                             }
                                         }
 
@@ -182,7 +182,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="2" class="text-muted">Henüz işlem bulunmuyor.</td>
+                                            <td colspan="2" class="text-muted">{{ __('Henüz işlem bulunmuyor.') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -198,37 +198,37 @@
                             @endphp
                             <div class="d-flex justify-content-between align-items-center mt-3 px-2">
                                 <div class="text-muted small">
-                                    Sayfa {{ $page }} / {{ $totalPages ?? 1 }}
+                                    {{ __('Sayfa :page / :total', ['page' => $page, 'total' => $totalPages ?? 1]) }}
                                 </div>
-                                <nav aria-label="Son İşlemler Sayfaları">
+                                <nav aria-label="{{ __('Son İşlemler Sayfaları') }}">
                                     <ul class="pagination pagination-sm mb-0 modern-pagination">
                                         @if($page > 1)
                                             <li class="page-item">
-                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => 1]) }}" title="İlk">
+                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => 1]) }}" title="{{ __('İlk') }}">
                                                     <i class="fas fa-angle-double-left"></i>
                                                 </a>
                                             </li>
                                             <li class="page-item">
-                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $page-1]) }}" title="Önceki">
+                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $page-1]) }}" title="{{ __('Önceki') }}">
                                                     <i class="fas fa-angle-left"></i>
                                                 </a>
                                             </li>
                                         @endif
-                                        
+
                                         @for($i=$startPage; isset($totalPages) && $i<=$endPage; $i++)
                                             <li class="page-item {{ $i === $page ? 'active' : '' }}">
                                                 <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $i]) }}">{{ $i }}</a>
                                             </li>
                                         @endfor
-                                        
+
                                         @if(isset($totalPages) && $page < $totalPages)
                                             <li class="page-item">
-                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $page+1]) }}" title="Sonraki">
+                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $page+1]) }}" title="{{ __('Sonraki') }}">
                                                     <i class="fas fa-angle-right"></i>
                                                 </a>
                                             </li>
                                             <li class="page-item">
-                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $totalPages]) }}" title="Son">
+                                                <a class="page-link" href="{{ request()->fullUrlWithQuery(['events_page' => $totalPages]) }}" title="{{ __('Son') }}">
                                                     <i class="fas fa-angle-double-right"></i>
                                                 </a>
                                             </li>
@@ -245,14 +245,14 @@
         <!-- Kullanıcı Konumları Haritası -->
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Kullanıcı Konumları</h3>
+                        <h3 class="card-title">{{ __('Kullanıcı Konumları') }}</h3>
                         <div class="card-tools">
                             <!-- made by @hllgkx.0 -->
-                            <span class="live-counter mr-2" id="live-counter" style="display:none;"><span id="live-counter-num">0</span> şoför canlı</span>
-                            <span class="badge bg-info mr-2" id="last-update">Son Güncelleme: -</span>
-                            <button type="button" class="btn btn-tool" onclick="refreshMap()" title="Yenile">
+                            <span class="live-counter mr-2" id="live-counter" style="display:none;"><span id="live-counter-num">0</span> {{ __('şoför canlı') }}</span>
+                            <span class="badge bg-info mr-2" id="last-update">{{ __('Son Güncelleme') }}: -</span>
+                            <button type="button" class="btn btn-tool" onclick="refreshMap()" title="{{ __('Yenile') }}">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                         </div>
@@ -477,6 +477,22 @@
         let customerMarkers = [];
         let activePopup = null;
         const LIVE_THRESHOLD_MS = 90 * 1000; // 90 sn içinde güncellenmiş = CANLI
+        const JS_LOCALE = {!! json_encode(app()->getLocale() === 'en' ? 'en-US' : 'tr-TR', JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+        const I18N = {!! json_encode([
+            'unknown' => __('Bilinmiyor'),
+            'now' => __('şimdi'),
+            'secAgo' => __('sn önce'),
+            'minAgo' => __('dk önce'),
+            'hourAgo' => __('sa önce'),
+            'live' => __('CANLI'),
+            'driver' => __('Şoför'),
+            'status' => __('Durum'),
+            'speed' => __('Hız'),
+            'lastUpdate' => __('Son Güncelleme'),
+            'ticket' => __('Bilet'),
+            'tour' => __('Tur'),
+            'mapboxTokenMissing' => __('Mapbox token tanımlı değil'),
+        ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 
         function escHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
@@ -510,20 +526,20 @@
         }
 
         function timeAgoText(ts) {
-            if (!ts) return 'Bilinmiyor';
+            if (!ts) return I18N.unknown;
             var d = new Date(ts);
             var diff = Math.floor((Date.now() - d.getTime()) / 1000);
-            if (diff < 30) return 'şimdi';
-            if (diff < 60) return diff + ' sn önce';
-            if (diff < 3600) return Math.floor(diff / 60) + ' dk önce';
-            if (diff < 86400) return Math.floor(diff / 3600) + ' sa önce';
-            return d.toLocaleString('tr-TR');
+            if (diff < 30) return I18N.now;
+            if (diff < 60) return diff + ' ' + I18N.secAgo;
+            if (diff < 3600) return Math.floor(diff / 60) + ' ' + I18N.minAgo;
+            if (diff < 86400) return Math.floor(diff / 3600) + ' ' + I18N.hourAgo;
+            return d.toLocaleString(JS_LOCALE);
         }
 
         function initMap() {
-            mapboxgl.accessToken = @json(config('services.mapbox.access_token'));
+            mapboxgl.accessToken = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
             if (!mapboxgl.accessToken) {
-                document.getElementById('map').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999"><p>Mapbox token tanımlı değil</p></div>';
+                document.getElementById('map').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999"><p>' + I18N.mapboxTokenMissing + '</p></div>';
                 return;
             }
 
@@ -542,7 +558,7 @@
                 style: 'mapbox://styles/mapbox/streets-v12',
                 center: defaultCenter,
                 zoom: defaultZoom,
-                language: 'tr',
+                language: {!! json_encode(app()->getLocale(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!},
             });
 
             map.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -590,15 +606,15 @@
 
         function buildVehiclePopupHtml(vehicle) {
             var live = isLive(vehicle.last_update);
-            var liveDot = live ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:6px;animation:dr-live-pulse 1.4s infinite;"></span>CANLI' : '';
+            var liveDot = live ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:6px;animation:dr-live-pulse 1.4s infinite;"></span>' + I18N.live : '';
             return '<div class="info-window">' +
                 '<h5>' + escHtml(vehicle.plate_number) +
                 (live ? ' <span style="font-size:10px;color:#16a34a;font-weight:700;margin-left:6px;">' + liveDot + '</span>' : '') +
                 '</h5>' +
-                '<p><strong>Şoför:</strong> ' + escHtml(vehicle.driver_name || '-') + '</p>' +
-                '<p><strong>Durum:</strong> ' + escHtml(vehicle.status || '-') + '</p>' +
-                (vehicle.speed != null ? '<p><strong>Hız:</strong> ' + Math.round(vehicle.speed) + ' km/s</p>' : '') +
-                '<p><strong>Son Güncelleme:</strong> ' + timeAgoText(vehicle.last_update) + '</p>' +
+                '<p><strong>' + I18N.driver + ':</strong> ' + escHtml(vehicle.driver_name || '-') + '</p>' +
+                '<p><strong>' + I18N.status + ':</strong> ' + escHtml(vehicle.status || '-') + '</p>' +
+                (vehicle.speed != null ? '<p><strong>' + I18N.speed + ':</strong> ' + Math.round(vehicle.speed) + ' km/s</p>' : '') +
+                '<p><strong>' + I18N.lastUpdate + ':</strong> ' + timeAgoText(vehicle.last_update) + '</p>' +
                 '</div>';
         }
 
@@ -669,9 +685,9 @@
                                 .setHTML(
                                     '<div class="info-window">' +
                                     '<h5>' + escHtml(customer.ticket.customer_name) + '</h5>' +
-                                    '<p><strong>Bilet:</strong> ' + escHtml(customer.ticket.tracking_no) + '</p>' +
-                                    '<p><strong>Tur:</strong> ' + escHtml(customer.ticket.tour_name) + '</p>' +
-                                    '<p><strong>Son Güncelleme:</strong> ' + new Date(customer.updated_at).toLocaleString('tr-TR') + '</p>' +
+                                    '<p><strong>' + I18N.ticket + ':</strong> ' + escHtml(customer.ticket.tracking_no) + '</p>' +
+                                    '<p><strong>' + I18N.tour + ':</strong> ' + escHtml(customer.ticket.tour_name) + '</p>' +
+                                    '<p><strong>' + I18N.lastUpdate + ':</strong> ' + new Date(customer.updated_at).toLocaleString(JS_LOCALE) + '</p>' +
                                     '</div>'
                                 );
 
@@ -684,7 +700,7 @@
                         });
                     }
 
-                    document.getElementById('last-update').textContent = 'Son Güncelleme: ' + new Date().toLocaleTimeString('tr-TR');
+                    document.getElementById('last-update').textContent = I18N.lastUpdate + ': ' + new Date().toLocaleTimeString(JS_LOCALE);
                 })
                 .catch(function (err) { console.error('Customer locations error:', err); });
         }

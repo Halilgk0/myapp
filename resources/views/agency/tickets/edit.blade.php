@@ -14,16 +14,6 @@
     </a>
 </div>
 <div class="container-fluid">
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ route('agency.tickets.update', $ticket) }}" method="POST">
         @csrf
         @method('PUT')
@@ -239,7 +229,7 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    var MAPBOX_TOKEN = @json(config('services.mapbox.access_token'));
+    var MAPBOX_TOKEN = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     var mapEl = document.getElementById('pickup-map');
     if (!mapEl || !MAPBOX_TOKEN) return;
     mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -344,9 +334,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }catch(e){}
     }
 
-    var tourId = @json($ticket->tour_id);
+    var tourId = {!! json_encode($ticket->tour_id, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     if (tourId) {
-        var url = (@json(route('agency.tours.details',['tour'=>'__ID__']))).replace('__ID__', tourId);
+        var url = ({!! json_encode(route('agency.tours.details',['tour'=>'__ID__']), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}).replace('__ID__', tourId);
         fetch(url,{headers:{'Accept':'application/json'}}).then(function(r){return r.json();}).then(function(data){
             if(data&&data.tour&&data.tour.service_areas)drawServiceAreas(data.tour.service_areas);
         }).catch(function(){});

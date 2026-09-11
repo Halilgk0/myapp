@@ -270,12 +270,13 @@
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBB5xkVxJJtkagn08AjRfE9pP3BqA8PvjM&language=tr"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
     
     <script>
         let map;
         let customerMarker = null;
+        const mapboxToken = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
         let watchId = null;
         let sharing = false;
         const ticketTrackingNo = '{{ $ticket->tracking_no }}';
@@ -349,26 +350,22 @@
             }
 
             function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: { lat: 39.92, lng: 32.85 },
-                    zoom: 6
-                });
+                if (!mapboxToken || typeof mapboxgl === 'undefined') return;
+                mapboxgl.accessToken = mapboxToken;
+                map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/streets-v12', center: [32.85, 39.92], zoom: 6 });
             }
 
             function updateCustomerMarker(lat, lng) {
-                const pos = { lat: lat, lng: lng };
+                if (!map) return;
+                const pos = [lng, lat];
                 if (customerMarker) {
-                    customerMarker.setPosition(pos);
+                    customerMarker.setLngLat(pos);
                 } else {
-                    customerMarker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        icon: {
-                            url: '/img/marker-costumer.png',
-                            scaledSize: new google.maps.Size(30, 30)
-                        },
-                        title: 'Müşteri Konumu'
-                    });
+                    const markerEl = document.createElement('div');
+                    markerEl.style.width = '30px';
+                    markerEl.style.height = '30px';
+                    markerEl.style.background = "url('/img/marker-costumer.png') center / contain no-repeat";
+                    customerMarker = new mapboxgl.Marker({ element: markerEl }).setLngLat(pos).addTo(map);
                 }
                 map.setCenter(pos);
             }

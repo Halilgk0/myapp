@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'Bilet Düzenle')
+@section('title', __('Bilet Düzenle'))
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid ticket-page">
         <form action="{{ route('admin.tickets.update', $ticket) }}" method="POST" enctype="multipart/form-data" id="ticket-edit-form">
             @csrf
             @method('PUT')
@@ -12,19 +12,19 @@
                 <!-- Sol: Form Bölümü -->
                 <div class="col-lg-8">
                     <!-- Giriş Bilgileri Card -->
-                    <div class="card card-primary card-outline">
+                    <div class="ad-card mb-3">
             <div class="card-header">
                 <h3 class="card-title">
-                                <i class="fas fa-sign-in-alt"></i> Giriş Bilgileri
+                                <i class="fas fa-sign-in-alt"></i> {{ __('Giriş Bilgileri') }}
                 </h3>
             </div>
             <div class="card-body">
                     <div class="row">
                                 <div class="col-md-4">
                             <div class="form-group">
-                                        <label for="entry_date"><i class="fas fa-calendar text-primary"></i> Giriş Tarihi *</label>
-                                <input type="date" class="form-control @error('entry_date') is-invalid @enderror" 
-                                       id="entry_date" name="entry_date" 
+                                        <label for="entry_date"><i class="fas fa-calendar text-primary"></i> {{ __('Giriş Tarihi') }} *</label>
+                                <input type="date" class="form-control @error('entry_date') is-invalid @enderror"
+                                       id="entry_date" name="entry_date"
                                        value="{{ old('entry_date', $ticket->entry_date ? \Carbon\Carbon::parse($ticket->entry_date)->format('Y-m-d') : '') }}" required>
                                 @error('entry_date')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -33,9 +33,9 @@
                                 </div>
                                 <div class="col-md-4">
                             <div class="form-group">
-                                        <label for="entry_time"><i class="fas fa-clock text-info"></i> Giriş Saati *</label>
-                                <input type="time" class="form-control @error('entry_time') is-invalid @enderror" 
-                                       id="entry_time" name="entry_time" 
+                                        <label for="entry_time"><i class="fas fa-clock text-info"></i> {{ __('Giriş Saati') }} *</label>
+                                <input type="time" class="form-control @error('entry_time') is-invalid @enderror"
+                                       id="entry_time" name="entry_time"
                                        value="{{ old('entry_time', $ticket->entry_time ? \Carbon\Carbon::parse($ticket->entry_time)->format('H:i') : '') }}" required>
                                 @error('entry_time')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -44,12 +44,12 @@
                                 </div>
                                 <div class="col-md-4">
                             <div class="form-group">
-                                        <label for="voucher_no"><i class="fas fa-barcode text-success"></i> Bilet Numarası</label>
-                                        <input type="text" class="form-control" 
-                                       id="voucher_no" name="voucher_no" 
-                                               value="{{ $ticket->tracking_no }}" 
+                                        <label for="voucher_no"><i class="fas fa-barcode text-success"></i> {{ __('Bilet Numarası') }}</label>
+                                        <input type="text" class="form-control"
+                                       id="voucher_no" name="voucher_no"
+                                               value="{{ $ticket->tracking_no }}"
                                                readonly required>
-                                <small class="form-text text-muted">Bilet numarası düzenlenemez</small>
+                                <small class="form-text text-muted">{{ __('Bilet numarası düzenlenemez') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -57,24 +57,24 @@
                         </div>
 
                     <!-- Tur Seçimi Card -->
-                    <div class="card card-success card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-map-marked-alt"></i> Tur Seçimi
+                                <i class="fas fa-map-marked-alt"></i> {{ __('Tur Seçimi') }}
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="tour_id"><i class="fas fa-route text-primary"></i> Tur Seçiniz *</label>
+                                <label for="tour_id"><i class="fas fa-route text-primary"></i> {{ __('Tur Seçiniz') }} *</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="tour_search" placeholder="Tur adına göre ara">
+                                    <input type="text" class="form-control" id="tour_search" placeholder="{{ __('Tur adına göre ara') }}">
                                 </div>
-                                <select class="form-control @error('tour_id') is-invalid @enderror" 
+                                <select class="form-control @error('tour_id') is-invalid @enderror"
                                         id="tour_id" name="tour_id" required>
-                                    <option value="">Tur Seçiniz</option>
+                                    <option value="">{{ __('Tur Seçiniz') }}</option>
                                     @foreach($tours as $tour)
                                         <option value="{{ $tour->id }}" 
                                                 data-currency="{{ $tour->currency }}"
@@ -83,8 +83,8 @@
                                                 data-city="{{ $tour->city }}"
                                                 data-district="{{ $tour->district }}"
                                                 data-name="{{ $tour->name }}"
-                                                data-available-dates='@json($tour->available_dates ?? [])'
-                                                data-date-prices='@json($tour->date_prices ?? new \stdClass())'
+                                                data-available-dates='{!! json_encode($tour->available_dates ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}'
+                                                data-date-prices='{!! json_encode($tour->date_prices ?? new \stdClass(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}'
                                                 {{ old('tour_id', $ticket->tour_id) == $tour->id ? 'selected' : '' }}>
                                             {{ $tour->name }} - {{ $tour->country }}/{{ $tour->city }} 
                                             ({{ $tour->pickup_time }})
@@ -99,32 +99,30 @@
                             <!-- Tur Bilgileri -->
                                         @if($ticket->tour)
                             <div class="alert alert-info">
-                                <h6><i class="fas fa-info-circle"></i> Seçili Tur Bilgileri:</h6>
+                                <h6><i class="fas fa-info-circle"></i> {{ __('Seçili Tur Bilgileri') }}:</h6>
                                 <strong>{{ $ticket->tour->name }}</strong><br>
-                                <small>{{ $ticket->tour->country }} / {{ $ticket->tour->city }} - Transfer: {{ $ticket->tour->pickup_time }}</small>
+                                <small>{{ $ticket->tour->country }} / {{ $ticket->tour->city }} - {{ __('Transfer') }}: {{ $ticket->tour->pickup_time }}</small>
                                     </div>
                             @endif
 
                             <!-- Tur Tarihi Seçimi -->
                             <div id="tour-date-selection" style="display: {{ $ticket->tour_id ? 'block' : 'none' }};">
                                 <div class="form-group">
-                                    <label><i class="fas fa-calendar-day text-info"></i> Tur Tarihi Seçiniz *</label>
+                                    <label><i class="fas fa-calendar-day text-info"></i> {{ __('Tur Tarihi Seçiniz') }} *</label>
                                     <div class="mini-calendar">
                                         <div class="mini-cal-header">
                                             <button type="button" class="cal-nav" id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
-                                            <span class="cal-title" id="currentMonthYear">Ocak 2026</span>
+                                            <span class="cal-title" id="currentMonthYear"></span>
                                             <button type="button" class="cal-nav" id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
                                         </div>
-                                        <div class="mini-cal-weekdays">
-                                            <span>Pt</span><span>Sa</span><span>Ça</span><span>Pe</span><span>Cu</span><span>Ct</span><span>Pa</span>
-                                        </div>
+                                        <div class="mini-cal-weekdays" id="calendarWeekdays"></div>
                                         <div class="mini-cal-grid" id="calendarGrid"></div>
                                         <div class="text-muted small mt-1 text-center" id="noDatesMessage" style="display:none;">
-                                            <i class="fas fa-info-circle"></i> Bu ay için açık tarih yok
+                                            <i class="fas fa-info-circle"></i> {{ __('Bu ay için açık tarih yok') }}
                                         </div>
                                     </div>
                                     <input type="hidden" id="tour_date" name="tour_date" value="{{ old('tour_date', $ticket->tour_date) }}" required>
-                                    <small class="form-text text-muted">Tur için uygun tarihler seçilebilir</small>
+                                    <small class="form-text text-muted">{{ __('Tur için uygun tarihler seçilebilir') }}</small>
                                 </div>
                             </div>
 
@@ -137,20 +135,20 @@
                     </div>
 
                     <!-- Müşteri Bilgileri Card -->
-                    <div class="card card-info card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-user"></i> Müşteri Bilgileri
+                                <i class="fas fa-user"></i> {{ __('Müşteri Bilgileri') }}
                             </h3>
                         </div>
                         <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="customer_name"><i class="fas fa-user-tie text-primary"></i> Müşteri Adı *</label>
-                                <input type="text" class="form-control @error('customer_name') is-invalid @enderror" 
-                                               id="customer_name" name="customer_name" value="{{ old('customer_name', $ticket->customer_name) }}" 
-                                               placeholder="Ad Soyad" required>
+                                        <label for="customer_name"><i class="fas fa-user-tie text-primary"></i> {{ __('Müşteri Adı') }} *</label>
+                                <input type="text" class="form-control @error('customer_name') is-invalid @enderror"
+                                               id="customer_name" name="customer_name" value="{{ old('customer_name', $ticket->customer_name) }}"
+                                               placeholder="{{ __('Ad Soyad') }}" required>
                                 @error('customer_name')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -158,7 +156,7 @@
                                 </div>
                                 <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="customer_phone"><i class="fas fa-phone text-success"></i> Müşteri Telefonu *</label>
+                                        <label for="customer_phone"><i class="fas fa-phone text-success"></i> {{ __('Müşteri Telefonu') }} *</label>
                                 <input type="text" class="form-control @error('customer_phone') is-invalid @enderror" 
                                                id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $ticket->customer_phone) }}" 
                                                placeholder="+90 5xx xxx xx xx" required>
@@ -172,9 +170,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="customer_email"><i class="fas fa-envelope text-info"></i> Müşteri E-mail</label>
-                                <input type="email" class="form-control @error('customer_email') is-invalid @enderror" 
-                                               id="customer_email" name="customer_email" value="{{ old('customer_email', $ticket->customer_email) }}" 
+                                        <label for="customer_email"><i class="fas fa-envelope text-info"></i> {{ __('Müşteri E-mail') }}</label>
+                                <input type="email" class="form-control @error('customer_email') is-invalid @enderror"
+                                               id="customer_email" name="customer_email" value="{{ old('customer_email', $ticket->customer_email) }}"
                                                placeholder="ornek@email.com">
                                 @error('customer_email')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -183,10 +181,10 @@
                                 </div>
                                 <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="customer_nationality"><i class="fas fa-flag text-warning"></i> Müşteri Milliyeti *</label>
-                                <select class="form-control @error('customer_nationality') is-invalid @enderror" 
+                                        <label for="customer_nationality"><i class="fas fa-flag text-warning"></i> {{ __('Müşteri Milliyeti') }} *</label>
+                                <select class="form-control @error('customer_nationality') is-invalid @enderror"
                                         id="customer_nationality" name="customer_nationality" required>
-                                    <option value="">Milliyet Seçiniz</option>
+                                    <option value="">{{ __('Milliyet Seçiniz') }}</option>
                                     @foreach(\App\Models\Ticket::getNationalityOptions() as $code => $name)
                                         <option value="{{ $code }}" {{ old('customer_nationality', $ticket->customer_nationality) == $code ? 'selected' : '' }}>
                                             {{ $name }} ({{ $code }})
@@ -203,11 +201,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="pickup_location"><i class="fas fa-map-marker-alt text-danger"></i> Alış Yeri *</label>
+                                        <label for="pickup_location"><i class="fas fa-map-marker-alt text-danger"></i> {{ __('Alış Yeri') }} *</label>
                                 <div class="pickup-search-wrap">
                                     <input type="text" class="form-control @error('pickup_location') is-invalid @enderror"
                                                    id="pickup_location" name="pickup_location" value="{{ old('pickup_location', $ticket->pickup_location) }}"
-                                                   placeholder="Otel adı veya adres ara (servis alanı içinde)" required autocomplete="off">
+                                                   placeholder="{{ __('Otel adı veya adres ara (servis alanı içinde)') }}" required autocomplete="off">
                                     <div class="pickup-suggestions" id="pickup-suggestions" role="listbox"></div>
                                 </div>
                                 @error('pickup_location')
@@ -219,31 +217,31 @@
                                         </div>
                                         <div id="pickup-map-error" class="text-danger small mt-2" style="display:none"></div>
                                         <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <small class="text-muted">Haritaya tıklayarak veya yukarıya yazarak seçim yapabilirsiniz.</small>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-locate-me"><i class="fas fa-location-arrow"></i> Konumumu Bul</button>
+                                            <small class="text-muted">{{ __('Haritaya tıklayarak veya yukarıya yazarak seçim yapabilirsiniz.') }}</small>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-locate-me"><i class="fas fa-location-arrow"></i> {{ __('Konumumu Bul') }}</button>
                             </div>
                                         <input type="hidden" id="pickup_lat" name="pickup_lat" value="{{ old('pickup_lat', $ticket->pickup_lat) }}">
                                         <input type="hidden" id="pickup_lng" name="pickup_lng" value="{{ old('pickup_lng', $ticket->pickup_lng) }}">
                                         <div class="form-group mt-2 mb-0">
-                                            <label for="pickup_time_input" class="mb-1"><i class="fas fa-clock text-primary"></i> Tur Saati</label>
+                                            <label for="pickup_time_input" class="mb-1"><i class="fas fa-clock text-primary"></i> {{ __('Tur Saati') }}</label>
                                             <select class="form-control form-control-sm @error('pickup_time') is-invalid @enderror"
                                                     id="pickup_time_input" name="pickup_time" disabled>
-                                                <option value="">Önce haritadan konum seçin</option>
+                                                <option value="">{{ __('Önce haritadan konum seçin') }}</option>
                                             </select>
                                             <input type="hidden" id="pickup_time_preselect" value="{{ old('pickup_time', optional($ticket->pickup_time)->format('H:i')) }}">
                                             @error('pickup_time')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
-                                            <small class="form-text text-muted">Konumun bulunduğu poligonun saatleri listelenir. Opsiyonel.</small>
+                                            <small class="form-text text-muted">{{ __('Konumun bulunduğu poligonun saatleri listelenir. Opsiyonel.') }}</small>
                                         </div>
                             </div>
                             </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                        <label for="room_number"><i class="fas fa-door-open text-secondary"></i> Oda Numarası</label>
-                                <input type="text" class="form-control @error('room_number') is-invalid @enderror" 
-                                               id="room_number" name="room_number" value="{{ old('room_number', $ticket->room_number) }}" 
-                                               placeholder="Örn: 205">
+                                        <label for="room_number"><i class="fas fa-door-open text-secondary"></i> {{ __('Oda Numarası') }}</label>
+                                <input type="text" class="form-control @error('room_number') is-invalid @enderror"
+                                               id="room_number" name="room_number" value="{{ old('room_number', $ticket->room_number) }}"
+                                               placeholder="{{ __('Örn: 205') }}">
                                 @error('room_number')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -252,10 +250,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="passport_numbers"><i class="fas fa-passport text-primary"></i> Pasaport Numaraları</label>
-                                <textarea class="form-control @error('passport_numbers') is-invalid @enderror" 
-                                          id="passport_numbers" name="passport_numbers" rows="2" 
-                                          placeholder="Her satıra bir pasaport numarası">{{ old('passport_numbers', $ticket->passport_numbers) }}</textarea>
+                                <label for="passport_numbers"><i class="fas fa-passport text-primary"></i> {{ __('Pasaport Numaraları') }}</label>
+                                <textarea class="form-control @error('passport_numbers') is-invalid @enderror"
+                                          id="passport_numbers" name="passport_numbers" rows="2"
+                                          placeholder="{{ __('Her satıra bir pasaport numarası') }}">{{ old('passport_numbers', $ticket->passport_numbers) }}</textarea>
                                 @error('passport_numbers')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -264,19 +262,19 @@
                     </div>
 
                     <!-- Yolcu Sayısı Card -->
-                    <div class="card card-warning card-outline">
+                    <div class="ad-card mb-3">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-users"></i> Yolcu Sayısı
+                                <i class="fas fa-users"></i> {{ __('Yolcu Sayısı') }}
                             </h3>
                             </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="adult_count"><i class="fas fa-user text-primary"></i> Yetişkin Sayısı *</label>
-                                        <input type="number" class="form-control @error('adult_count') is-invalid @enderror" 
-                                               id="adult_count" name="adult_count" min="0" 
+                                        <label for="adult_count"><i class="fas fa-user text-primary"></i> {{ __('Yetişkin Sayısı') }} *</label>
+                                        <input type="number" class="form-control @error('adult_count') is-invalid @enderror"
+                                               id="adult_count" name="adult_count" min="0"
                                                value="{{ old('adult_count', $ticket->passengers->where('passenger_type', 'adult')->sum('quantity')) }}" required>
                                         @error('adult_count')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -285,9 +283,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="child_count"><i class="fas fa-child text-success"></i> Çocuk Sayısı *</label>
-                                        <input type="number" class="form-control @error('child_count') is-invalid @enderror" 
-                                               id="child_count" name="child_count" min="0" 
+                                        <label for="child_count"><i class="fas fa-child text-success"></i> {{ __('Çocuk Sayısı') }} *</label>
+                                        <input type="number" class="form-control @error('child_count') is-invalid @enderror"
+                                               id="child_count" name="child_count" min="0"
                                                value="{{ old('child_count', $ticket->passengers->where('passenger_type', 'child')->sum('quantity')) }}" required>
                                         @error('child_count')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -296,9 +294,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="infant_count"><i class="fas fa-baby text-info"></i> Bebek Sayısı *</label>
-                                        <input type="number" class="form-control @error('infant_count') is-invalid @enderror" 
-                                               id="infant_count" name="infant_count" min="0" 
+                                        <label for="infant_count"><i class="fas fa-baby text-info"></i> {{ __('Bebek Sayısı') }} *</label>
+                                        <input type="number" class="form-control @error('infant_count') is-invalid @enderror"
+                                               id="infant_count" name="infant_count" min="0"
                                                value="{{ old('infant_count', $ticket->passengers->where('passenger_type', 'infant')->sum('quantity')) }}" required>
                                         @error('infant_count')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -308,7 +306,7 @@
                             </div>
                             <div class="alert alert-info mb-0">
                                 <i class="fas fa-info-circle"></i>
-                                <strong>Toplam Yolcu Sayısı:</strong> <span id="total-passengers">0</span>
+                                <strong>{{ __('Toplam Yolcu Sayısı') }}:</strong> <span id="total-passengers">0</span>
                             </div>
                             </div>
                         </div>
@@ -317,15 +315,15 @@
                 <!-- Sağ: Fiyatlandırma ve İşlemler -->
                 <div class="col-lg-4">
                     <!-- Fiyatlandırma Card -->
-                    <div class="card card-success card-outline sticky-top" style="top: 20px;">
+                    <div class="ad-card mb-3 sticky-top" style="top: 20px;">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-money-bill-wave"></i> Fiyatlandırma
+                                <i class="fas fa-money-bill-wave"></i> {{ __('Fiyatlandırma') }}
                             </h3>
                         </div>
                         <div class="card-body">
                     <div class="form-group">
-                                <label for="total_price"><i class="fas fa-calculator text-primary"></i> Toplam Fiyat</label>
+                                <label for="total_price"><i class="fas fa-calculator text-primary"></i> {{ __('Toplam Fiyat') }}</label>
                                 <div class="input-group">
                                     <input type="number" step="0.01" class="form-control @error('total_price') is-invalid @enderror" 
                                            id="total_price" name="total_price" value="{{ old('total_price', $ticket->total_price) }}" readonly>
@@ -339,7 +337,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="deposit"><i class="fas fa-hand-holding-usd text-success"></i> Kapora (30%)</label>
+                                <label for="deposit"><i class="fas fa-hand-holding-usd text-success"></i> {{ __('Kapora (30%)') }}</label>
                                 <div class="input-group">
                                     <input type="number" step="0.01" class="form-control @error('deposit') is-invalid @enderror" 
                                            id="deposit" name="deposit" value="{{ old('deposit', $ticket->deposit) }}" readonly>
@@ -353,7 +351,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="rest"><i class="fas fa-coins text-warning"></i> Kalan (70%)</label>
+                                <label for="rest"><i class="fas fa-coins text-warning"></i> {{ __('Kalan (70%)') }}</label>
                                 <div class="input-group">
                                     <input type="number" step="0.01" class="form-control @error('rest') is-invalid @enderror" 
                                            id="rest" name="rest" value="{{ old('rest', $ticket->rest) }}" readonly>
@@ -371,20 +369,20 @@
                             <hr>
 
                             <div class="form-group mb-0">
-                                <label><i class="fas fa-toggle-on text-success"></i> Durum</label>
+                                <label><i class="fas fa-toggle-on text-success"></i> {{ __('Durum') }}</label>
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" 
+                                    <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1"
                                            {{ old('is_active', $ticket->is_active) ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="is_active">Bileti Aktif Et</label>
+                                    <label class="custom-control-label" for="is_active">{{ __('Bileti Aktif Et') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success w-100">
-                                <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                                <i class="fas fa-save"></i> {{ __('Değişiklikleri Kaydet') }}
                         </button>
                             <a href="{{ route('admin.tickets.index') }}" class="btn btn-secondary w-100">
-                                <i class="fas fa-times"></i> İptal
+                                <i class="fas fa-times"></i> {{ __('İptal') }}
                         </a>
                     </div>
             </div>
@@ -393,14 +391,14 @@
                     <div class="card card-light">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-info-circle text-info"></i> Bilet Bilgileri
+                                <i class="fas fa-info-circle text-info"></i> {{ __('Bilet Bilgileri') }}
                             </h3>
         </div>
                         <div class="card-body p-2">
                             <ul class="list-unstyled mb-0" style="font-size: 13px;">
-                                <li class="mb-2"><i class="fas fa-hashtag text-primary"></i> <strong>Takip No:</strong> {{ $ticket->tracking_no }}</li>
-                                <li class="mb-2"><i class="fas fa-calendar-plus text-success"></i> <strong>Oluşturulma:</strong> {{ $ticket->created_at->format('d.m.Y H:i') }}</li>
-                                <li class="mb-0"><i class="fas fa-calendar-check text-warning"></i> <strong>Son Güncelleme:</strong> {{ $ticket->updated_at->format('d.m.Y H:i') }}</li>
+                                <li class="mb-2"><i class="fas fa-hashtag text-primary"></i> <strong>{{ __('Takip No') }}:</strong> {{ $ticket->tracking_no }}</li>
+                                <li class="mb-2"><i class="fas fa-calendar-plus text-success"></i> <strong>{{ __('Oluşturulma') }}:</strong> {{ $ticket->created_at->format('d.m.Y H:i') }}</li>
+                                <li class="mb-0"><i class="fas fa-calendar-check text-warning"></i> <strong>{{ __('Son Güncelleme') }}:</strong> {{ $ticket->updated_at->format('d.m.Y H:i') }}</li>
                             </ul>
     </div>
                     </div>
@@ -542,11 +540,23 @@ $(document).ready(function() {
 <script>
 // ================ Mapbox Map (Edit) =================
 document.addEventListener('DOMContentLoaded', function(){
-    var MAPBOX_TOKEN = @json(config('services.mapbox.access_token'));
+    var MAPBOX_TOKEN = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    var MAP_LOCALE = {!! json_encode(app()->getLocale(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+    var mapI18n = {!! json_encode([
+        'outsideServiceArea' => __('Seçilen konum, servis alanı dışında'),
+        'selectLocationFirst' => __('Önce haritadan konum seçin'),
+        'noTimesForArea' => __('Bu konumun bulunduğu alanda saat tanımlanmamış'),
+        'selectTimeOptional' => __('-- Saat Seçiniz (opsiyonel) --'),
+        'noResultsInArea' => __('Servis alanı içinde sonuç bulunamadı. Aramayı genişletin veya haritadan tıklayarak seçin.'),
+        'noResults' => __('Sonuç bulunamadı.'),
+        'noServiceAreaDefined' => __('Bu tur için servis alanı tanımlı değil — sonuçlar filtrelenmedi.'),
+        'searching' => __('Aranıyor...'),
+        'mapLoadFailed' => __('Harita yüklenemedi: Mapbox token tanımlı değil.'),
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     var mapEl = document.getElementById('pickup-map');
     if (!mapEl || !MAPBOX_TOKEN) {
         var errEl = document.getElementById('pickup-map-error');
-        if (errEl && !MAPBOX_TOKEN) { errEl.style.display='block'; errEl.textContent = 'Harita yüklenemedi: Mapbox token tanımlı değil.'; }
+        if (errEl && !MAPBOX_TOKEN) { errEl.style.display='block'; errEl.textContent = mapI18n.mapLoadFailed; }
         return;
     }
 
@@ -564,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function(){
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [32.8541, 39.9208],
         zoom: 12,
-        language: 'tr',
+        language: MAP_LOCALE,
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -573,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function setMarker(lat, lng) {
         if (!isInsideServiceAreas(lng, lat)) {
-            showMapToast('Seçilen konum, servis alanı dışında');
+            showMapToast(mapI18n.outsideServiceArea);
             return;
         }
         if (marker) { marker.setLngLat([lng, lat]); }
@@ -589,7 +599,7 @@ document.addEventListener('DOMContentLoaded', function(){
             reverseGeocode(ll.lng, ll.lat);
             refreshPickupTimeOptions();
         } else {
-            showMapToast('Seçilen konum, servis alanı dışında');
+            showMapToast(mapI18n.outsideServiceArea);
             var oldLat = parseFloat(latEl.value); var oldLng = parseFloat(lngEl.value);
             if (!isNaN(oldLat) && !isNaN(oldLng)) marker.setLngLat([oldLng, oldLat]);
         }
@@ -618,22 +628,22 @@ document.addEventListener('DOMContentLoaded', function(){
         var lng = parseFloat(lngEl.value);
         sel.innerHTML = '';
         if (isNaN(lat) || isNaN(lng)) {
-            var o = document.createElement('option'); o.value = ''; o.textContent = 'Önce haritadan konum seçin'; sel.appendChild(o);
+            var o = document.createElement('option'); o.value = ''; o.textContent = mapI18n.selectLocationFirst; sel.appendChild(o);
             sel.disabled = true; return;
         }
         var times = getPolygonTimesAt(lng, lat);
         if (!times.length) {
-            var o2 = document.createElement('option'); o2.value = ''; o2.textContent = 'Bu konumun bulunduğu alanda saat tanımlanmamış'; sel.appendChild(o2);
+            var o2 = document.createElement('option'); o2.value = ''; o2.textContent = mapI18n.noTimesForArea; sel.appendChild(o2);
             sel.disabled = true; return;
         }
         sel.disabled = false;
-        var o3 = document.createElement('option'); o3.value = ''; o3.textContent = '-- Saat Seçiniz (opsiyonel) --'; sel.appendChild(o3);
+        var o3 = document.createElement('option'); o3.value = ''; o3.textContent = mapI18n.selectTimeOptional; sel.appendChild(o3);
         times.forEach(function(t){ var op = document.createElement('option'); op.value = t; op.textContent = t; sel.appendChild(op); });
         if (current && times.indexOf(current) !== -1) sel.value = current;
     }
 
     function reverseGeocode(lng, lat) {
-        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat + '.json?access_token=' + MAPBOX_TOKEN + '&language=tr&limit=1')
+        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat + '.json?access_token=' + MAPBOX_TOKEN + '&language=' + MAP_LOCALE + '&limit=1')
             .then(function(r){ return r.json(); })
             .then(function(data){
                 if (data.features && data.features[0] && inputEl) inputEl.value = data.features[0].place_name;
@@ -641,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function forwardGeocode(query, cb) {
-        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(query) + '.json?access_token=' + MAPBOX_TOKEN + '&language=tr&limit=1')
+        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(query) + '.json?access_token=' + MAPBOX_TOKEN + '&language=' + MAP_LOCALE + '&limit=1')
             .then(function(r){ return r.json(); })
             .then(function(data){
                 if (data.features && data.features[0]) { var c = data.features[0].center; cb(c[0], c[1], data.features[0].place_name); }
@@ -799,7 +809,7 @@ document.addEventListener('DOMContentLoaded', function(){
     function loadTourAreas() {
         var tourSel = document.getElementById('tour_id');
         if (!tourSel || !tourSel.value) { clearServiceLayer(); return; }
-        var url = (@json(route('admin.tours.details', ['tour'=>'__ID__']))).replace('__ID__', tourSel.value);
+        var url = ({!! json_encode(route('admin.tours.details', ['tour'=>'__ID__']), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}).replace('__ID__', tourSel.value);
         fetch(url, { headers:{'Accept':'application/json'} })
             .then(function(r){ return r.json(); }).then(function(data){
                 if (!data || !data.tour) return;
@@ -833,7 +843,7 @@ document.addEventListener('DOMContentLoaded', function(){
             setMarker(lat, lng);
             reverseGeocode(lng, lat);
         } else {
-            showMapToast('Seçilen konum, servis alanı dışında');
+            showMapToast(mapI18n.outsideServiceArea);
         }
     });
 
@@ -866,8 +876,8 @@ document.addEventListener('DOMContentLoaded', function(){
         if (!suggestionsEl) return;
         if (!feats.length) {
             var emptyMsg = strict
-                ? 'Servis alanı içinde sonuç bulunamadı. Aramayı genişletin veya haritadan tıklayarak seçin.'
-                : 'Sonuç bulunamadı.';
+                ? mapI18n.noResultsInArea
+                : mapI18n.noResults;
             suggestionsEl.innerHTML = '<div class="pickup-suggestion-empty">' + emptyMsg + '</div>';
             suggestionsEl.classList.add('show');
             return;
@@ -878,7 +888,7 @@ document.addEventListener('DOMContentLoaded', function(){
             note.className = 'pickup-suggestion-empty';
             note.style.borderBottom = '1px solid #f1f3f5';
             note.style.fontStyle = 'normal';
-            note.textContent = 'Bu tur için servis alanı tanımlı değil — sonuçlar filtrelenmedi.';
+            note.textContent = mapI18n.noServiceAreaDefined;
             suggestionsEl.appendChild(note);
         }
         feats.forEach(function(f){
@@ -916,13 +926,13 @@ document.addEventListener('DOMContentLoaded', function(){
             if (poiResults.length) {
                 renderSuggestions(poiResults, hasServiceAreaPolygons());
             } else {
-                suggestionsEl.innerHTML = '<div class="pickup-suggestion-loading">Aranıyor...</div>';
+                suggestionsEl.innerHTML = '<div class="pickup-suggestion-loading">' + mapI18n.searching + '</div>';
                 suggestionsEl.classList.add('show');
             }
         }
         if (searchController) { try { searchController.abort(); } catch(e){} }
         searchController = (typeof AbortController !== 'undefined') ? new AbortController() : null;
-        var params = 'access_token=' + MAPBOX_TOKEN + '&language=tr&limit=10&types=poi,address,neighborhood';
+        var params = 'access_token=' + MAPBOX_TOKEN + '&language=' + MAP_LOCALE + '&limit=10&types=poi,address,neighborhood';
         var b = buildServiceBounds();
         if (b) {
             params += '&bbox=' + b.getWest() + ',' + b.getSouth() + ',' + b.getEast() + ',' + b.getNorth();
@@ -1007,7 +1017,12 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 // Mini Takvim (create sayfasıyla aynı)
-var monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+var monthNames = {!! json_encode(app()->getLocale() === 'en'
+    ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+    : ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+var weekdayNames = {!! json_encode(app()->getLocale() === 'en'
+    ? ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+    : ['Pt','Sa','Ça','Pe','Cu','Ct','Pa'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
 var tourDetailsCache = {};
 var tourDetailsLoading = {};
 (function(){
@@ -1023,7 +1038,7 @@ function fetchTourDetails(tourId, done) {
     if (tourDetailsCache[tourId]) { if (done) done(tourDetailsCache[tourId]); return; }
     if (tourDetailsLoading[tourId]) return;
     tourDetailsLoading[tourId] = true;
-    var url = (@json(route('admin.tours.details', ['tour'=>'__ID__']))).replace('__ID__', tourId);
+    var url = ({!! json_encode(route('admin.tours.details', ['tour'=>'__ID__']), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}).replace('__ID__', tourId);
     fetch(url, { headers:{'Accept':'application/json'} })
         .then(function(r){ return r.json(); })
         .then(function(data){
@@ -1063,7 +1078,12 @@ function renderCalendar() {
     var noMsg = document.getElementById('noDatesMessage');
     var dateInput = document.getElementById('tour_date');
     var tourSelect = document.getElementById('tour_id');
+    var weekdaysEl = document.getElementById('calendarWeekdays');
     if (!grid || !title) return;
+
+    if (weekdaysEl && !weekdaysEl.childElementCount) {
+        weekdayNames.forEach(function(w){ var s = document.createElement('span'); s.textContent = w; weekdaysEl.appendChild(s); });
+    }
 
     title.textContent = monthNames[window.calMonth] + ' ' + window.calYear;
     var availDates = getAvailableDates();

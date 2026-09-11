@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Yeni Şoför Ekle')
+@section('title', __('Yeni Şoför Ekle'))
 @push('css')
 <style>
 /* Nationality chips */
@@ -49,9 +49,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Şoför Bilgileri</h3>
+                        <h3 class="card-title">{{ __('Şoför Bilgileri') }}</h3>
                     </div>
                     <form action="{{ route('admin.drivers.store') }}" method="POST">
                         @csrf
@@ -59,9 +59,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">Ad Soyad *</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                               id="name" name="name" value="{{ old('name') }}" 
+                                        <label for="name">{{ __('Ad Soyad') }} *</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                               id="name" name="name" value="{{ old('name') }}"
                                                placeholder="Ahmet Yılmaz" required>
                                         @error('name')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -70,9 +70,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">E-posta *</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                               id="email" name="email" value="{{ old('email') }}" 
+                                        <label for="email">{{ __('E-posta') }} *</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                               id="email" name="email" value="{{ old('email') }}"
                                                placeholder="ahmet@example.com" required>
                                         @error('email')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -84,9 +84,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone_number">Telefon Numarası *</label>
-                                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" 
-                                               id="phone_number" name="phone_number" value="{{ old('phone_number') }}" 
+                                        <label for="phone_number">{{ __('Telefon Numarası') }} *</label>
+                                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
+                                               id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
                                                placeholder="0555 123 45 67" required>
                                         @error('phone_number')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -95,7 +95,7 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="password">Şifre *</label>
+                                        <label for="password">{{ __('Şifre') }} *</label>
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                                id="password" name="password" required>
                                         @error('password')
@@ -109,12 +109,12 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Desteklenen Milliyetler</label>
+                                        <label>{{ __('Desteklenen Milliyetler') }}</label>
                                         <div class="nationality-toolbar d-flex align-items-center mb-2" id="nationalityToolbarCreate">
-                                            <input type="text" class="form-control form-control-sm nationality-search" placeholder="Milliyet ara..." style="max-width: 260px;">
-                                            <button type="button" class="btn btn-sm btn-outline-primary ml-2 btn-select-all">Tümünü Seç</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary ml-2 btn-clear">Temizle</button>
-                                            <span class="badge badge-info ml-2 nationality-selected-count">0 seçili</span>
+                                            <input type="text" class="form-control form-control-sm nationality-search" placeholder="{{ __('Milliyet ara...') }}" style="max-width: 260px;">
+                                            <button type="button" class="btn btn-sm btn-outline-primary ml-2 btn-select-all">{{ __('Tümünü Seç') }}</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary ml-2 btn-clear">{{ __('Temizle') }}</button>
+                                            <span class="badge badge-info ml-2 nationality-selected-count">{{ __(':count seçili', ['count' => 0]) }}</span>
                                         </div>
                                         <div class="nationality-chips" id="nationalityChipsCreate">
                                             @foreach(\App\Models\User::getNationalityOptions() as $code => $name)
@@ -128,7 +128,7 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                             @endforeach
                                         </div>
                                         <small class="form-text text-muted">
-                                            Hiçbiri seçilmezse tüm milliyetlerden yolcu alabilir
+                                            {{ __('Hiçbiri seçilmezse tüm milliyetlerden yolcu alabilir') }}
                                         </small>
                                         @error('supported_nationalities')
                                             <span class="invalid-feedback d-block">{{ $message }}</span>
@@ -140,10 +140,10 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="vehicle_id">Araç Atama</label>
-                                        <select class="form-control @error('vehicle_id') is-invalid @enderror" 
+                                        <label for="vehicle_id">{{ __('Araç Atama') }}</label>
+                                        <select class="form-control @error('vehicle_id') is-invalid @enderror"
                                                 id="vehicle_id" name="vehicle_id">
-                                            <option value="">Araç Seçiniz (Opsiyonel)</option>
+                                            <option value="">{{ __('Araç Seçiniz (Opsiyonel)') }}</option>
                                             @foreach($availableVehicles as $vehicle)
                                                 <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
                                                     {{ $vehicle->plate_number }} - {{ $vehicle->brand }} {{ $vehicle->model }}
@@ -157,7 +157,7 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="salary_amount">Maaş Tutarı</label>
+                                        <label for="salary_amount">{{ __('Maaş Tutarı') }}</label>
                                         <div class="input-group">
                                             <input type="number" step="0.01" min="0" class="form-control @error('salary_amount') is-invalid @enderror"
                                                    id="salary_amount" name="salary_amount" value="{{ old('salary_amount', '0') }}" placeholder="Örn: 15000">
@@ -179,14 +179,14 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Maaş Günü (aylık)</label>
+                                        <label>{{ __('Maaş Günü (aylık)') }}</label>
                                         @php $salaryDay = (int) old('salary_day', 1); @endphp
                                         <div class="salary-day-presets">
-                                            <span class="salary-day-preset" data-day="1">Ayın 1'i</span>
-                                            <span class="salary-day-preset" data-day="10">Ayın 10'u</span>
-                                            <span class="salary-day-preset" data-day="15">Ayın 15'i</span>
-                                            <span class="salary-day-preset" data-day="20">Ayın 20'si</span>
-                                            <span class="salary-day-preset" data-day="28">Ay sonu (28)</span>
+                                            <span class="salary-day-preset" data-day="1">{{ __("Ayın :day'i", ['day' => 1]) }}</span>
+                                            <span class="salary-day-preset" data-day="10">{{ __("Ayın :day'i", ['day' => 10]) }}</span>
+                                            <span class="salary-day-preset" data-day="15">{{ __("Ayın :day'i", ['day' => 15]) }}</span>
+                                            <span class="salary-day-preset" data-day="20">{{ __("Ayın :day'i", ['day' => 20]) }}</span>
+                                            <span class="salary-day-preset" data-day="28">{{ __('Ay sonu (:day)', ['day' => 28]) }}</span>
                                         </div>
                                         <div class="salary-day-picker" id="salaryDayPicker">
                                             @for($d=1;$d<=28;$d++)
@@ -195,7 +195,7 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                         </div>
                                         <input type="hidden" name="salary_day" id="salary_day" value="{{ $salaryDay }}">
                                         <div class="salary-day-summary">
-                                            <i class="fas fa-info-circle"></i> Her ayın <strong id="salaryDayLabel">{{ $salaryDay }}.</strong> günü otomatik maaş gideri oluşur.
+                                            <i class="fas fa-info-circle"></i> {!! __('Her ayın :day günü otomatik maaş gideri oluşur.', ['day' => '<strong id="salaryDayLabel">' . $salaryDay . '.</strong>']) !!}
                                         </div>
                                         @error('salary_day') <span class="invalid-feedback d-block">{{ $message }}</span> @enderror
                                     </div>
@@ -204,9 +204,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" 
+                                            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1"
                                                    {{ old('is_active', true) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="is_active">Aktif</label>
+                                            <label class="custom-control-label" for="is_active">{{ __('Aktif') }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -215,10 +215,10 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Kaydet
+                                <i class="fas fa-save"></i> {{ __('Kaydet') }}
                             </button>
                             <a href="{{ route('admin.drivers.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> İptal
+                                <i class="fas fa-times"></i> {{ __('İptal') }}
                             </a>
                         </div>
                     </form>
@@ -226,32 +226,32 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
             </div>
 
             <div class="col-md-4">
-                <div class="card">
+                        <div class="ad-card mb-3">
                     <div class="card-header">
-                        <h3 class="card-title">Bilgi</h3>
+                        <h3 class="card-title">{{ __('Bilgi') }}</h3>
                     </div>
                     <div class="card-body">
-                        <p><strong>E-posta:</strong> Şoför giriş yapmak için kullanacak</p>
-                        <p><strong>Telefon:</strong> İletişim için kullanılacak</p>
-                        <p><strong>Şifre:</strong> En az 6 karakter olmalı</p>
-                        <p><strong>Araç Atama:</strong> Şoföre araç atayabilirsiniz (opsiyonel)</p>
-                        <p><strong>Maaş Günü:</strong> Her ay seçilen günde otomatik maaş gideri yazılır</p>
-                        <p><strong>Aktif:</strong> Şoförün sisteme giriş yapabilmesi için gerekli</p>
+                        <p><strong>{{ __('E-posta') }}:</strong> {{ __('Şoför giriş yapmak için kullanacak') }}</p>
+                        <p><strong>{{ __('Telefon') }}:</strong> {{ __('İletişim için kullanılacak') }}</p>
+                        <p><strong>{{ __('Şifre') }}:</strong> {{ __('En az 6 karakter olmalı') }}</p>
+                        <p><strong>{{ __('Araç Atama') }}:</strong> {{ __('Şoföre araç atayabilirsiniz (opsiyonel)') }}</p>
+                        <p><strong>{{ __('Maaş Günü') }}:</strong> {{ __('Her ay seçilen günde otomatik maaş gideri yazılır') }}</p>
+                        <p><strong>{{ __('Aktif') }}:</strong> {{ __('Şoförün sisteme giriş yapabilmesi için gerekli') }}</p>
                     </div>
                 </div>
 
                 @if($availableVehicles->count() > 0)
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Atanabilir Araçlar</h3>
+                        <h3 class="card-title">{{ __('Atanabilir Araçlar') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Plaka</th>
-                                        <th>Marka/Model</th>
+                                        <th>{{ __('Plaka') }}</th>
+                                        <th>{{ __('Marka/Model') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -276,9 +276,14 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
     <script>
         // Form validation
         $(document).ready(function() {
+            var driverFormI18n = {!! json_encode([
+                'fillRequired' => __('Lütfen tüm zorunlu alanları doldurunuz.'),
+                'selectedCount' => __(':count seçili'),
+            ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+            window.__driverFormI18n = driverFormI18n;
             $('form').on('submit', function() {
                 var isValid = true;
-                
+
                 // Required field validation
                 $('input[required]').each(function() {
                     if (!$(this).val()) {
@@ -288,9 +293,9 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
                         $(this).removeClass('is-invalid');
                     }
                 });
-                
+
                 if (!isValid) {
-                    alert('Lütfen tüm zorunlu alanları doldurunuz.');
+                    alert(driverFormI18n.fillRequired);
                     return false;
                 }
             });
@@ -308,7 +313,7 @@ html.dark-mode .salary-day-summary { background:#1e3a5f !important; border-left-
 
             const updateCount = () => {
                 const checked = chips ? chips.querySelectorAll('input[type="checkbox"]:checked').length : 0;
-                if (countBadge) countBadge.textContent = checked + ' seçili';
+                if (countBadge) countBadge.textContent = (window.__driverFormI18n ? window.__driverFormI18n.selectedCount.replace(':count', checked) : checked + ' seçili');
             };
 
             if (chips) {

@@ -14,17 +14,6 @@
     </a>
 </div>
 <div class="container-fluid">
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ route('agency.tickets.store') }}" method="POST" id="ticket-create-form">
         @csrf
         <div class="row">
@@ -81,8 +70,8 @@
                                             data-country="{{ $tour->country }}"
                                             data-city="{{ $tour->city }}"
                                             data-name="{{ $tour->name }}"
-                                            data-available-dates='@json($tour->available_dates ?? [])'
-                                            data-date-prices='@json($tour->agency_date_prices ?? [])'
+                                            data-available-dates='{!! json_encode($tour->available_dates ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}'
+                                            data-date-prices='{!! json_encode($tour->agency_date_prices ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}'
                                             {{ old('tour_id') == $tour->id ? 'selected' : '' }}>
                                         {{ $tour->name }} - {{ $tour->country }}/{{ $tour->city }}
                                     </option>
@@ -919,7 +908,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    var MAPBOX_TOKEN = @json(config('services.mapbox.access_token'));
+    var MAPBOX_TOKEN = {!! json_encode(config('services.mapbox.access_token'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     var mapEl = document.getElementById('pickup-map');
     if (!mapEl || !MAPBOX_TOKEN) return;
     mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -1028,7 +1017,7 @@ document.addEventListener('DOMContentLoaded', function(){
     function loadTourAreas(){
         var tourSel=document.getElementById('tour_id');
         if(!tourSel||!tourSel.value){clearServiceLayer();return;}
-        var url=(@json(route('agency.tours.details',['tour'=>'__ID__']))).replace('__ID__',tourSel.value);
+        var url=({!! json_encode(route('agency.tours.details',['tour'=>'__ID__']), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}).replace('__ID__',tourSel.value);
         fetch(url,{headers:{'Accept':'application/json'}}).then(function(r){return r.json();}).then(function(data){
             if(!data||!data.tour)return;
             if(data.tour.service_areas)drawServiceAreas(data.tour.service_areas);

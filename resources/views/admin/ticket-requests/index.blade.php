@@ -1,38 +1,38 @@
 @extends('layouts.admin')
 
-@section('title', 'Bilet İstekleri')
+@section('title', __('Bilet İstekleri'))
 
 @section('content')
 <div class="container-fluid">
     <!-- Modern Kontrol Paneli -->
-    <div class="guides-control-panel mb-2">
+    <div class="guides-control-panel ad-page-header admin-list-toolbar mb-3">
         <div class="control-left">
-            <h4 class="control-title"><i class="fas fa-inbox"></i> Bilet İstekleri</h4>
-            <p class="control-subtitle">Bekleyen: {{ $pendingRequests->total() }}</p>
+            <h4 class="control-title"><i class="fas fa-inbox"></i> {{ __('Bilet İstekleri') }}</h4>
+            <p class="control-subtitle">{{ __('Bekleyen') }}: {{ $pendingRequests->total() }}</p>
         </div>
         <div class="control-right">
             <div class="control-item">
                 <a href="{{ route('admin.tickets.index') }}" class="btn btn-sm btn-light">
-                    <i class="fas fa-ticket-alt"></i> Biletler
+                    <i class="fas fa-ticket-alt"></i> {{ __('Biletler') }}
                 </a>
             </div>
         </div>
     </div>
-    
+
     <!-- Pending Requests -->
-    <div class="card card-warning card-outline">
+    <div class="ad-card mb-3">
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
+            <table class="ad-table table table-hover">
                 <thead>
                     <tr>
-                        <th>İstek Tarihi</th>
-                        <th>İsteyen</th>
-                        <th>Tur</th>
-                        <th>Müşteri</th>
-                        <th>Tur Tarihi</th>
-                        <th>Yolcu</th>
-                        <th>Toplam</th>
-                        <th>İşlem</th>
+                        <th>{{ __('İstek Tarihi') }}</th>
+                        <th>{{ __('İsteyen') }}</th>
+                        <th>{{ __('Tur') }}</th>
+                        <th>{{ __('Müşteri') }}</th>
+                        <th>{{ __('Tur Tarihi') }}</th>
+                        <th>{{ __('Yolcu') }}</th>
+                        <th>{{ __('Toplam') }}</th>
+                        <th>{{ __('İşlem') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,7 @@
                                 <span class="badge badge-info">{{ $request->tour_date->format('d.m.Y') }}</span>
                             </td>
                             <td>
-                                <span class="badge badge-secondary">{{ $request->total_passengers }} kişi</span>
+                                <span class="badge badge-secondary">{{ __(':count kişi', ['count' => $request->total_passengers]) }}</span>
                             </td>
                             <td>
                                 @php
@@ -83,16 +83,16 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.ticket-requests.show', $request) }}" class="btn btn-sm btn-info" title="Detay">
+                                    <a href="{{ route('admin.ticket-requests.show', $request) }}" class="btn btn-sm btn-info" title="{{ __('Detay') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <form action="{{ route('admin.ticket-requests.approve', $request) }}" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-success" title="Onayla" onclick="return confirm('Bu bilet isteğini onaylamak istediğinize emin misiniz?')">
+                                        <button type="submit" class="btn btn-sm btn-success" title="{{ __('Onayla') }}" onclick="return confirm({!! json_encode(__('Bu bilet isteğini onaylamak istediğinize emin misiniz?'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!})">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     </form>
-                                    <button type="button" class="btn btn-sm btn-danger" title="Reddet" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $request->id }}">
+                                    <button type="button" class="btn btn-sm btn-danger" title="{{ __('Reddet') }}" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $request->id }}">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
@@ -104,19 +104,19 @@
                                             <form action="{{ route('admin.ticket-requests.reject', $request) }}" method="POST">
                                                 @csrf
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Bilet İsteğini Reddet</h5>
+                                                    <h5 class="modal-title">{{ __('Bilet İsteğini Reddet') }}</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bu bilet isteğini reddetmek istediğinize emin misiniz?</p>
+                                                    <p>{{ __('Bu bilet isteğini reddetmek istediğinize emin misiniz?') }}</p>
                                                     <div class="form-group">
-                                                        <label>Red Sebebi (Opsiyonel)</label>
-                                                        <textarea name="rejection_reason" class="form-control" rows="3" placeholder="Red sebebini yazın..."></textarea>
+                                                        <label>{{ __('Red Sebebi (Opsiyonel)') }}</label>
+                                                        <textarea name="rejection_reason" class="form-control" rows="3" placeholder="{{ __('Red sebebini yazın...') }}"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                    <button type="submit" class="btn btn-danger">Reddet</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('İptal') }}</button>
+                                                    <button type="submit" class="btn btn-danger">{{ __('Reddet') }}</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -128,7 +128,7 @@
                         <tr>
                             <td colspan="8" class="text-center py-4">
                                 <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                <h5 class="text-muted">Bekleyen bilet isteği yok.</h5>
+                                <h5 class="text-muted">{{ __('Bekleyen bilet isteği yok.') }}</h5>
                             </td>
                         </tr>
                     @endforelse
@@ -144,24 +144,24 @@
 
     <!-- Returned Requests (Waiting for Agency Edit) -->
     @if(isset($returnedRequests) && $returnedRequests->count() > 0)
-        <div class="card card-info card-outline">
+            <div class="ad-card mb-3">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-undo"></i> Düzenleme Bekleyen İstekler
+                    <i class="fas fa-undo"></i> {{ __('Düzenleme Bekleyen İstekler') }}
                     <span class="badge badge-info ml-2">{{ $returnedRequests->count() }}</span>
                 </h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
+                <table class="ad-table table table-hover">
                     <thead class="bg-light">
                         <tr>
-                            <th>Geri Gönderim</th>
-                            <th>İsteyen</th>
-                            <th>Tur</th>
-                            <th>Müşteri</th>
-                            <th>Düzenleme Sebebi</th>
-                            <th>Durum</th>
-                            <th>İşlem</th>
+                            <th>{{ __('Geri Gönderim') }}</th>
+                            <th>{{ __('İsteyen') }}</th>
+                            <th>{{ __('Tur') }}</th>
+                            <th>{{ __('Müşteri') }}</th>
+                            <th>{{ __('Düzenleme Sebebi') }}</th>
+                            <th>{{ __('Durum') }}</th>
+                            <th>{{ __('İşlem') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,7 +173,7 @@
                                         <br><small class="text-muted">{{ $request->returned_at->format('H:i') }}</small>
                                     @endif
                                     @if($request->return_count > 1)
-                                        <br><span class="badge badge-warning">{{ $request->return_count }}. kez</span>
+                                        <br><span class="badge badge-warning">{{ __(':count. kez', ['count' => $request->return_count]) }}</span>
                                     @endif
                                 </td>
                                 <td>
@@ -196,10 +196,10 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge badge-info"><i class="fas fa-undo"></i> Acenta Düzenleniyor</span>
+                                    <span class="badge badge-info"><i class="fas fa-undo"></i> {{ __('Acenta Düzenleniyor') }}</span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.ticket-requests.show', $request) }}" class="btn btn-sm btn-info" title="Detay">
+                                    <a href="{{ route('admin.ticket-requests.show', $request) }}" class="btn btn-sm btn-info" title="{{ __('Detay') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
@@ -213,21 +213,21 @@
 
     <!-- Processed Requests -->
     @if($processedRequests->count() > 0)
-        <div class="card card-secondary card-outline">
+        <div class="ad-card mb-3">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-history"></i> Son İşlenen İstekler
+                    <i class="fas fa-history"></i> {{ __('Son İşlenen İstekler') }}
                 </h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-sm">
+                <table class="ad-table table table-hover table-sm">
                     <thead>
                         <tr>
-                            <th>İşlem Tarihi</th>
-                            <th>İsteyen</th>
-                            <th>Tur</th>
-                            <th>Müşteri</th>
-                            <th>Durum</th>
+                            <th>{{ __('İşlem Tarihi') }}</th>
+                            <th>{{ __('İsteyen') }}</th>
+                            <th>{{ __('Tur') }}</th>
+                            <th>{{ __('Müşteri') }}</th>
+                            <th>{{ __('Durum') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -239,9 +239,9 @@
                                 <td>{{ $request->customer_name }}</td>
                                 <td>
                                     @if($request->isApproved())
-                                        <span class="badge badge-success"><i class="fas fa-check"></i> Onaylandı</span>
+                                        <span class="badge badge-success"><i class="fas fa-check"></i> {{ __('Onaylandı') }}</span>
                                     @else
-                                        <span class="badge badge-danger"><i class="fas fa-times"></i> Reddedildi</span>
+                                        <span class="badge badge-danger"><i class="fas fa-times"></i> {{ __('Reddedildi') }}</span>
                                         @if($request->rejection_reason)
                                             <br><small class="text-muted">{{ Str::limit($request->rejection_reason, 50) }}</small>
                                         @endif
